@@ -1,11 +1,90 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
+import axios from "axios";
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 const DiaryWrite = () => {
   const navigation = useNavigation();
+  const [content, setContent] = React.useState("");
+  const [opened, setOpened] = React.useState(false);
+  const [resizedUri, setResizedUri] = React.useState(null);
+  const CameraPress = () => {
+    setOpened((prevOpened) => !prevOpened);
+  };
+
+  const handlePress = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 0.5,
+      });
+  
+      console.log(result);
+
+      if (!result.cancelled && result.assets && result.assets.length > 0) {
+        const imageUri = result.assets[0].uri;
+        // 이미지를 조절할 해상도 크기 설정
+        const resolution = { width: 500, height: 500 }; // 원하는 해상도로 설정
+
+       // ImageManipulator를 사용하여 이미지 해상도 조절
+        const manipResult = await ImageManipulator.manipulateAsync(
+         imageUri,
+         [{ resize: resolution }],
+         { compress: 1, format: ImageManipulator.SaveFormat.JPEG } // 필요에 따라 압축도 설정 가능
+        );
+
+       // 조절된 이미지를 사용하거나 저장 등의 작업 수행
+       setResizedUri(manipResult.uri);
+      }
+    } catch (error) {
+      console.error('Error selecting image:', error);
+    }
+  };
+  
+  const handleSubmit = async () => {
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDc1NzQzNzgsImV4cCI6MTcwODE3OTE3OH0.C4xbXi6KsbyJNDf2mQqvOCLASZupSDMvLZObWS2e6TI'; 
+    const formData = new FormData();
+  
+    const postDiaryReq = {
+      content: content,
+      mood: 0,
+      opened: opened,
+      date: "2024-02-14",
+    };
+
+    if(resizedUri){
+      formData.append('image', {
+        uri: resizedUri,
+        type: 'image/jpeg', // 실제 이미지 타입에 따라 변경할 수 있습니다.
+        name: 'image.jpg', // 실제 파일 이름이나 임의의 이름을 사용할 수 있습니다.
+      });
+    }
+  
+    formData.append('postDiaryReq', JSON.stringify(postDiaryReq));
+ 
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://applemango.store/diary",
+        data: formData,
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
+      console.log('API 응답:', response.data);
+    } catch (error) {
+      console.error('요청 중 오류 발생:', error);
+    }
+  };
 
   return (
     <View style={styles.diaryWrite}>
@@ -34,7 +113,11 @@ const DiaryWrite = () => {
         Write your Diary Write y
       </Text>
       <View style={styles.diaryWriteChild} />
-      <Pressable style={[styles.rectangleParent, styles.groupItemLayout]}>
+      
+      <Pressable
+        style={[styles.rectangleParent, styles.groupItemLayout]}
+        onPress={handlePress} // 이미지 선택 버튼에 handlePress 이벤트 추가
+      >
         <View style={[styles.groupItem, styles.groupPosition]} />
         <Image
           style={styles.cameraIcon}
@@ -45,7 +128,12 @@ const DiaryWrite = () => {
           Input Photo
         </Text>
       </Pressable>
-      <Pressable style={[styles.groupPressable, styles.groupLayout]}>
+
+
+      <Pressable
+        style={[styles.groupPressable, styles.groupLayout]}
+        onPress={handleSubmit} // upload 버튼 누를 때 handleSubmit 호출
+      >
         <View style={[styles.rectangleGroup, styles.groupLayout]}>
           <Pressable
             style={[styles.groupInner, styles.groupLayout]}
@@ -59,7 +147,8 @@ const DiaryWrite = () => {
           />
         </View>
       </Pressable>
-      <Pressable style={[styles.rectangleContainer, styles.rectangleLayout]}>
+      <Pressable style={[styles.rectangleContainer, styles.rectangleLayout]}
+      onPress={CameraPress} >
         <View style={[styles.rectangleView, styles.rectangleLayout]} />
         <Text style={[styles.unlock, styles.unlockPosition]}>unlock</Text>
         <Image
@@ -68,39 +157,13 @@ const DiaryWrite = () => {
           source={require("../assets/padlock.png")}
         />
       </Pressable>
-
       <TextInput
         style={styles.diaryWriteItem}
         placeholder={`Enter Text >`}
         multiline={true}
+        value={content} // state에 연결된 값 사용
+        onChangeText={setContent} // 입력 내용이 변경될 때마다 state 업데이트
       />
-
-<View style={[styles.groupContainer, styles.groupParentLayout]}>
-        <View style={styles.viewPosition}>
-          <View style={[styles.rectangleView, styles.frameChildBorder]} />
-          <TextInput
-            style={[styles.year, styles.yearTypo]}
-            placeholder="Year"
-            placeholderTextColor="#838282"
-          />
-        </View>
-        <View style={[styles.rectangleParent1, styles.groupParentLayout]}>
-          <View style={[styles.groupChild1, styles.frameChildBorder]} />
-          <TextInput
-            style={[styles.month, styles.yearTypo]}
-            placeholder="Month"
-            placeholderTextColor="#838282"
-          />
-        </View>
-        <View style={[styles.rectangleParent2, styles.groupParentLayout]}>
-          <View style={[styles.groupChild1, styles.frameChildBorder]} />
-          <TextInput
-            style={[styles.month, styles.yearTypo]}
-            placeholder="Date"
-            placeholderTextColor="#838282"
-          />
-        </View>
-      </View>
     </View>
   );
 };
@@ -110,400 +173,6 @@ const styles = StyleSheet.create({
     width: 31,
     height: 30,
     position: "absolute",
-  },
-  groupContainer: {
-    top: 100,
-    width: 300,
-    left: 26,
-  },
-  groupParentLayout: {
-    height: 31,
-    position: "absolute",
-  },
-  rectangleParent1: {
-    left: 130,
-    top: 0,
-    width: 80,
-  },
-  rectangleParent2: {
-    left: 220,
-    top: 0,
-    width: 80,
-  },
-  frameScrollViewContent: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-  },
-  parentLayout: {
-    height: 30,
-    position: "absolute",
-  },
-  sortLeftLayout: {
-    width: 30,
-    top: 0,
-    height: 30,
-    position: "absolute",
-  },
-  groupItemLayout: {
-    height: 300,
-    width: 300,
-    position: "absolute",
-  },
-  iHaveATypo: {
-    width: 252,
-    color: Color.colorDarkslategray_100,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  groupLayout: {
-    height: 20,
-    width: 60,
-    position: "absolute",
-  },
-  editTypo: {
-    width: 37,
-    textAlign: "center",
-    color: Color.colorWhite,
-    fontSize: FontSize.size_4xs,
-    top: 2,
-    lineHeight: 15,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  groupParentLayout: {
-    height: 31,
-    position: "absolute",
-  },
-  frameChildBorder: {
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    backgroundColor: Color.colorWhite,
-  },
-  yearTypo: {
-    fontSize: FontSize.size_smi,
-    top: 7,
-    fontFamily: FontFamily.interRegular,
-    position: "absolute",
-  },
-  haveTypo: {
-    left: 16,
-    width: 126,
-    fontSize: FontSize.size_smi,
-    color: Color.colorDarkslategray_100,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  iconLayout1: {
-    height: 74,
-    width: 93,
-    left: 144,
-    position: "absolute",
-  },
-  iconLayout: {
-    width: 44,
-    left: 243,
-    height: 74,
-    position: "absolute",
-  },
-  groupChild: {
-    left: 1,
-  },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  sortLeft: {
-    left: 0,
-  },
-  ellipseParent: {
-    width: 31,
-    left: 0,
-    top: 0,
-  },
-  diary: {
-    top: 6,
-    left: 41,
-    color: Color.colorBlack,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_mini,
-    position: "absolute",
-  },
-  groupParent: {
-    top: 50,
-    left: 17,
-    width: 80,
-  },
-  groupItem: {
-    backgroundColor: Color.colorWhitesmoke_100,
-    borderRadius: Border.br_xl,
-    left: 0,
-    top: 0,
-  },
-  monday11March: {
-    top: 16,
-    color: Color.colorGray_300,
-    width: 165,
-    fontFamily: FontFamily.interRegular,
-    fontSize: FontSize.size_2xs,
-    left: 24,
-    textAlign: "left",
-    position: "absolute",
-  },
-  iHaveA: {
-    top: 36,
-    left: 24,
-    fontSize: FontSize.size_mini,
-    width: 252,
-    color: Color.colorDarkslategray_100,
-  },
-  iHaveA1: {
-    top: 201,
-    fontWeight: "300",
-    fontFamily: FontFamily.interLight,
-    lineHeight: 15,
-    width: 252,
-    color: Color.colorDarkslategray_100,
-    fontSize: FontSize.size_2xs,
-    left: 24,
-    textAlign: "left",
-    position: "absolute",
-  },
-  image49Icon: {
-    top: 91,
-    width: 150,
-    height: 100,
-    left: 24,
-    position: "absolute",
-  },
-  image50Icon: {
-    top: 89,
-    left: 184,
-    width: 70,
-    height: 100,
-    position: "absolute",
-  },
-  groupInner: {
-    backgroundColor: "#ff9900",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
-  },
-  delete: {
-    left: 11,
-  },
-  rectangleGroup: {
-    left: 164,
-    top: 270,
-    width: 60,
-  },
-  rectanglePressable: {
-    borderRadius: Border.br_81xl,
-    backgroundColor: Color.colorGoldenrod_300,
-    left: 0,
-    top: 0,
-  },
-  edit: {
-    left: 12,
-  },
-  rectangleContainer: {
-    left: 230,
-    top: 270,
-    width: 60,
-  },
-  rectangleParent: {
-    top: 143,
-    left: 26,
-  },
-  rectangleView: {
-    width: 120,
-    height: 31,
-    left: 0,
-    top: 0,
-    position: "absolute",
-    borderRadius: Border.br_xl,
-  },
-  year: {
-    left: 35,
-  },
-  viewPosition: {
-    width: 120,
-    height: 31,
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  groupChild1: {
-    height: 31,
-    position: "absolute",
-    borderRadius: Border.br_xl,
-    left: 0,
-    top: 0,
-    width: 80,
-  },
-  month: {
-    left: 15,
-  },
-  rectangleParent1: {
-    left: 130,
-    top: 0,
-    width: 80,
-  },
-  rectangleParent2: {
-    left: 220,
-    top: 0,
-    width: 80,
-  },
-  groupContainer: {
-    top: 100,
-    width: 300,
-    left: 26,
-  },
-  otherMomsDiary: {
-    fontSize: FontSize.size_mid,
-    left: 0,
-    top: 0,
-  },
-  frameChild: {
-    zIndex: 0,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-  },
-  frameItem: {
-    zIndex: 1,
-    marginTop: 18,
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    backgroundColor: Color.colorWhite,
-  },
-  iHaveA2: {
-    zIndex: 2,
-    width: 126,
-    marginTop: 18,
-    fontSize: FontSize.size_smi,
-    color: Color.colorDarkslategray_100,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-  },
-  frameInner: {
-    top: 340,
-    zIndex: 3,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    left: 0,
-    position: "absolute",
-  },
-  frameChild1: {
-    top: 450,
-    zIndex: 4,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    left: 0,
-    position: "absolute",
-  },
-  iHaveA3: {
-    top: 355,
-    zIndex: 5,
-  },
-  image70Icon: {
-    top: 353,
-    zIndex: 6,
-  },
-  image71Icon: {
-    top: 352,
-    zIndex: 7,
-  },
-  iHaveA4: {
-    top: 465,
-    zIndex: 8,
-  },
-  image72Icon: {
-    top: 463,
-    zIndex: 9,
-  },
-  image73Icon: {
-    top: 462,
-    zIndex: 10,
-  },
-  frameChild2: {
-    top: 230,
-    zIndex: 11,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    left: 0,
-    position: "absolute",
-  },
-  image68Icon: {
-    top: 243,
-    zIndex: 12,
-  },
-  image69Icon: {
-    top: 242,
-    zIndex: 13,
-  },
-  iHaveA5: {
-    top: 15,
-    zIndex: 14,
-  },
-  image53Icon: {
-    top: 13,
-    zIndex: 15,
-  },
-  image54Icon: {
-    top: 12,
-    zIndex: 16,
-  },
-  iHaveA6: {
-    top: 125,
-    zIndex: 17,
-  },
-  image66Icon: {
-    top: 123,
-    zIndex: 18,
-  },
-  image67Icon: {
-    top: 122,
-    zIndex: 19,
-  },
-  iHaveA7: {
-    top: 245,
-    zIndex: 20,
-  },
-  frameScrollview: {
-    top: 31,
-    left: 4,
-    position: "absolute",
-    flex: 1,
-  },
-  otherMomsDiaryParent: {
-    top: 470,
-    width: 304,
-    height: 318,
-    left: 26,
-    position: "absolute",
-  },
-  diaryCalender: {
-    height: 800,
-    width: "100%",
-    flex: 1,
-    backgroundColor: Color.colorWhite,
   },
   sortLeftPosition: {
     left: 0,
@@ -680,6 +349,7 @@ const styles = StyleSheet.create({
     top: 595,
     left: 280,
   },
+  
   diaryWriteItem: {
     top: 237,
     left: 41,
