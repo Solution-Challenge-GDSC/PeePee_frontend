@@ -86,7 +86,7 @@ const Main = () => {
         <View style={[styles.rectangleContainer, styles.rectangleLayout]}>
           <Pressable
             style={[styles.rectanglePressable, styles.rectangleLayout]}
-            onPress={() => navigation.navigate("Diary")}
+            onPress={() => navigation.navigate("DiaryCalender")}
           />
           <Text style={[styles.recommend, styles.recommendPosition]}>
             Diary

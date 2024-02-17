@@ -6,6 +6,32 @@ import { Border, FontFamily, FontSize, Color } from "../GlobalStyles";
 
 const Recommend1 = () => {
   const navigation = useNavigation();
+  const [age, setAge] = useState(""); // 나이 상태 추가
+
+
+  const handleRecommendation = async (age) => {
+    try {
+      const response = await fetch("YOUR_API_ENDPOINT", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          age: age, // 입력된 나이 값
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log(data); // API 응답을 콘솔에 출력하거나 결과를 다른 방식으로 처리함
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+
 
   return (
     <View style={styles.recommend}>
@@ -48,12 +74,15 @@ to your child's response for each category.`}</Text>
             style={[styles.enterYourChilds, styles.goToRecommendTypo]}
             placeholder="Enter your child’s age"
             placeholderTextColor="#725233"
+            value={age}
+            onChangeText={(text) => setAge(text)} 
           />
         </View>
         <View style={[styles.rectangleGroup, styles.rectangleLayout]}>
           <Pressable
             style={[styles.rectanglePressable, styles.groupInnerLayout]}
-            onPress={() => navigation.navigate("RecommendInputage")}
+            // onPress={() => navigation.navigate("RecommendInputage")}
+            onPress={() => handleRecommendation(age)} 
           />
           <Text style={[styles.goToRecommend, styles.goToRecommendTypo]}>
             Go to Recommend
