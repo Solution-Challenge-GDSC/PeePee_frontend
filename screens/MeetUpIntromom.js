@@ -58,7 +58,7 @@ take a break`}</Text>
       />
       <Pressable
         style={styles.rectanglePressable}
-        onPress={() => navigation.navigate("MeetUpCategory")}
+        onPress={() => navigation.navigate("CurrentPoint")}
       />
       <Text style={[styles.goToMeet, styles.meetFlexBox]}>Go To Meet</Text>
       <Image

@@ -25,6 +25,8 @@ import RecommendInputage1 from "./screens/RecommendInputage1";
 import RecommendInputage2 from "./screens/RecommendInputage2";
 import RecommendInputage3 from "./screens/RecommendInputage3";
 import RecommendInputage4 from "./screens/RecommendInputage4";
+import CurrentPoint from "./screens/CurrentPoint"; 
+
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -100,6 +102,11 @@ const App = () => {
             <Stack.Screen
               name="MeetUpIntromom"
               component={MeetUpIntromom}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CurrentPoint"
+              component={CurrentPoint}
               options={{ headerShown: false }}
             />
             <Stack.Screen
