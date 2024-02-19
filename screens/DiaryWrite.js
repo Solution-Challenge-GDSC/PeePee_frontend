@@ -49,14 +49,14 @@ const DiaryWrite = () => {
   };
   
   const handleSubmit = async () => {
-    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDc1NzQzNzgsImV4cCI6MTcwODE3OTE3OH0.C4xbXi6KsbyJNDf2mQqvOCLASZupSDMvLZObWS2e6TI'; 
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
     const formData = new FormData();
   
     const postDiaryReq = {
       content: content,
       mood: 0,
       opened: opened,
-      date: "2024-02-14",
+      date: new Date().toISOString().split("T")[0],
     };
 
     if(resizedUri){
@@ -79,12 +79,15 @@ const DiaryWrite = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+    
   
       console.log('API 응답:', response.data);
     } catch (error) {
       console.error('요청 중 오류 발생:', error);
     }
-  };
+  }; 
+
+  
 
   return (
     <View style={styles.diaryWrite}>

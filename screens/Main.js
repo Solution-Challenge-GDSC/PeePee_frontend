@@ -67,7 +67,7 @@ const Main = () => {
         <View style={[styles.rectangleGroup, styles.rectangleLayout]}>
           <Pressable
             style={[styles.rectanglePressable, styles.rectangleLayout]}
-            onPress={() => navigation.navigate("Recommend1")}
+            onPress={() => navigation.navigate("Recommend")}
           />
           <Text style={[styles.recommend, styles.recommendPosition]}>
             Recommend
