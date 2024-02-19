@@ -175,24 +175,21 @@ const loadDiaryData = async () => {
   showsHorizontalScrollIndicator={false}
   contentContainerStyle={styles.frameScrollViewContent}
 >
-  {diaryData && diaryData.otherDiaries ? (
-    diaryData.otherDiaries.map((diary, index) => (
-      <React.Fragment key={diary.diaryId}>
-        <View style={[styles.frameChild, styles.frameChildBorder]} />
-        <Text style={[styles.iHaveA2, styles.haveTypo]}>{diary.content}</Text>
-        {diary.getDiaryPost.length > 0 && (
-          <Image
-            style={[styles.image70Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={{ uri: diary.getDiaryPost[0].imgUrl }}
-          />
-        )}
-      </React.Fragment>
-    ))
-  ) : (
-    <Text>No other diaries found.</Text>
-  )}
+  {diaryData && diaryData.otherDiaries && diaryData.otherDiaries.map((diary, index) => (
+    <React.Fragment key={diary.diaryId}>
+      <View style={[styles.frameChild, styles.frameChildBorder]} />
+      <Text style={[styles.iHaveA2, styles.haveTypo]}>{diary.content}</Text>
+      {diary.getDiaryPost.length > 0 && (
+        <Image
+          style={[styles.image70Icon, styles.iconLayout1]}
+          contentFit="cover"
+          source={{ uri: diary.getDiaryPost[0].imgUrl }}
+        />
+      )}
+    </React.Fragment>
+  ))}
 </ScrollView>
+
 
 
 
