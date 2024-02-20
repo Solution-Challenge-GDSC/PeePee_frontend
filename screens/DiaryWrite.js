@@ -1,699 +1,378 @@
-import * as React from "react";
-import { ImageBackground, View, Text, Pressable, TextInput, ScrollView, StyleSheet, Image, Alert } from "react-native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import React, { useEffect, useState } from "react";
+import { Image } from "expo-image";
+import { StyleSheet, Pressable, View, Text, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from 'axios'; // axios 라이브러리를 import
+import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
+import axios from "axios";
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+import * as ImageManipulator from 'expo-image-manipulator';
 
-const DiaryCalender = () => {
+const DiaryWrite = () => {
   const navigation = useNavigation();
-  const [year, setYear] = React.useState('');
-  const [month, setMonth] = React.useState('');
-  const [day, setDay] = React.useState('');
-  const [diaryData, setDiaryData] = React.useState(null);
-
-// 서버로부터 다이어리 데이터를 불러오는 함수
-const loadDiaryData = async () => {
-  try {
-    // 사용자가 선택한 year, month, day를 YYYY-MM-DD 형태로 변환
-    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
-
-    const formattedMonth = month.padStart(2, '0'); // 한 자리 숫자일 경우 앞에 0 추가
-    const formattedDay = day.padStart(2, '0'); // 한 자리 숫자일 경우 앞에 0 추가
-    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
-    const response = await axios.get('https://applemango.store/diary', {
-      params: {
-        date: formattedDate
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    console.log('API 응답:', response.data);
-    console.log('getDiaryPost:', response.data.result.getDiaryPost);
-
-    // 응답의 데이터를 변수에 할당
-    const jsonData = response.data;
-
-    // jsonData.isSuccess 값을 이용하여 데이터가 유효한지 확인하고 처리
-    if (jsonData.isSuccess) {
-      setDiaryData(jsonData.result.myDiary);
-    } else {
-      Alert.alert("Error", jsonData.message || "Failed to load data");
-    }
-  } catch (error) {
-    console.error(error);
-    Alert.alert("Error", "Failed to process data");
-  }
-};
-
-  const handleWritePress1 = () => {
-    navigation.navigate("Diary");
+  const [content, setContent] = React.useState("");
+  const [opened, setOpened] = React.useState(false);
+  const [resizedUri, setResizedUri] = React.useState(null);
+  const [isUploading, setIsUploading] = useState(false); 
+  const CameraPress = () => {
+    setOpened((prevOpened) => !prevOpened);
   };
 
-  const handleWritePress2 = () => {
-      navigation.navigate("Diary");
+  const handlePress = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [4, 3],
+        quality: 0.5,
+      });
+  
+      console.log(result);
+
+      if (!result.cancelled && result.assets && result.assets.length > 0) {
+        const imageUri = result.assets[0].uri;
+        // 이미지를 조절할 해상도 크기 설정
+        const resolution = { width: 500, height: 500 }; // 원하는 해상도로 설정
+
+       // ImageManipulator를 사용하여 이미지 해상도 조절
+        const manipResult = await ImageManipulator.manipulateAsync(
+         imageUri,
+         [{ resize: resolution }],
+         { compress: 1, format: ImageManipulator.SaveFormat.JPEG } // 필요에 따라 압축도 설정 가능
+        );
+
+       // 조절된 이미지를 사용하거나 저장 등의 작업 수행
+       setResizedUri(manipResult.uri);
+      }
+    } catch (error) {
+      console.error('Error selecting image:', error);
+    }
+  };
+  
+  const handleSubmit = async () => {
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
+    const formData = new FormData();
+  
+    const postDiaryReq = {
+      content: content,
+      mood: 0,
+      opened: opened,
+      date: new Date().toISOString().split("T")[0],
     };
+
+    if(resizedUri){
+      formData.append('image', {
+        uri: resizedUri,
+        type: 'image/jpeg', // 실제 이미지 타입에 따라 변경할 수 있습니다.
+        name: 'image.jpg', // 실제 파일 이름이나 임의의 이름을 사용할 수 있습니다.
+      });
+    }
+  
+    formData.append('postDiaryReq', JSON.stringify(postDiaryReq));
+ 
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://applemango.store/diary",
+        data: formData,
+        headers: {
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
     
+  
+      console.log('API 응답:', response.data);
+      setIsUploading(false); // 업로드 종료
+      navigation.navigate("DiaryCalender"); // 업로드 성공 후 DiaryCalender 페이지로 이동
+    } catch (error) {
+      console.error('요청 중 오류 발생:', error);
+      setIsUploading(false); // 업로드 종료
+    }
+  }; 
+
+  
+
   return (
-    <View style={styles.diaryCalender}>
-      <View style={[styles.groupParent, styles.parentLayout]}>
-        <View style={[styles.ellipseParent, styles.parentLayout]}>
+    <View style={styles.diaryWrite}>
+      <View style={[styles.diaryWriteInner, styles.ellipseParentLayout]}>
+        <View style={[styles.ellipseParent, styles.sortLeftPosition]}>
           <Image
-            style={[styles.groupChild, styles.groupChildLayout]}
+            style={[styles.groupChild, styles.sortLeftLayout]}
             contentFit="cover"
             source={require("../assets/ellipse-1.png")}
           />
-           <Pressable
+          <Pressable
             style={[styles.sortLeft, styles.sortLeftLayout]}
-            onPress={() => navigation.navigate("Main")}
+            onPress={() => navigation.navigate("Diary")}
           >
-          <Image
-            style={[styles.sortLeftIcon, styles.groupChildLayout]}
-            contentFit="cover"
-            source={require("../assets/sort-left.png")}
-          />
+            <Image
+              style={styles.icon}
+              contentFit="cover"
+              source={require("../assets/sort-left.png")}
+            />
           </Pressable>
         </View>
-        <Text style={styles.diary}>Diary</Text>
       </View>
-
+      <Text style={styles.writeYourDiary}>Write Your Diary</Text>
+      <Text style={styles.writeYourDiary1}>
+        Write your Diary Write your Diary Write your Diary Write your Diary
+        Write your Diary Write y
+      </Text>
+      <View style={styles.diaryWriteChild} />
       
-      <View style={[styles.rectangleParent, styles.groupItemLayout]}>
-        <View style={[styles.groupItem, styles.groupItemLayout]} />
-          {/* diaryData가 있을 경우 파라미터로 보낸 date 값을 표시, 없으면 빈 문자열을 표시 */}
-          <Text style={styles.monday11March}>
-            {diaryData ? diaryData.date : ''}
-          </Text>
-          {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
-          <Text style={[styles.iHaveA, styles.iHaveATypo]}>
-            {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
-          </Text>
-          {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
-          <Text style={styles.iHaveA1}>
-            {diaryData ? diaryData.content : ''}
-          </Text>
-
-
-
-          {
-        diaryData && diaryData.getDiaryPost && diaryData.getDiaryPost.length > 0 && (
-          <Image
-            style={styles.image49Icon}
-            contentFit="cover"
-            source={{ uri: diaryData.getDiaryPost[0].imgUrl }}
-          />
-        )
-      }
-
-      {
-        diaryData && diaryData.getDiaryPost && diaryData.getDiaryPost.length > 0 && (
-          <ImageBackground
-            style={styles.image49Icon}
-            resizeMode="cover"
-            source={{ uri: diaryData.getDiaryPost[0].imgUrl }}
-          />
-        )
-      }
-
-
-
-        <Pressable style={[styles.rectangleGroup, styles.groupLayout]}>
-          <Pressable style={[styles.groupInner, styles.groupLayout]} />
-          <Text style={[styles.delete, styles.editTypo]}>Delete</Text>
-        </Pressable>
-        <Pressable style={[styles.rectangleContainer, styles.groupLayout]}
-        onPress={handleWritePress2}>
-          <View style={[styles.rectangleView, styles.groupLayout]} />
-          <Text style={[styles.edit, styles.editTypo]}>Edit</Text>
-        </Pressable>
-      </View>
-      
-
-
-
-      <View style={[styles.groupContainer, styles.groupParentLayout]}>
-        <View style={styles.groupPosition}>
-          <View style={[styles.groupChild1, styles.frameChildBorder]} />
-          <TextInput
-              style={[styles.year, styles.yearTypo]}
-              placeholder="Year"
-              onChangeText={setYear}
-              value={year}
-          />
-        </View>
-        <View style={[styles.rectangleParent1, styles.groupParentLayout]}>
-          <View style={[styles.groupChild2, styles.frameChildBorder]} />
-          <TextInput
-              style={[styles.month, styles.havePosition]}
-              placeholder="Month"
-              onChangeText={setMonth}
-              value={month}
-          />
-        </View>
-        <View style={[styles.rectangleParent2, styles.groupParentLayout]}>
-          <View style={[styles.groupChild2, styles.frameChildBorder]} />
-          <TextInput
-              style={[styles.date, styles.yearTypo]}
-              placeholder="Date"
-              onChangeText={setDay}
-              value={day}
-          />
-        </View>
-      </View>
-
-
-      <View style={styles.otherMomsDiaryParent}>
-        <Text style={[styles.otherMomsDiary, styles.iHaveATypo]}>
-          Other Mom’s Diary
+      <Pressable
+        style={[styles.rectangleParent, styles.groupItemLayout]}
+        onPress={handlePress} // 이미지 선택 버튼에 handlePress 이벤트 추가
+      >
+        <View style={[styles.groupItem, styles.groupPosition]} />
+        <Image
+          style={styles.cameraIcon}
+          contentFit="cover"
+          source={require("../assets/camera.png")}
+        />
+        <Text style={[styles.inputPhoto, styles.unlockFlexBox]}>
+          Input Photo
         </Text>
-        <ScrollView
-          style={styles.frameScrollview}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.frameScrollViewContent}
-        >
-          <View style={[styles.frameChild, styles.frameChildBorder]} />
-          <View style={[styles.frameItem, styles.frameChildBorder]} />
-          <Text
-            style={[styles.iHaveA2, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-          <View style={[styles.frameInner, styles.frameChildBorder]} />
-          <View style={[styles.frameChild1, styles.frameChildBorder]} />
-          <Text
-            style={[styles.iHaveA3, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-          <Image
-            style={[styles.image70Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/image-70.png")}
-          />
-          <Image
-            style={[styles.image71Icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/image-71.png")}
-          />
-          <Text
-            style={[styles.iHaveA4, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-          <Image
-            style={[styles.image72Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/image-70.png")}
-          />
-          <Image
-            style={[styles.image73Icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/image-71.png")}
-          />
-          <View style={[styles.frameChild2, styles.frameChildBorder]} />
-          <Image
-            style={[styles.image68Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/image-70.png")}
-          />
-          <Image
-            style={[styles.image69Icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/image-71.png")}
-          />
-          <Text
-            style={[styles.iHaveA5, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-          <Image
-            style={[styles.image53Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/image-70.png")}
-          />
-          <Image
-            style={[styles.image54Icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/image-71.png")}
-          />
-          <Text
-            style={[styles.iHaveA6, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-          <Image
-            style={[styles.image66Icon, styles.iconLayout1]}
-            contentFit="cover"
-            source={require("../assets/image-70.png")}
-          />
-          <Image
-            style={[styles.image67Icon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/image-71.png")}
-          />
-          <Text
-            style={[styles.iHaveA7, styles.haveTypo]}
-          >{`I have a happy day with my baby w
-how to blablabla `}</Text>
-        </ScrollView>
-      </View>
-      <Pressable style={[styles.groupPressable, styles.groupLayout]}
-      onPress={handleWritePress1}>
-        <View style={[styles.groupChild4, styles.groupLayout]} />
-        <Text style={[styles.delete, styles.editTypo]}>Write</Text>
       </Pressable>
 
-      {/* 데이터 로드 버튼 */}
-      <Pressable style={[styles.rectangleParent3, styles.groupChild5Layout]} onPress={loadDiaryData}>
+
+      <Pressable
+        style={[styles.groupPressable, styles.groupLayout]}
+        onPress={handleSubmit} // 업로드 버튼 클릭 시 handleSubmit 호출
+        disabled={isUploading} // isUploading 상태에 따라 버튼 비활성화
+      >
+        <View style={[styles.rectangleGroup, styles.groupLayout]}>
+          <Pressable
+            style={[styles.groupInner, styles.groupLayout]}
+            onPress={() => navigation.navigate("DiaryCalender")}
+          />
+          <Text style={styles.upload}>Upload</Text>
+          <Image
+            style={[styles.rightIcon, styles.sortLeftLayout]}
+            contentFit="cover"
+            source={require("../assets/right.png")}
+          />
+        </View>
+      </Pressable>
+      <Pressable style={[styles.rectangleContainer, styles.rectangleLayout]}
+      onPress={CameraPress} >
+        <View style={[styles.rectangleView, styles.rectangleLayout]} />
+        <Text style={[styles.unlock, styles.unlockPosition]}>unlock</Text>
         <Image
-          style={styles.image74Icon}
-          source={require("../assets/image-74.png")}
+          style={[styles.padlockIcon, styles.unlockPosition]}
+          contentFit="cover"
+          source={require("../assets/padlock.png")}
         />
       </Pressable>
-
+      <TextInput
+        style={styles.diaryWriteItem}
+        placeholder={`Enter Text >`}
+        multiline={true}
+        value={content} // state에 연결된 값 사용
+        onChangeText={setContent} // 입력 내용이 변경될 때마다 state 업데이트
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  frameScrollViewContent: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-  },
-  parentLayout: {
+  ellipseParentLayout: {
+    width: 31,
     height: 30,
     position: "absolute",
   },
-  groupChildLayout: {
-    width: 30,
+  sortLeftPosition: {
+    left: 0,
     top: 0,
-    height: 30,
+  },
+  sortLeftLayout: {
+    width: 30,
     position: "absolute",
   },
   groupItemLayout: {
-    height: 300,
+    width: 150,
+    height: 30,
+    position: "absolute",
+  },
+  groupPosition: {
+    borderRadius: Border.br_81xl,
+    left: 0,
+    top: 0,
+  },
+  unlockFlexBox: {
+    textAlign: "left",
+    color: Color.colorWhite,
+  },
+  groupLayout: {
+    height: 40,
     width: 300,
     position: "absolute",
   },
-  iHaveATypo: {
-    width: 252,
-    color: Color.colorDarkslategray,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  groupLayout: {
+  rectangleLayout: {
     height: 20,
-    width: 60,
+    width: 50,
     position: "absolute",
   },
-  editTypo: {
-    width: 37,
-    textAlign: "center",
-    color: Color.colorWhite,
-    fontSize: FontSize.size_4xs,
-    top: 2,
-    lineHeight: 15,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  groupParentLayout: {
-    height: 31,
-    position: "absolute",
-  },
-  frameChildBorder: {
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-    backgroundColor: Color.colorWhite,
-  },
-  yearTypo: {
-    fontSize: FontSize.size_smi,
-    top: 7,
-    fontFamily: FontFamily.interRegular,
-  },
-  havePosition: {
-    left: 16,
-    position: "absolute",
-  },
-  haveTypo: {
-    width: 126,
-    fontSize: FontSize.size_smi,
-    color: Color.colorDarkslategray,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-  },
-  iconLayout1: {
-    height: 74,
-    width: 93,
-    left: 144,
-    position: "absolute",
-  },
-  iconLayout: {
-    width: 44,
-    left: 243,
-    height: 74,
-    position: "absolute",
-  },
-  groupChild5Layout: {
-    width: 35,
-    height: 30,
+  unlockPosition: {
+    top: 5,
     position: "absolute",
   },
   groupChild: {
     left: 1,
+    top: 0,
+    width: 30,
+    height: 30,
   },
-  sortLeftIcon: {
+  icon: {
+    height: "100%",
+    width: "100%",
+  },
+  sortLeft: {
     left: 0,
+    top: 0,
+    height: 30,
   },
   ellipseParent: {
+    height: 30,
     width: 31,
-    left: 0,
-    top: 0,
-  },
-  diary: {
-    top: 6,
-    left: 41,
-    color: "#000",
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_mini,
     position: "absolute",
   },
-  groupParent: {
+  diaryWriteInner: {
     top: 50,
     left: 17,
-    width: 80,
+    height: 30,
+  },
+  writeYourDiary: {
+    top: 98,
+    left: 92,
+    fontSize: FontSize.size_3xl,
+    fontWeight: "700",
+    fontFamily: FontFamily.interBold,
+    color: Color.colorBlack,
+    textAlign: "center",
+    position: "absolute",
+  },
+  writeYourDiary1: {
+    top: 135,
+    fontSize: FontSize.size_xs,
+    fontFamily: FontFamily.interRegular,
+    color: Color.colorDimgray_200,
+    width: 300,
+    left: 30,
+    textAlign: "center",
+    position: "absolute",
+  },
+  diaryWriteChild: {
+    top: 215,
+    left: 20,
+    borderRadius: Border.br_3xs,
+    borderStyle: "solid",
+    borderColor: Color.colorGoldenrod_300,
+    borderWidth: 3,
+    width: 320,
+    height: 410,
+    position: "absolute",
+    backgroundColor: Color.colorWhite,
   },
   groupItem: {
-    backgroundColor: "#f8f4f1",
-    borderRadius: Border.br_xl,
-    left: 0,
-    top: 0,
-  },
-  monday11March: {
-    top: 16,
-    color: "#838282",
-    width: 165,
-    fontFamily: FontFamily.interRegular,
-    fontSize: FontSize.size_2xs,
-    left: 24,
-    textAlign: "left",
-    position: "absolute",
-  },
-  iHaveA: {
-    top: 36,
-    left: 24,
-    fontSize: FontSize.size_mini,
-    width: 252,
-    color: Color.colorDarkslategray,
-  },
-  iHaveA1: {
-    top: 201,
-    fontWeight: "300",
-    fontFamily: FontFamily.interLight,
-    lineHeight: 15,
-    width: 252,
-    color: Color.colorDarkslategray,
-    fontSize: FontSize.size_2xs,
-    left: 24,
-    textAlign: "left",
-    position: "absolute",
-  },
-  image49Icon: {
-    top: 91,
+    backgroundColor: Color.colorGoldenrod_300,
     width: 150,
-    height: 100,
+    height: 30,
+    position: "absolute",
+  },
+  cameraIcon: {
+    top: 4,
     left: 24,
+    width: 23,
+    height: 23,
     position: "absolute",
   },
-  image50Icon: {
-    top: 89,
-    left: 184,
-    width: 70,
-    height: 100,
+  inputPhoto: {
+    top: 7,
+    left: 53,
+    fontSize: FontSize.size_smi,
+    width: 85,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    textAlign: "left",
     position: "absolute",
-  },
-  groupInner: {
-    backgroundColor: "#ff9900",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
-  },
-  delete: {
-    left: 11,
-  },
-  rectangleGroup: {
-    left: 164,
-    top: 270,
-    width: 60,
-  },
-  rectangleView: {
-    borderRadius: 100,
-    backgroundColor: "#bfb832",
-    left: 0,
-    top: 0,
-  },
-  edit: {
-    left: 12,
-  },
-  rectangleContainer: {
-    left: 230,
-    top: 270,
-    width: 60,
   },
   rectangleParent: {
-    top: 143,
-    left: 26,
+    top: 640,
+    left: 105,
   },
-  groupChild1: {
-    width: 84,
-    height: 31,
-    left: 0,
-    top: 0,
-    position: "absolute",
-    borderRadius: Border.br_xl,
-  },
-  year: {
-    left: 21,
-    position: "absolute",
-  },
-  groupPosition: {
-    width: 84,
-    height: 31,
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  groupChild2: {
-    height: 31,
-    position: "absolute",
-    borderRadius: Border.br_xl,
-    left: 0,
-    top: 0,
-    width: 80,
-  },
-  month: {
-    fontSize: FontSize.size_smi,
-    top: 7,
-    fontFamily: FontFamily.interRegular,
-  },
-  rectangleParent1: {
-    left: 91,
-    top: 0,
-    width: 80,
-  },
-  date: {
-    left: 15,
-    position: "absolute",
-  },
-  rectangleParent2: {
-    left: 178,
-    top: 0,
-    width: 80,
-  },
-  groupContainer: {
-    top: 100,
-    width: 258,
-    left: 26,
-  },
-  otherMomsDiary: {
-    fontSize: 17,
+  groupInner: {
+    backgroundColor: Color.colorGoldenrod_200,
+    borderRadius: Border.br_81xl,
     left: 0,
     top: 0,
   },
-  frameChild: {
-    zIndex: 0,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-  },
-  frameItem: {
-    zIndex: 1,
-    marginTop: 18,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-  },
-  iHaveA2: {
-    zIndex: 2,
-    marginTop: 18,
-  },
-  frameInner: {
-    top: 340,
-    zIndex: 3,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-    left: 0,
-    position: "absolute",
-  },
-  frameChild1: {
-    top: 450,
-    zIndex: 4,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-    left: 0,
-    position: "absolute",
-  },
-  iHaveA3: {
-    top: 355,
-    zIndex: 5,
-    left: 16,
-    position: "absolute",
-  },
-  image70Icon: {
-    top: 353,
-    zIndex: 6,
-  },
-  image71Icon: {
-    top: 352,
-    zIndex: 7,
-  },
-  iHaveA4: {
-    top: 465,
-    zIndex: 8,
-    left: 16,
-    position: "absolute",
-  },
-  image72Icon: {
-    top: 463,
-    zIndex: 9,
-  },
-  image73Icon: {
-    top: 462,
-    zIndex: 10,
-  },
-  frameChild2: {
-    top: 230,
-    zIndex: 11,
-    borderRadius: Border.br_3xs,
-    height: 100,
-    width: 300,
-    borderColor: Color.colorGainsboro,
-    borderStyle: "solid",
-    left: 0,
-    position: "absolute",
-  },
-  image68Icon: {
-    top: 243,
-    zIndex: 12,
-  },
-  image69Icon: {
-    top: 242,
-    zIndex: 13,
-  },
-  iHaveA5: {
-    top: 15,
-    zIndex: 14,
-    left: 16,
-    position: "absolute",
-  },
-  image53Icon: {
-    top: 13,
-    zIndex: 15,
-  },
-  image54Icon: {
+  upload: {
     top: 12,
-    zIndex: 16,
-  },
-  iHaveA6: {
-    top: 125,
-    zIndex: 17,
-    left: 16,
+    left: 98,
+    fontSize: FontSize.size_mini,
+    width: 79,
+    color: Color.colorWhite,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    textAlign: "center",
     position: "absolute",
   },
-  image66Icon: {
-    top: 123,
-    zIndex: 18,
+  rightIcon: {
+    top: 8,
+    left: 172,
+    height: 25,
   },
-  image67Icon: {
-    top: 122,
-    zIndex: 19,
-  },
-  iHaveA7: {
-    top: 245,
-    zIndex: 20,
-    left: 16,
-    position: "absolute",
-  },
-  frameScrollview: {
-    top: 31,
-    left: 4,
-    position: "absolute",
-    flex: 1,
-  },
-  otherMomsDiaryParent: {
-    top: 470,
-    width: 304,
-    height: 318,
-    left: 26,
-    position: "absolute",
-  },
-  groupChild4: {
-    backgroundColor: "#6073d5",
-    borderRadius: Border.br_3xs,
+  rectangleGroup: {
     left: 0,
     top: 0,
   },
   groupPressable: {
-    top: 413,
-    left: 122,
+    top: 700,
+    left: 30,
+    height: 40,
   },
-  groupChild5: {
-    backgroundColor: "#d9d9d9",
-    borderRadius: Border.br_3xs,
+  rectangleView: {
+    backgroundColor: Color.colorLightseagreen,
+    borderRadius: Border.br_81xl,
     left: 0,
     top: 0,
   },
-  image74Icon: {
-    top: 4,
-    left: 5,
-    width: 24,
-    height: 23,
+  unlock: {
+    left: 7,
+    fontSize: FontSize.size_5xs,
+    fontWeight: "500",
+    fontFamily: FontFamily.interMedium,
+    width: 29,
+    textAlign: "left",
+    color: Color.colorWhite,
+  },
+  padlockIcon: {
+    left: 34,
+    width: 10,
+    height: 10,
+  },
+  rectangleContainer: {
+    top: 595,
+    left: 280,
+  },
+  
+  diaryWriteItem: {
+    top: 237,
+    left: 41,
+    width: 278,
+    height: 347,
     position: "absolute",
+    backgroundColor: Color.colorWhite,
   },
-  rectangleParent3: {
-    top: 101,
-    left: 290,
-  },
-  diaryCalender: {
-    width: "100%",
-    height: 800,
+  diaryWrite: {
     flex: 1,
+    height: 800,
+    overflow: "hidden",
+    width: "100%",
     backgroundColor: Color.colorWhite,
   },
 });
 
-export default DiaryCalender;
+export default DiaryWrite;

@@ -1,15 +1,65 @@
 import * as React from "react";
+import { useState } from 'react';
 import { ImageBackground, View, Text, Pressable, TextInput, ScrollView, StyleSheet, Image, Alert } from "react-native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios'; // axios 라이브러리를 import
 
+const handleDeletePress = (diaryId) => {
+  Alert.alert(
+    "Delete",
+    "Are you sure you want to delete this diary?",
+    [
+      {
+        text: "No",
+        style: "cancel"
+      },
+      {
+        text: "Yes",
+        onPress: () => deleteDiary(diaryId) // 삭제 API 호출 함수에 diaryId 전달
+      }
+    ]
+  );
+};
+
+const deleteDiary = async (diaryId) => {
+  console.log('Deleting diary with ID:', diaryId);
+  try {
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
+
+    // 요청 URL에 diaryId를 포함하여 경로를 생성
+    const apiUrl = `https://applemango.store/diary/${diaryId}`;
+    console.log('Request URL:', apiUrl);
+
+    const response = await axios.delete(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      }
+    });
+
+    if (response.data.isSuccess) {
+      Alert.alert("Success", "Diary deleted successfully");
+  //loadDiaryData();
+  // 삭제 성공 시 diaryData를 null로 설정하여 화면에 아무 내용도 표시되지 않도록 함
+  setDiaryData(null);
+    } else {
+      Alert.alert("Error", response.data.message || "Failed to delete diary");
+    }
+  } catch (error) {
+    console.error(error);
+    Alert.alert("Error", "Failed to delete diary");
+  }
+};
+
+
+
 const DiaryCalender = () => {
   const navigation = useNavigation();
-  const [year, setYear] = React.useState('');
-  const [month, setMonth] = React.useState('');
-  const [day, setDay] = React.useState('');
-  const [diaryData, setDiaryData] = React.useState(null);
+  const [year, setYear] = useState('');
+  const [month, setMonth] = useState('');
+  const [day, setDay] = useState('');
+  const [diaryData, setDiaryData] = useState(null);
+  const [otherDiaries, setOtherDiaries] = useState([]); // otherDiaries 상태 추가
 
 // 서버로부터 다이어리 데이터를 불러오는 함수
 const loadDiaryData = async () => {
@@ -35,11 +85,11 @@ const loadDiaryData = async () => {
     // 응답의 데이터를 변수에 할당
     const jsonData = response.data;
 
-    // jsonData.isSuccess 값을 이용하여 데이터가 유효한지 확인하고 처리
-    if (jsonData.isSuccess) {
-      setDiaryData(jsonData.result.myDiary);
+    if (response.data.isSuccess) {
+      setDiaryData(response.data.result.myDiary);
+      setOtherDiaries(response.data.result.otherDiaries); // otherDiaries 상태 업데이트
     } else {
-      Alert.alert("Error", jsonData.message || "Failed to load data");
+      Alert.alert("Error", response.data.message || "Failed to load data");
     }
   } catch (error) {
     console.error(error);
@@ -83,16 +133,16 @@ const loadDiaryData = async () => {
         <View style={[styles.groupItem, styles.groupItemLayout]} />
           {/* diaryData가 있을 경우 파라미터로 보낸 date 값을 표시, 없으면 빈 문자열을 표시 */}
           <Text style={styles.monday11March}>
-            {diaryData ? diaryData.date : ''}
-          </Text>
-          {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
-          <Text style={[styles.iHaveA, styles.iHaveATypo]}>
-            {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
-          </Text>
-          {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
-          <Text style={styles.iHaveA1}>
-            {diaryData ? diaryData.content : ''}
-          </Text>
+    {diaryData ? diaryData.date : ''}
+  </Text>
+  {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
+  <Text style={[styles.iHaveA, styles.iHaveATypo]}>
+    {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
+  </Text>
+  {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
+  <Text style={styles.iHaveA1}>
+    {diaryData ? diaryData.content : ''}
+  </Text>
 
 
 
@@ -118,10 +168,13 @@ const loadDiaryData = async () => {
 
 
 
-        <Pressable style={[styles.rectangleGroup, styles.groupLayout]}>
-          <Pressable style={[styles.groupInner, styles.groupLayout]} />
-          <Text style={[styles.delete, styles.editTypo]}>Delete</Text>
-        </Pressable>
+<Pressable style={[styles.rectangleGroup, styles.groupLayout]} onPress={() => handleDeletePress(diaryData.diaryId)}>
+  <Pressable style={[styles.groupInner, styles.groupLayout]} />
+  <Text style={[styles.delete, styles.editTypo]}>Delete</Text>
+</Pressable>
+
+
+
         <Pressable style={[styles.rectangleContainer, styles.groupLayout]}
         onPress={handleWritePress2}>
           <View style={[styles.rectangleView, styles.groupLayout]} />
@@ -170,35 +223,101 @@ const loadDiaryData = async () => {
 
 
         <ScrollView
-  style={styles.frameScrollview}
-  showsVerticalScrollIndicator={false}
-  showsHorizontalScrollIndicator={false}
-  contentContainerStyle={styles.frameScrollViewContent}
->
-  {diaryData && diaryData.otherDiaries && diaryData.otherDiaries.map((diary, index) => (
-    <React.Fragment key={diary.diaryId}>
-      <View style={[styles.frameChild, styles.frameChildBorder]} />
-      <Text style={[styles.iHaveA2, styles.haveTypo]}>{diary.content}</Text>
-      {diary.getDiaryPost.length > 0 && (
-        <Image
-          style={[styles.image70Icon, styles.iconLayout1]}
-          contentFit="cover"
-          source={{ uri: diary.getDiaryPost[0].imgUrl }}
-        />
-      )}
-    </React.Fragment>
-  ))}
-</ScrollView>
+          style={styles.frameScrollview}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={[styles.frameScrollViewContent, { flexGrow: 1 }]}
+        >
+          
+          <View style={[styles.frameChild, styles.frameChildBorder]} />
+          <View style={[styles.frameItem, styles.frameChildBorder]} />
+          
+  {/* Diary5 */}
+  {otherDiaries.length > 4 && (
+    <Text style={[styles.iHaveA4, styles.haveTypo]}>
+      {otherDiaries[4].content}
+    </Text>
+  )}
+
+          <View style={[styles.frameInner, styles.frameChildBorder]} />
+          <View style={[styles.frameChild1, styles.frameChildBorder]} />
+
+  {/* Diary4 */}
+  {otherDiaries.length > 3 && (
+    <Text style={[styles.iHaveA3, styles.haveTypo]}>
+      {otherDiaries[3].content}
+    </Text>
+  )}
+
+  {/* image 3 */}
+{otherDiaries.length > 2 && otherDiaries[2].getDiaryPost.length > 0 && (
+    <Image
+      style={[styles.image70Icon, styles.iconLayout1]}
+      contentFit="cover"
+      source={{ uri: otherDiaries[2].getDiaryPost[0].imgUrl }}
+    />
+  )}
 
 
+          <View style={[styles.frameChild2, styles.frameChildBorder]} />
 
 
+  {otherDiaries.length > 4 && otherDiaries[4].getDiaryPost.length > 0 && (
+    <Image
+      style={[styles.image68Icon, styles.iconLayout1]}
+      contentFit="cover"
+      source={{ uri: otherDiaries[4].getDiaryPost[0].imgUrl }}
+    />
+  )}
+
+{otherDiaries.length > 0 && (
+    <Text style={[styles.iHaveA5, styles.haveTypo]}>
+      {otherDiaries[0].content}
+    </Text>
+  )}
+
+ {otherDiaries.length > 0 && otherDiaries[0].getDiaryPost.length > 0 && (
+    <Image
+      style={[styles.image53Icon, styles.iconLayout1]}
+      contentFit="cover"
+      source={{ uri: otherDiaries[0].getDiaryPost[0].imgUrl }}
+    />
+  )}
+
+
+  {/* Diary2 */}
+  {otherDiaries.length > 1 && (
+    <Text style={[styles.iHaveA6, styles.haveTypo]}>
+      {otherDiaries[1].content}
+    </Text>
+  )}
+  {otherDiaries.length > 3 && otherDiaries[3].getDiaryPost.length > 0 && (
+    <Image
+      style={[styles.image66Icon, styles.iconLayout1]}
+      contentFit="cover"
+      source={{ uri: otherDiaries[3].getDiaryPost[0].imgUrl }}
+    />
+  )}
+          
+  {otherDiaries.length > 1 && otherDiaries[1].getDiaryPost.length > 0 && (
+    <Image
+      style={[styles.image66Icon, styles.iconLayout1]}
+      contentFit="cover"
+      source={{ uri: otherDiaries[1].getDiaryPost[0].imgUrl }}
+    />
+  )}
+ 
+  {/* Diary3 */}
+  {otherDiaries.length > 2 && (
+    <Text style={[styles.iHaveA7, styles.haveTypo]}>
+      {otherDiaries[2].content}
+    </Text>
+  )}
+        </ScrollView>
+        
+
+        
       </View>
-
-
-
-
-
       <Pressable style={[styles.groupPressable, styles.groupLayout]}
       onPress={handleWritePress1}>
         <View style={[styles.groupChild4, styles.groupLayout]} />
@@ -593,12 +712,13 @@ const styles = StyleSheet.create({
     left: 16,
     position: "absolute",
   },
-  frameScrollview: {
-    top: 31,
-    left: 4,
-    position: "absolute",
-    flex: 1,
-  },
+frameScrollview: {
+  top: 31,
+  left: 4,
+  position: "absolute",
+  flex: 1,
+  width: "100%", // 너비를 100%로 설정하여 화면 전체 너비를 차지하도록 함
+},
   otherMomsDiaryParent: {
     top: 470,
     width: 304,
