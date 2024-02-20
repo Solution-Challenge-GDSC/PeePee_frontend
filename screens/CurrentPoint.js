@@ -41,7 +41,10 @@ const UserLocationMap = () => {
           </MapView>
           <Button
             title="확인"
-            onPress={() => navigation.navigate('MeetUpCategory')}
+            onPress={() => navigation.navigate('MeetUpCategory', {
+            latitude: currentPosition.latitude,
+            longitude: currentPosition.longitude,
+           })}
           />
         </>
       ) : null}

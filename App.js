@@ -31,6 +31,7 @@ import CurrentPoint from "./screens/CurrentPoint";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
+
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
 
@@ -49,9 +50,21 @@ const App = () => {
     return null;
   }
 
+    // 여기에 linking 설정을 추가합니다.
+    const linking = {
+      prefixes: ['exp://172.20.10.3:8081'], // 앱의 커스텀 스키마. 실제 값으로 대체하세요.
+      config: {
+        screens: {
+          Main: 'Main', // 'yourapp://Main' URL을 통해 Main 스크린으로 이동합니다.
+          // 나머지 스크린 경로도 여기에 추가할 수 있습니다.
+        },
+      },
+    };
+  
+
   return (
     <>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         {hideSplashScreen ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen

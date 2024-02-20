@@ -1,18 +1,75 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Pressable,
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from 'react';
+import { Image, StyleSheet, Pressable, Text, View, TextInput, ScrollView } from "react-native";
+import { useRoute, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+
+// 구글 Geocoding API의 기본 URL
+const GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
+const GOOGLE_API_KEY = "AIzaSyAAwjAjwIqxQgPEd-k6msmxcwqQC5uXnEM";
+
+
+// 주소를 가져오는 함수
+const fetchAddress = async (latitude, longitude) => {
+  try {
+    const response = await axios.get(`${GOOGLE_API_URL}?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`);
+    const address = response.data.results[0]?.formatted_address;
+    console.log(address);
+    return address;
+  } catch (error) {
+    console.error("Google Geocoding API error:", error);
+    return "주소를 가져오는 데 실패했습니다.";
+  }
+};
+
 
 const MeetUpCategory = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { latitude, longitude } = route.params;
+  console.log(latitude+", "+longitude);
+  const [data, setData] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk";
+
+  // 데이터를 불러오는 useEffect
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://applemango.store/meetup/meetups`, {
+          params: { latitude, longitude },
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
+        setData(response.data.result); // API 응답에서 result 배열을 상태에 저장
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [latitude, longitude]);
+
+ 
+ // 데이터에 기반해 주소를 불러오는 useEffect
+ useEffect(() => {
+  const fetchAddresses = async () => {
+    const addresses = await Promise.all(
+      data.map(async (item) => await fetchAddress(item.latitude, item.longitude))
+    );
+    setAddresses(addresses);
+  };
+
+  if (data.length > 0) {
+    fetchAddresses();
+  }
+}, [data]); // data가 변경될 때마다 주소를 불러옵니다.
+
+
+if (data.length === 0 || addresses.length !== data.length) {
+  return <Text>Loading...</Text>;
+}
+
 
   return (
     <View style={styles.meetUpCategory}>
