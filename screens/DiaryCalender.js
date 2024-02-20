@@ -1,88 +1,81 @@
-import * as React from "react";
-import { useState } from 'react';
-import { ImageBackground, View, Text, Pressable, TextInput, ScrollView, StyleSheet, Image, Alert } from "react-native";
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  TextInput,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Alert,
+  ImageBackground
+} from 'react-native';
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
-import { useNavigation } from "@react-navigation/native";
-import axios from 'axios'; // axios 라이브러리를 import
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
-  // 삭제 확인 대화 상자
+const DiaryCalender = () => {
+  const navigation = useNavigation();
+  const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [month, setMonth] = useState(('0' + (new Date().getMonth() + 1)).slice(-2));
+  const [day, setDay] = useState(('0' + new Date().getDate()).slice(-2));
+  const [diaryData, setDiaryData] = useState(null);
+  const [otherDiaries, setOtherDiaries] = useState([]);
+
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk';
+
+  useEffect(() => {
+    loadDiaryData();
+  }, []);
+
+  const loadDiaryData = async () => {
+    try {
+      const formattedDate = `${year}-${month}-${day}`;
+      const response = await axios.get('https://applemango.store/diary', {
+        params: { date: formattedDate },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      if (response.data.isSuccess) {
+        setDiaryData(response.data.result.myDiary);
+        setOtherDiaries(response.data.result.otherDiaries);
+      } else {
+        Alert.alert("Error", response.data.message || "Failed to load data");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Failed to process data");
+    }
+  };
+
   const handleDeletePress = (diaryId) => {
     Alert.alert(
       "Delete",
       "Are you sure you want to delete this diary?",
       [
         { text: "No", style: "cancel" },
-        { text: "Yes", onPress: () => deleteDiary(diaryId) },
+        { text: "Yes", onPress: () => deleteDiary(diaryId) }
       ]
     );
   };
 
+  const deleteDiary = async (diaryId) => {
+    try {
+      const response = await axios.delete(`https://applemango.store/diary/${diaryId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
 
-const deleteDiary = async (diaryId) => {
-  console.log('Deleting diary with ID:', diaryId);
-  try {
-    const accessToken = '...'; // 사용 중인 액세스 토큰
-    const apiUrl = `https://applemango.store/diary/${diaryId}`;
-    const response = await axios.delete(apiUrl, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    if (response.data.isSuccess) {
-      Alert.alert("Success", "Diary deleted successfully");
-      setDiaryData(null); // 삭제 성공 시 UI에서 다이어리 내용 제거
-    } else {
-      Alert.alert("Error", response.data.message || "Failed to delete diary");
+      if (response.data.isSuccess) {
+        Alert.alert("Success", "Diary deleted successfully");
+        loadDiaryData(); // Refresh data
+      } else {
+        Alert.alert("Error", response.data.message || "Failed to delete diary");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Failed to delete diary");
     }
-  } catch (error) {
-    console.error(error);
-    Alert.alert("Error", "Failed to delete diary");
-  }
-};
-
-
-const DiaryCalender = () => {
-  const navigation = useNavigation();
-  const [year, setYear] = useState('');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [diaryData, setDiaryData] = useState(null);
-  const [otherDiaries, setOtherDiaries] = useState([]); // otherDiaries 상태 추가
-
-// 서버로부터 다이어리 데이터를 불러오는 함수
-const loadDiaryData = async () => {
-  try {
-    // 사용자가 선택한 year, month, day를 YYYY-MM-DD 형태로 변환
-    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
-
-    const formattedMonth = month.padStart(2, '0'); // 한 자리 숫자일 경우 앞에 0 추가
-    const formattedDay = day.padStart(2, '0'); // 한 자리 숫자일 경우 앞에 0 추가
-    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
-    const response = await axios.get('https://applemango.store/diary', {
-      params: {
-        date: formattedDate
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    console.log('API 응답:', response.data);
-    console.log('getDiaryPost:', response.data.result.getDiaryPost);
-
-    // 응답의 데이터를 변수에 할당
-    const jsonData = response.data;
-
-    if (response.data.isSuccess) {
-      setDiaryData(response.data.result.myDiary);
-      setOtherDiaries(response.data.result.otherDiaries); // otherDiaries 상태 업데이트
-    } else {
-      Alert.alert("Error", response.data.message || "Failed to load data");
-    }
-  } catch (error) {
-    console.error(error);
-    Alert.alert("Error", "해당하는 날짜의 다이어리가 없습니다.");
-  }
-};
+  };
 
   const handleWritePress1 = () => {
     navigation.navigate("Diary");
@@ -91,6 +84,7 @@ const loadDiaryData = async () => {
   const handleWritePress2 = () => {
       navigation.navigate("Diary");
     };
+    
     
   return (
     <View style={styles.diaryCalender}>
