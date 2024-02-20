@@ -114,17 +114,16 @@ const DiaryCalender = () => {
         <View style={[styles.groupItem, styles.groupItemLayout]} />
           {/* diaryData가 있을 경우 파라미터로 보낸 date 값을 표시, 없으면 빈 문자열을 표시 */}
           <Text style={styles.monday11March}>
-    {diaryData ? diaryData.date : ''}
-  </Text>
-  {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
-  <Text style={[styles.iHaveA, styles.iHaveATypo]}>
-    {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
-  </Text>
-  {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
-  <Text style={styles.iHaveA1}>
-    {diaryData ? diaryData.content : ''}
-  </Text>
-
+            {diaryData ? diaryData.date : ''}
+          </Text>
+          {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
+          <Text style={[styles.iHaveA, styles.iHaveATypo]}>
+            {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
+          </Text>
+          {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
+          <Text style={styles.iHaveA1}>
+            {diaryData ? diaryData.content : ''}
+          </Text>
 
 
           {

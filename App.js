@@ -6,6 +6,7 @@ import LogIn from "./screens/LogIn";
 import Recommend from "./screens/Recommend";
 import Main from "./screens/Main";
 import Recommend1 from "./screens/Recommend1";
+import CommunityWrite from "./screens/CommunityWrite";
 import Loding from "./screens/Loding";
 import Loding1 from "./screens/Loding1";
 import Loding2 from "./screens/Loding2";
@@ -88,6 +89,22 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
+              name="CommunityWrite"
+              component={CommunityWrite}
+              options={{ headerShown: false }}
+            />
+             <Stack.Screen
+              name="MeetUpCategory"
+              component={MeetUpCategory}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="MeetUpCreate"
+              component={MeetUpCreate}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
               name="Loding"
               component={Loding}
               options={{ headerShown: false }}
@@ -127,11 +144,7 @@ const App = () => {
               component={MeetUpIntrowbaby}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="MeetUpCategory"
-              component={MeetUpCategory}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="MeetUpLocate"
               component={MeetUpLocate}
@@ -152,11 +165,7 @@ const App = () => {
               component={DiaryWrite}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="MeetUpCreate"
-              component={MeetUpCreate}
-              options={{ headerShown: false }}
-            />
+
             <Stack.Screen
               name="DiaryCalender"
               component={DiaryCalender}

@@ -51,11 +51,8 @@ make more friends`}</Text>
         contentFit="cover"
         source={require("../assets/ellipse-37.png")}
       />
-      <Pressable
-        style={styles.rectanglePressable}
-        onPress={() => navigation.navigate("MeetUpCategory")}
-      />
-      <Text style={[styles.goToMeet, styles.withBabyFlexBox]}>Go To Meet</Text>
+
+  
       <Image
         style={styles.image52Icon}
         contentFit="cover"
