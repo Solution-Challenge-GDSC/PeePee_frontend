@@ -5,43 +5,31 @@ import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios'; // axios 라이브러리를 import
 
-const handleDeletePress = (diaryId) => {
-  Alert.alert(
-    "Delete",
-    "Are you sure you want to delete this diary?",
-    [
-      {
-        text: "No",
-        style: "cancel"
-      },
-      {
-        text: "Yes",
-        onPress: () => deleteDiary(diaryId) // 삭제 API 호출 함수에 diaryId 전달
-      }
-    ]
-  );
-};
+  // 삭제 확인 대화 상자
+  const handleDeletePress = (diaryId) => {
+    Alert.alert(
+      "Delete",
+      "Are you sure you want to delete this diary?",
+      [
+        { text: "No", style: "cancel" },
+        { text: "Yes", onPress: () => deleteDiary(diaryId) },
+      ]
+    );
+  };
+
 
 const deleteDiary = async (diaryId) => {
   console.log('Deleting diary with ID:', diaryId);
   try {
-    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
-
-    // 요청 URL에 diaryId를 포함하여 경로를 생성
+    const accessToken = '...'; // 사용 중인 액세스 토큰
     const apiUrl = `https://applemango.store/diary/${diaryId}`;
-    console.log('Request URL:', apiUrl);
-
     const response = await axios.delete(apiUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      }
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (response.data.isSuccess) {
       Alert.alert("Success", "Diary deleted successfully");
-  //loadDiaryData();
-  // 삭제 성공 시 diaryData를 null로 설정하여 화면에 아무 내용도 표시되지 않도록 함
-  setDiaryData(null);
+      setDiaryData(null); // 삭제 성공 시 UI에서 다이어리 내용 제거
     } else {
       Alert.alert("Error", response.data.message || "Failed to delete diary");
     }
@@ -50,7 +38,6 @@ const deleteDiary = async (diaryId) => {
     Alert.alert("Error", "Failed to delete diary");
   }
 };
-
 
 
 const DiaryCalender = () => {
@@ -93,7 +80,7 @@ const loadDiaryData = async () => {
     }
   } catch (error) {
     console.error(error);
-    Alert.alert("Error", "Failed to process data");
+    Alert.alert("Error", "해당하는 날짜의 다이어리가 없습니다.");
   }
 };
 
@@ -133,17 +120,16 @@ const loadDiaryData = async () => {
         <View style={[styles.groupItem, styles.groupItemLayout]} />
           {/* diaryData가 있을 경우 파라미터로 보낸 date 값을 표시, 없으면 빈 문자열을 표시 */}
           <Text style={styles.monday11March}>
-    {diaryData ? diaryData.date : ''}
-  </Text>
-  {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
-  <Text style={[styles.iHaveA, styles.iHaveATypo]}>
-    {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
-  </Text>
-  {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
-  <Text style={styles.iHaveA1}>
-    {diaryData ? diaryData.content : ''}
-  </Text>
-
+            {diaryData ? diaryData.date : ''}
+          </Text>
+          {/* diaryData가 있을 경우 content의 처음 10글자를 표시, 없으면 빈 문자열을 표시 */}
+          <Text style={[styles.iHaveA, styles.iHaveATypo]}>
+            {diaryData ? `${diaryData.content.substring(0, 10)}...` : ''}
+          </Text>
+          {/* diaryData가 있을 경우 content 전체를 표시, 없으면 빈 문자열을 표시 */}
+          <Text style={styles.iHaveA1}>
+            {diaryData ? diaryData.content : ''}
+          </Text>
 
 
           {

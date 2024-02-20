@@ -2,259 +2,276 @@ import * as React from "react";
 import { Image } from "expo-image";
 import {
   StyleSheet,
-  Pressable,
   Text,
   View,
-  TextInput,
   ScrollView,
+  Pressable,
+  TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, Border, FontSize, FontFamily } from "../GlobalStyles";
+import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 
 const MeetUpCategory = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.meetUpCategory}>
-      <Image
-        style={[styles.meetUpCategoryChild, styles.sortLeftLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-1.png")}
-      />
-      <Pressable
-        style={[styles.sortLeft, styles.sortLeftLayout]}
-        onPress={() => navigation.navigate("MeetUpIntrowbaby")}
-      >
+      <View style={[styles.image78Parent, styles.groupParentLayout]}>
         <Image
-          style={styles.iconLayout}
+          style={[styles.image78Icon, styles.parentPosition]}
           contentFit="cover"
-          source={require("../assets/sort-left.png")}
+          source={require("../assets/image-78.png")}
         />
-      </Pressable>
-      <Text style={[styles.activity, styles.restFlexBox]}>Activity</Text>
-      <View style={[styles.rectangleParent, styles.groupChildLayout]}>
-        <View style={[styles.groupChild, styles.groupChildBorder]} />
+        <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+        <Text
+          style={styles.jibongRo51beonGilBucheon}
+        >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
         <Image
-          style={[styles.searchIcon, styles.locationLayout]}
+          style={[styles.locationIcon, styles.frameChildLayout]}
           contentFit="cover"
-          source={require("../assets/search1.png")}
-        />
-        <TextInput
-          style={styles.searchPlayground}
-          placeholder="Search Playground"
-          placeholderTextColor="#c0c0c0"
+          source={require("../assets/location.png")}
         />
       </View>
-      <View style={styles.meetUpCategoryItem} />
-      <Text style={[styles.rest, styles.restFlexBox]}>Rest</Text>
       <ScrollView
         style={styles.groupParent}
-        horizontal={true}
+        horizontal={false}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.frameScrollViewContent}
       >
-        <View style={[styles.yeokgokParkParent, styles.rectangleGroupLayout]}>
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
-Bucheon-si`}</Text>
-          <Pressable
-            style={styles.wrapperPosition}
-            onPress={() => navigation.navigate("MeetUpDetail")}
-          >
+        <View style={styles.groupContainer}>
+          <View style={[styles.rectangleParent, styles.parentPosition]}>
             <Image
-              style={[styles.icon1, styles.iconLayout]}
+              style={[styles.image78Icon, styles.parentPosition]}
               contentFit="cover"
               source={require("../assets/rectangle-35.png")}
             />
-          </Pressable>
-          <Image
-            style={[styles.locationIcon, styles.locationIconLayout]}
-            contentFit="cover"
-            source={require("../assets/location.png")}
-          />
-        </View>
-        <View style={[styles.rectangleGroup, styles.rectangleGroupLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-36.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
 Bucheon-si`}</Text>
-          <Image
-            style={[styles.locationIcon, styles.locationIconLayout]}
-            contentFit="cover"
-            source={require("../assets/location.png")}
-          />
-        </View>
-        <View style={[styles.rectangleContainer, styles.rectangleLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-35.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.image78Group, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/image-78.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
 Bucheon-si`}</Text>
-          <Image
-            style={[styles.locationIcon, styles.locationIconLayout]}
-            contentFit="cover"
-            source={require("../assets/location.png")}
-          />
-        </View>
-        <View style={[styles.groupView, styles.groupViewLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-35.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleGroup, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-44.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
 Bucheon-si`}</Text>
-          <Image
-            style={[styles.locationIcon, styles.locationIconLayout]}
-            contentFit="cover"
-            source={require("../assets/location.png")}
-          />
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleContainer, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-35.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.groupView, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-44.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleParent1, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-35.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.image78Container, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/image-78.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleParent2, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-44.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleParent3, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-44.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.image78Parent1, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/image-78.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
+          <View style={[styles.rectangleParent4, styles.groupParentLayout]}>
+            <Image
+              style={[styles.image78Icon, styles.parentPosition]}
+              contentFit="cover"
+              source={require("../assets/rectangle-35.png")}
+            />
+            <Text style={styles.titleTitleTitle}>Title Title Title</Text>
+            <Text
+              style={styles.jibongRo51beonGilBucheon}
+            >{`77, Jibong-ro 51beon-gil, 
+Bucheon-si`}</Text>
+            <Image
+              style={[styles.locationIcon, styles.frameChildLayout]}
+              contentFit="cover"
+              source={require("../assets/location.png")}
+            />
+          </View>
         </View>
-        <View style={[styles.frameChild, styles.frameLayout]} />
+        <View style={[styles.frameChild, styles.frameChildLayout]} />
+        <Text style={[styles.near, styles.nearTypo]}>Near</Text>
       </ScrollView>
-      <Image
-        style={[styles.locationIcon4, styles.locationIconLayout]}
-        contentFit="cover"
-        source={require("../assets/location.png")}
-      />
-      <ScrollView
-        style={styles.groupContainer}
-        horizontal={true}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.frameScrollView1Content}
+      <View style={styles.groupParent1}>
+        <View style={[styles.ellipseParent, styles.parentPosition]}>
+          <Image
+            style={[styles.ellipseIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={[styles.sortLeftIcon, styles.iconLayout]}
+            contentFit="cover"
+            source={require("../assets/sort-left.png")}
+          />
+        </View>
+        <Text style={[styles.select, styles.selectClr]}>Select</Text>
+      </View>
+      <View style={[styles.rectangleParent5, styles.rectangleLayout]}>
+        <View style={[styles.rectangleView, styles.rectangleViewBorder]} />
+        <Image
+          style={[styles.searchIcon, styles.quillPenLayout]}
+          contentFit="cover"
+          source={require("../assets/search.png")}
+        />
+        <TextInput
+          style={[styles.searchPlayground, styles.nearPosition]}
+          placeholder="Search Playground"
+          multiline={true}
+          placeholderTextColor="#818181"
+        />
+      </View>
+      <View style={[styles.meetUpCategoryChild, styles.rectangleViewBorder]} />
+      <Text style={[styles.createNew, styles.selectClr]}>Create New</Text>
+      <Pressable
+        style={[styles.quillPen, styles.quillPenLayout]}
+        onPress={() => navigation.navigate("MeetUpCreate")}
       >
-        <View style={[styles.yeokgokParkParent, styles.rectangleGroupLayout]}>
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
-Bucheon-si`}</Text>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-351.png")}
-          />
-        </View>
-        <View style={[styles.rectangleGroup, styles.rectangleGroupLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-361.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
-Bucheon-si`}</Text>
-        </View>
-        <View style={[styles.rectangleParent2, styles.rectangleLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-35.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
-Bucheon-si`}</Text>
-        </View>
-        <View style={[styles.rectangleParent3, styles.groupViewLayout]}>
-          <Image
-            style={[styles.groupItem, styles.wrapperPosition]}
-            contentFit="cover"
-            source={require("../assets/rectangle-35.png")}
-          />
-          <Text style={[styles.yeokgokPark, styles.yeokgokParkPosition]}>
-            yeokgok park
-          </Text>
-          <Text
-            style={styles.jibongRo51beonGilBucheon}
-          >{`77, Jibong-ro 51beon-gil, 
-Bucheon-si`}</Text>
-          <Image
-            style={[styles.locationIcon, styles.locationIconLayout]}
-            contentFit="cover"
-            source={require("../assets/location.png")}
-          />
-        </View>
-        <View style={[styles.frameItem, styles.frameLayout]} />
         <Image
-          style={[styles.locationIcon6, styles.locationIconLayout]}
+          style={styles.icon}
           contentFit="cover"
-          source={require("../assets/location.png")}
+          source={require("../assets/quill-pen.png")}
         />
-        <Image
-          style={[styles.locationIcon7, styles.locationIcon7Position]}
-          contentFit="cover"
-          source={require("../assets/location.png")}
-        />
-      </ScrollView>
-      <Pressable style={[styles.groupPressable, styles.groupLayout]}>
-        <Pressable
-          style={[styles.rectanglePressable, styles.groupLayout]}
-          onPress={() => navigation.navigate("MeetUpLocate")}
-        />
-        <Text style={[styles.nearPlay, styles.nearPlayTypo]}>Near Play</Text>
-        <Pressable
-          style={[styles.location, styles.locationLayout]}
-          onPress={() => navigation.navigate("MeetUpLocate")}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/location1.png")}
-          />
-        </Pressable>
-      </Pressable>
-      <Pressable style={[styles.rectangleParent4, styles.groupLayout]}>
-        <Pressable
-          style={[styles.groupChild5, styles.groupLayout]}
-          onPress={() => navigation.navigate("MeetUpDetail")}
-        />
-        <Text style={[styles.createNew, styles.nearPlayTypo]}>Create New</Text>
-        <Pressable
-          style={[styles.location, styles.locationLayout]}
-          onPress={() => navigation.navigate("MeetUpCreate")}
-        >
-          <Image
-            style={styles.iconLayout}
-            contentFit="cover"
-            source={require("../assets/quill-pen.png")}
-          />
-        </Pressable>
       </Pressable>
     </View>
   );
@@ -266,278 +283,251 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
-  frameScrollView1Content: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  sortLeftLayout: {
-    height: 30,
-    width: 30,
-    top: 50,
-    position: "absolute",
-  },
-  restFlexBox: {
-    textAlign: "left",
-    color: Color.colorBlack,
-  },
-  groupChildLayout: {
-    height: 45,
+  groupParentLayout: {
+    height: 130,
     width: 300,
     position: "absolute",
   },
-  groupChildBorder: {
-    borderWidth: 1,
-    borderColor: Color.colorSilver_100,
-    borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
+  parentPosition: {
     top: 0,
-  },
-  locationLayout: {
-    height: 25,
-    width: 25,
-    top: 10,
-    position: "absolute",
-  },
-  rectangleGroupLayout: {
-    height: 212,
-    width: 150,
-  },
-  yeokgokParkPosition: {
     left: 0,
+  },
+  frameChildLayout: {
+    height: 20,
     position: "absolute",
+  },
+  nearTypo: {
+    fontSize: FontSize.size_4xs,
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
   },
   iconLayout: {
-    height: "100%",
-    width: "100%",
-  },
-  locationIconLayout: {
-    height: 20,
-    width: 20,
-  },
-  wrapperPosition: {
-    height: 150,
-    width: 150,
-    left: 0,
+    width: 30,
+    height: 30,
     top: 0,
+    position: "absolute",
+  },
+  selectClr: {
+    color: Color.colorBlack,
+    textAlign: "left",
     position: "absolute",
   },
   rectangleLayout: {
-    zIndex: 2,
-    height: 212,
-    width: 150,
-  },
-  groupViewLayout: {
-    zIndex: 3,
-    height: 212,
-    width: 150,
-  },
-  frameLayout: {
-    zIndex: 4,
-    height: 100,
-    width: 100,
-    backgroundColor: Color.colorWhite,
-  },
-  locationIcon7Position: {
-    left: 330,
-    position: "absolute",
-  },
-  groupLayout: {
-    width: 143,
-    height: 45,
-    position: "absolute",
-  },
-  nearPlayTypo: {
-    color: Color.colorWhite,
-    fontSize: FontSize.size_smi,
-    top: 14,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    position: "absolute",
-  },
-  meetUpCategoryChild: {
-    left: 18,
-  },
-  sortLeft: {
-    left: 17,
-  },
-  activity: {
-    top: 243,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_3xl,
-    color: Color.colorBlack,
-    left: 30,
-    position: "absolute",
-  },
-  groupChild: {
     height: 45,
     width: 300,
+  },
+  rectangleViewBorder: {
+    borderStyle: "solid",
+    borderRadius: Border.br_3xs,
     position: "absolute",
+  },
+  quillPenLayout: {
+    height: 25,
+    position: "absolute",
+  },
+  nearPosition: {
+    top: 14,
+    position: "absolute",
+  },
+  image78Icon: {
+    borderRadius: Border.br_mini,
+    left: 0,
+    height: 130,
+    width: 300,
+    position: "absolute",
+  },
+  titleTitleTitle: {
+    top: 77,
+    fontSize: FontSize.size_sm,
+    textAlign: "left",
+    color: Color.colorWhite,
+    left: 13,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    position: "absolute",
+  },
+  jibongRo51beonGilBucheon: {
+    left: 36,
+    fontSize: FontSize.size_5xs,
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
+    top: 99,
+    textAlign: "left",
+    color: Color.colorWhite,
+    position: "absolute",
+  },
+  locationIcon: {
+    width: 20,
+    top: 99,
+    height: 20,
+    left: 13,
+  },
+  image78Parent: {
+    top: 873,
+    left: 30,
+  },
+  rectangleParent: {
+    left: 0,
+    height: 130,
+    width: 300,
+    position: "absolute",
+  },
+  image78Group: {
+    top: 140,
+    left: 0,
+  },
+  rectangleGroup: {
+    top: 280,
+    left: 0,
+  },
+  rectangleContainer: {
+    top: 420,
+    left: 0,
+  },
+  groupView: {
+    top: 1260,
+    left: 0,
+  },
+  rectangleParent1: {
+    top: 560,
+    left: 0,
+  },
+  image78Container: {
+    top: 980,
+    left: 0,
+  },
+  rectangleParent2: {
+    top: 1120,
+    left: 0,
+  },
+  rectangleParent3: {
+    top: 1540,
+    left: 0,
+  },
+  image78Parent1: {
+    top: 840,
+    left: 0,
+  },
+  rectangleParent4: {
+    top: 1400,
+    left: 0,
+  },
+  groupContainer: {
+    height: 1670,
+    zIndex: 0,
+    width: 300,
+  },
+  frameChild: {
+    left: 230,
+    borderRadius: Border.br_81xl,
+    shadowColor: "#fff",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 5,
+    elevation: 5,
+    shadowOpacity: 1,
+    width: 50,
+    zIndex: 1,
+    top: 10,
+    backgroundColor: Color.colorWhite,
+  },
+  near: {
+    left: 245,
+    color: "#747474",
+    zIndex: 2,
+    top: 14,
+    position: "absolute",
+    textAlign: "left",
+  },
+  groupParent: {
+    top: 173,
+    left: 30,
+    position: "absolute",
+    flex: 1,
+  },
+  ellipseIcon: {
+    left: 3,
+  },
+  sortLeftIcon: {
+    left: 0,
+  },
+  ellipseParent: {
+    width: 33,
+    height: 30,
+    left: 0,
+    position: "absolute",
+  },
+  select: {
+    top: 6,
+    left: 43,
+    fontSize: FontSize.size_mini,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    color: Color.colorBlack,
+  },
+  groupParent1: {
+    top: 38,
+    left: 15,
+    width: 89,
+    height: 30,
+    position: "absolute",
+  },
+  rectangleView: {
+    borderColor: "#b4b4b4",
+    borderWidth: 1,
+    height: 45,
+    width: 300,
+    left: 0,
+    top: 0,
     backgroundColor: Color.colorWhite,
   },
   searchIcon: {
     left: 20,
+    width: 25,
+    top: 10,
   },
   searchPlayground: {
     left: 55,
+    fontWeight: "300",
+    fontFamily: FontFamily.interLight,
     fontSize: FontSize.size_smi,
-    top: 14,
-    fontFamily: FontFamily.interLight,
-    fontWeight: "300",
-    position: "absolute",
   },
-  rectangleParent: {
-    top: 108,
-    left: 30,
-  },
-  meetUpCategoryItem: {
-    top: 851,
-    left: 88,
-    width: 215,
-    height: 50,
-    position: "absolute",
-    backgroundColor: Color.colorWhite,
-  },
-  rest: {
-    top: 522,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_3xl,
-    color: Color.colorBlack,
+  rectangleParent5: {
+    top: 98,
     left: 30,
     position: "absolute",
   },
-  yeokgokPark: {
-    top: 165,
-    fontSize: FontSize.size_sm,
-    fontWeight: "500",
-    fontFamily: FontFamily.interMedium,
-    textAlign: "left",
-    color: Color.colorBlack,
-  },
-  jibongRo51beonGilBucheon: {
-    left: 23,
-    fontSize: FontSize.size_5xs,
-    color: Color.colorGray_100,
-    top: 192,
-    fontFamily: FontFamily.interLight,
-    fontWeight: "300",
-    textAlign: "left",
-    position: "absolute",
-  },
-  icon1: {
-    borderRadius: Border.br_mini,
-  },
-  locationIcon: {
-    top: 192,
-    left: 0,
-    position: "absolute",
-  },
-  yeokgokParkParent: {
-    zIndex: 0,
-  },
-  groupItem: {
-    borderRadius: Border.br_mini,
-  },
-  rectangleGroup: {
-    zIndex: 1,
-    marginLeft: 15,
-  },
-  rectangleContainer: {
-    left: 330,
-    position: "absolute",
-    top: 0,
-  },
-  groupView: {
-    left: 495,
-    top: 0,
-    position: "absolute",
-  },
-  frameChild: {
-    top: 17,
-    left: 645,
-    position: "absolute",
-  },
-  groupParent: {
-    top: 290,
-    left: 30,
-    position: "absolute",
-    width: "100%",
-  },
-  locationIcon4: {
-    top: 761,
-    left: 30,
-    position: "absolute",
-  },
-  rectangleParent2: {
-    marginLeft: 15,
-  },
-  rectangleParent3: {
-    marginLeft: 15,
-  },
-  frameItem: {
-    marginLeft: 15,
-  },
-  locationIcon6: {
-    left: 165,
-    zIndex: 5,
-    top: 192,
-    position: "absolute",
-  },
-  locationIcon7: {
-    zIndex: 6,
-    height: 20,
-    width: 20,
-    top: 192,
-  },
-  groupContainer: {
-    top: 569,
-    left: 30,
-    position: "absolute",
-    width: "100%",
-  },
-  rectanglePressable: {
-    backgroundColor: Color.colorGoldenrod_200,
-    borderRadius: Border.br_3xs,
-    width: 143,
-    left: 0,
-    top: 0,
-  },
-  nearPlay: {
-    left: 49,
-  },
-  location: {
-    left: 10,
-  },
-  groupPressable: {
-    top: 168,
-    width: 143,
-    left: 30,
-  },
-  groupChild5: {
-    backgroundColor: Color.colorGoldenrod_300,
-    borderWidth: 1,
-    borderColor: Color.colorSilver_100,
-    borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
+  meetUpCategoryChild: {
+    top: 740,
+    left: 130,
+    backgroundColor: "#f8f8f8",
+    borderColor: Color.colorGainsboro_100,
+    borderWidth: 0.5,
+    width: 100,
+    height: 30,
   },
   createNew: {
-    left: 45,
+    top: 749,
+    left: 169,
+    fontSize: FontSize.size_4xs,
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
   },
-  rectangleParent4: {
-    left: 187,
-    top: 168,
-    width: 143,
+  icon: {
+    height: "100%",
+    width: "100%",
+  },
+  quillPen: {
+    left: 140,
+    top: 743,
+    width: 21,
   },
   meetUpCategory: {
-    flex: 1,
     height: 800,
     width: "100%",
+    flex: 1,
     backgroundColor: Color.colorWhite,
   },
 });
