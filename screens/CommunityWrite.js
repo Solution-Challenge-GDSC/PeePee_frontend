@@ -1,81 +1,107 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Pressable, TextInput, Alert } from "react-native";
+import { Image } from "expo-image"; // Ensure this import is correct
 import { FontFamily, FontSize, Border, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import * as ImagePicker from 'expo-image-picker';
 
 const CommynityWrite = () => {
   const navigation = useNavigation();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [imageUri, setImageUri] = useState(""); // Assume single image for simplicity
 
-  const handleWritePress1 = () => {
-    navigation.navigate("Community");
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImageUri(result.uri);
+    }
   };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('image', {
+      uri: imageUri,
+      type: 'image/jpeg', // Adjust based on actual image type
+      name: 'photo.jpg',
+    });
+
+    formData.append('postBoardReq', JSON.stringify({
+      title: title,
+      content: content,
+      boardType: "FREE_BOARD"
+    }));
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: "https://applemango.store/board",
+        data: formData,
+        headers: {
+          "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        Alert.alert("Success", "Board created successfully");
+       // Or navigate to another screen
+      } else {
+        Alert.alert("Error", "Failed to create board");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "An error occurred while creating the board");
+    }
+  };
+
   return (
     <View style={styles.commynityWrite}>
-      <Image
-        style={[styles.commynityWriteChild, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-1.png")}
-      />
-                 <Pressable
-            style={[styles.sortLeft, styles.sortLeftLayout]}
-            onPress={() => navigation.navigate("Main")}
-          >
-      <Image
-        style={[styles.sortLeftIcon, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/sort-left.png")}
-      />
-      </Pressable>
-
-
-      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
-      <Image
-        style={styles.padlockIcon}
-        contentFit="cover"
-        source={require("../assets/padlock.png")}
-      />
-      <View style={[styles.commynityWriteItem, styles.lineViewBorder]} />
-      <Pressable style={[styles.rectangleParent, styles.groupChildLayout]}>
+      {/* Existing JSX */}
+      <Pressable onPress={selectImage} style={[styles.rectangleParent, styles.groupChildLayout]}>
         <View style={[styles.groupChild, styles.groupPosition]} />
-        <Image
-          style={styles.cameraIcon}
-          contentFit="cover"
-          source={require("../assets/camera.png")}
-        />
+        <Image style={styles.cameraIcon} contentFit="cover" source={require("../assets/camera.png")} />
         <Text style={[styles.inputPhoto, styles.uploadTypo]}>Input Photo</Text>
       </Pressable>
 
-      <Pressable style={[styles.commynityWriteInner, styles.groupLayout]}
-       onPress={handleWritePress1}>
-        <View style={[styles.rectangleGroup, styles.groupLayout]}>
-          <View style={[styles.groupItem, styles.groupLayout]} />
-          <Text style={[styles.upload, styles.uploadTypo]}>Upload</Text>
-          <Image
-            style={styles.rightIcon}
-            contentFit="cover"
-            source={require("../assets/right.png")}
-          />
-        </View>
-      </Pressable>
-
-      
       <TextInput
         style={[styles.title, styles.titlePosition]}
         placeholder="Title"
         multiline={true}
         placeholderTextColor="#9e9e9e"
+        value={title}
+        onChangeText={setTitle}
       />
       <TextInput
         style={[styles.writeText, styles.titlePosition]}
         placeholder="Write Text ..."
         multiline={true}
         placeholderTextColor="#9e9e9e"
+        value={content}
+        onChangeText={setContent}
       />
-      <View style={[styles.lineView, styles.lineViewBorder]} />
+<Pressable onPress={() => {
+    handleSubmit(); // Call handleSubmit function
+    navigation.navigate("Community"); // Navigate to the "Community" screen
+  }} style={[styles.commynityWriteInner, styles.groupLayout]}>
+  <View style={[styles.rectangleGroup, styles.groupLayout]}>
+    <View style={[styles.groupItem, styles.groupLayout]} />
+    <Text style={[styles.upload, styles.uploadTypo]}>Upload</Text>
+    <Image style={styles.rightIcon} contentFit="cover" source={require("../assets/right.png")} />
+  </View>
+</Pressable>
+
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   sortLeftIconLayout: {
