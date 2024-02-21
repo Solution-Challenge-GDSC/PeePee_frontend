@@ -1,288 +1,235 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
 import {
   StyleSheet,
-  Pressable,
   View,
   Text,
-  ScrollView,
-  ImageBackground,
+  Pressable,
   TextInput,
+  ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import axios from "axios";
+import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
-const CommunityDetail = () => {
-  const navigation = useNavigation();
+
+const CommunityDetail = ({ route }) => {
+  const { boardId } = route.params;
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+
+  
+  useEffect(() => {
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; // 여기에 액세스 토큰을 추가하세요
+      const response = await axios.get(`https://applemango.store/comment/${boardId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      });
+      if (response.data.isSuccess) {
+        setComments(response.data.result);
+        console.log("Comments:", response.data.result); // 댓글 내용 로그로 출력
+      } else {
+        console.error("Failed to fetch comments:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+  
+
+  const handleLike = async () => {
+    try {
+      const response = await fetch(`https://applemango.store/board/${boardId}/like`, {
+        method: liked ? "DELETE" : "POST",
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk` },
+      });
+      if (response.ok) {
+        setLiked(!liked);
+      } else {
+        // Handle error response
+      }
+    } catch (error) {
+      // Handle fetch error
+    }
+  };
+
+
+  const [postDetails, setPostDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchPostDetails = async () => {
+
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk';
+
+      try {
+        const response = await axios.get(`https://applemango.store/board/one/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          }
+        });
+
+        console.log("Request URL:", `https://applemango.store/board/one/${boardId}`); // 요청 URL 확인
+
+        if (response.data.isSuccess) {
+          setPostDetails(response.data.result);
+          console.log("Post Details:", response.data.result);
+        } else {
+          console.error("Failed to fetch post details:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching post details:", error);
+      }
+    };
+
+    fetchPostDetails();
+  }, [boardId]);
+
+
+
+const handleComment = async () => {
+    try {
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk';
+  
+      const response = await fetch(`https://applemango.store/comment/${boardId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ content: comment }),
+      });
+      
+      if (response.ok) {
+        console.log("Comment posted successfully");
+        // Clear the comment input field after posting
+        setComment("");
+  
+        // 댓글이 성공적으로 작성되면 댓글 목록을 다시 가져와서 화면에 반영합니다.
+        fetchComments();
+      } else {
+        console.error("Failed to post comment");
+      }
+    } catch (error) {
+      console.error("Error posting comment:", error);
+    }
+  };
 
   return (
-    <View style={styles.communityDetail}>
-      <View style={[styles.groupParent, styles.parentLayout1]}>
-        <View style={[styles.ellipseParent, styles.parentLayout1]}>
-          <Image
-            style={[styles.groupChild, styles.groupLayout]}
-            contentFit="cover"
-            source={require("../assets/ellipse-1.png")}
-          />
-          <Pressable
-            style={[styles.sortLeft, styles.groupLayout]}
-            onPress={() => navigation.navigate("Community")}
-          >
-            <Image
-              style={styles.icon}
-              contentFit="cover"
-              source={require("../assets/sort-left.png")}
-            />
-          </Pressable>
-        </View>
-        <Text style={styles.text}>소통게시판</Text>
+    <View style={styles.communitydetail}>
+      <View style={styles.ellipseParent}>
+        <Image
+          style={styles.groupChild}
+          contentFit="cover"
+          source={require("../assets/ellipse-1.png")}
+        />
+        <Image
+          style={styles.sortLeftIcon}
+          contentFit="cover"
+          source={require("../assets/sort-left.png")}
+        />
       </View>
+      <View style={styles.rectangleParent}>
+        <Image
+          style={[styles.groupItem, styles.groupLayout]}
+          contentFit="cover"
+          source={require("../assets/rectangle-41.png")}
+        />
+
+        
+{postDetails && (
+      <>
+        <Text style={[styles.text, styles.textTypo5]}>{postDetails.nickName}</Text>
+        <Text style={[styles.text1, styles.textTypo4]}>{postDetails.title}</Text>
+        <Text style={[styles.text2, styles.textTypo3]}>{postDetails.createDate} </Text>
+        <Text style={[styles.textTextText, styles.textTypo2]}>{postDetails.content}</Text>
+        <View style={[styles.parent, styles.groupPosition]}>
+          <Text style={[styles.text3, styles.textTypo1]}>{postDetails.likeCount}</Text>
+
+
+          <Pressable onPress={handleLike}>
+        <Image
+          style={styles.thumbsUpIcon}
+          contentFit="cover"
+          source={require("../assets/thumbs-up.png")}
+        />
+      </Pressable>
+
+
+        </View>
+        <View style={[styles.group, styles.groupPosition]}>
+          <Text style={[styles.text4, styles.textTypo1]}>{postDetails.commentCount}</Text>
+          <Image
+            style={styles.thumbsUpIcon}
+            contentFit="cover"
+            source={require("../assets/speech.png")}
+          />
+        </View>
+        <Pressable style={styles.rectangleGroup}>
+          <View style={[styles.groupInner, styles.groupLayout]} />
+          <Image
+            style={[styles.bellIcon, styles.iconPosition]}
+            contentFit="cover"
+            source={require("../assets/bell.png")}
+          />
+        </Pressable>
+      </>
+    )}
+  </View>
+
+      <View style={[styles.communitydetailChild, styles.groupLayout]} />
+
+
+      <TextInput
+        style={[styles.writeText, styles.textTypo]}
+        placeholder="Write Text ..."
+        multiline={true}
+        placeholderTextColor="#9e9e9e"
+        value={comment}
+        onChangeText={setComment}
+      />
+      <Pressable style={[styles.groupParent, styles.rectangleLayout]} onPress={handleComment}>
+        <View style={[styles.rectangleWrapper, styles.rectangleLayout]}>
+          <View style={[styles.rectangleView, styles.rectangleLayout]} />
+        </View>
+        <Image
+          style={[styles.image74Icon, styles.iconPosition]}
+          contentFit="cover"
+          source={require("../assets/image-74.png")}
+        />
+      </Pressable>
+
+
+      <Text style={[styles.text5, styles.textTypo]}>소통게시판</Text>
+
+
       <ScrollView
-        style={[styles.groupContainer, styles.groupPosition1]}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.frameScrollViewContent}
-      >
-        <View style={styles.groupView}>
-          <View style={[styles.parent, styles.groupPosition1]}>
-            <Text style={styles.text1}>제목제목제목제목제목제목</Text>
-            <Text
-              style={[styles.textTextText, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-          </View>
-          <View style={[styles.group, styles.groupPosition1]}>
-            <Text style={[styles.text2, styles.textTypo1]}>10</Text>
-            <Text style={[styles.text3, styles.textTypo1]}>10</Text>
-            <ImageBackground
-              style={[styles.thumbsUpIcon, styles.iconLayout1]}
-              resizeMode="cover"
-              source={require("../assets/thumbs-up2.png")}
-            />
-            <Image
-              style={[styles.speechIcon, styles.iconLayout1]}
-              contentFit="cover"
-              source={require("../assets/speech2.png")}
-            />
-          </View>
-          <Pressable style={[styles.rectangleParent, styles.groupItemLayout]}>
-            <View style={[styles.groupItem, styles.groupChildPosition]} />
-            <Image
-              style={[styles.thumbsUpIcon1, styles.iconLayout1]}
-              contentFit="cover"
-              source={require("../assets/thumbs-up2.png")}
-            />
-            <Text style={styles.text4}>공감</Text>
-          </Pressable>
-          <View style={[styles.rectangleGroup, styles.groupPosition]}>
-            <ImageBackground
-              style={[styles.groupInner, styles.groupPosition]}
-              resizeMode="cover"
-              source={require("../assets/rectangle41.png")}
-            />
-            <View style={[styles.container, styles.groupPosition]}>
-              <Text style={styles.text5}>익명</Text>
-              <Text style={[styles.text6, styles.textTypo]}>02/05 16:06</Text>
-            </View>
-            <View style={[styles.groupWrapper, styles.groupLayout]}>
-              <Pressable style={[styles.sortLeft, styles.groupLayout]}>
-                <View
-                  style={[styles.rectangleView, styles.groupChildPosition]}
-                />
-                <Image
-                  style={[styles.bellIcon, styles.iconLayout]}
-                  contentFit="cover"
-                  source={require("../assets/bell.png")}
-                />
-              </Pressable>
-            </View>
-          </View>
-        </View>
-        <View style={styles.lineParent}>
-          <View style={[styles.frameChild, styles.frameChildLayout]} />
-          <View style={[styles.parent1, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <Pressable style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-          <View style={[styles.frameItem, styles.frameChildLayout]} />
-          <View style={[styles.parent2, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.frameInner, styles.frameChildLayout]} />
-          <View style={[styles.parent3, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.lineView, styles.frameChildLayout]} />
-          <View style={[styles.parent4, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.frameChild1, styles.frameChildLayout]} />
-          <View style={[styles.parent5, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.frameChild2, styles.frameChildLayout]} />
-          <View style={[styles.parent6, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.frameChild3, styles.frameChildLayout]} />
-          <View style={[styles.parent7, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View style={[styles.frameChild4, styles.frameChildLayout]} />
-          <View style={[styles.parent8, styles.parentLayout]}>
-            <Text style={[styles.text7, styles.textTypo]}>02/05 16:06</Text>
-            <Text
-              style={[styles.textTextText1, styles.textLayout]}
-            >{`text text text text text text text text text text text text text text text text text text `}</Text>
-            <View style={[styles.rectangleParent1, styles.rectanglePosition]}>
-              <Image
-                style={[styles.rectangleIcon, styles.rectanglePosition]}
-                contentFit="cover"
-                source={require("../assets/rectangle-86.png")}
-              />
-              <Text style={styles.text8}>익명1</Text>
-              <View style={[styles.groupPressable, styles.deletePosition]}>
-                <View style={[styles.groupChild1, styles.groupChildPosition]} />
-                <Text style={[styles.delete, styles.deletePosition]}>
-                  Delete
-                </Text>
-              </View>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-      <View style={[styles.rectangleParent16, styles.groupChild16Layout]}>
-        <View style={[styles.groupChild16, styles.groupChild16Layout]} />
-        <View style={[styles.rectangleParent17, styles.groupChild17Layout]}>
-          <View style={[styles.groupChild17, styles.groupChild17Layout]} />
-          <TextInput
-            style={[styles.textinput, styles.textTypo2]}
-            placeholder="Write Reply"
-          />
-          <Image
-            style={[styles.speechIcon1, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/speech3.png")}
-          />
-        </View>
+  style={styles.lineParent}
+  showsVerticalScrollIndicator={false}
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={styles.frameScrollViewContent}
+>
+  {comments.map(comment => (
+    <View key={comment.commentId} style={styles.groupContainer}>
+      <View style={styles.rectangleContainer}>
+        <Image
+          style={[styles.rectangleIcon, styles.groupLayout]}
+          contentFit="cover"
+          source={require("../assets/rectangle-86.png")}
+        />
+        <Text style={[styles.text6, styles.textTypo]}>{comment.nickName}</Text>
       </View>
+      <Text style={[styles.textTextText1, styles.textTypo2]}>{comment.content}</Text>
+      <Text style={styles.textTypo3}>{comment.createdDate}</Text>
+      <View style={[styles.frameInner, styles.frameLayout]} />
+    </View>
+    
+  ))}
+</ScrollView>
     </View>
   );
 };
@@ -293,408 +240,278 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
-  parentLayout1: {
-    height: 30,
-    position: "absolute",
-  },
   groupLayout: {
-    width: 30,
-    height: 30,
+    borderRadius: Border.br_8xs,
     position: "absolute",
   },
-  groupPosition1: {
-    position: "absolute",
-    left: 0,
-  },
-  textLayout: {
-    width: 319,
-    left: 0,
-  },
-  textTypo1: {
-    width: 14,
-    color: Color.colorGray_200,
-    fontFamily: FontFamily.interRegular,
-    fontSize: FontSize.size_4xs,
+  textTypo5: {
     textAlign: "left",
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    position: "absolute",
+  },
+  textTypo4: {
+    fontSize: FontSize.size_mini,
+    color: Color.colorBlack,
     lineHeight: 20,
-    top: 0,
-    position: "absolute",
   },
-  iconLayout1: {
-    height: 13,
-    width: 13,
-    position: "absolute",
-  },
-  groupItemLayout: {
-    height: 22,
-    width: 50,
-    position: "absolute",
-  },
-  groupChildPosition: {
-    backgroundColor: Color.colorWhitesmoke_200,
-    left: 0,
-    top: 0,
-  },
-  groupPosition: {
-    height: 40,
-    top: 0,
-    position: "absolute",
-  },
-  textTypo: {
-    color: Color.colorGainsboro_200,
+  textTypo3: {
+    color: Color.colorGainsboro,
+    fontFamily: FontFamily.interRegular,
     fontSize: FontSize.size_2xs,
-    fontFamily: FontFamily.interRegular,
-    textAlign: "left",
     width: 77,
+    textAlign: "left",
     lineHeight: 20,
-    left: 0,
-    position: "absolute",
-  },
-  iconLayout: {
-    width: 20,
-    height: 20,
-    position: "absolute",
-  },
-  frameChildLayout: {
-    height: 1,
-    width: 361,
-    borderTopWidth: 1,
-    borderColor: Color.colorGainsboro_200,
-    borderStyle: "solid",
-    left: 0,
-    position: "absolute",
-  },
-  parentLayout: {
-    height: 92,
-    left: 18,
-    width: 321,
-    position: "absolute",
-  },
-  rectanglePosition: {
-    height: 25,
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  deletePosition: {
-    width: 51,
-    top: 0,
-    position: "absolute",
-  },
-  groupChild16Layout: {
-    height: 62,
-    width: 360,
-    left: 0,
-    position: "absolute",
-  },
-  groupChild17Layout: {
-    height: 42,
-    width: 320,
-    position: "absolute",
   },
   textTypo2: {
     fontFamily: FontFamily.interExtraLight,
     fontWeight: "200",
+    lineHeight: 15,
+    width: 319,
+    textAlign: "left",
+    color: Color.colorBlack,
     fontSize: FontSize.size_smi,
+  },
+  groupPosition: {
+    top: 148,
+    height: 20,
     position: "absolute",
+  },
+  textTypo1: {
+    width: 14,
+    color: Color.colorGray,
+    fontSize: FontSize.size_4xs,
+    fontFamily: FontFamily.interRegular,
+    textAlign: "left",
+    lineHeight: 20,
+    top: 0,
+    position: "absolute",
+  },
+  iconPosition: {
+    left: 5,
+    position: "absolute",
+  },
+  textTypo: {
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
+    position: "absolute",
+  },
+  rectangleLayout: {
+    width: 35,
+    height: 30,
+    position: "absolute",
+  },
+  frameLayout: {
+    height: 1,
+    width: 361,
+    borderTopWidth: 1,
+    borderColor: Color.colorGainsboro,
+    borderStyle: "solid",
   },
   groupChild: {
     left: 1,
+    width: 30,
     top: 0,
+    height: 30,
+    position: "absolute",
   },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  sortLeft: {
+  sortLeftIcon: {
     left: 0,
+    width: 30,
     top: 0,
+    height: 30,
+    position: "absolute",
   },
   ellipseParent: {
+    top: 38,
+    height: 30,
     width: 31,
+    left: 17,
+    position: "absolute",
+  },
+  groupItem: {
+    width: 40,
+    height: 40,
     left: 0,
     top: 0,
   },
   text: {
-    left: 125,
     width: 77,
-    textAlign: "center",
     color: Color.colorBlack,
-    fontFamily: FontFamily.interMedium,
-    fontWeight: "500",
     lineHeight: 20,
-    fontSize: FontSize.size_mini,
-    top: 5,
-    position: "absolute",
-  },
-  groupParent: {
-    top: 50,
-    width: 202,
-    left: 17,
+    textAlign: "left",
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_smi,
+    left: 60,
+    top: 0,
   },
   text1: {
+    top: 61,
     letterSpacing: 0.2,
     textAlign: "left",
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
-    width: 320,
-    color: Color.colorBlack,
-    lineHeight: 20,
+    position: "absolute",
     fontSize: FontSize.size_mini,
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  textTextText: {
-    top: 30,
-    fontFamily: FontFamily.interExtraLight,
-    fontWeight: "200",
-    fontSize: FontSize.size_smi,
-    position: "absolute",
-    lineHeight: 15,
-    width: 319,
-    textAlign: "left",
-    color: Color.colorBlack,
-  },
-  parent: {
-    top: 61,
-    height: 60,
     width: 320,
     left: 0,
   },
   text2: {
-    left: 17,
+    top: 20,
+    left: 60,
+    color: Color.colorGainsboro,
+    fontFamily: FontFamily.interRegular,
+    position: "absolute",
+  },
+  textTextText: {
+    top: 91,
+    width: 319,
+    left: 0,
+    position: "absolute",
   },
   text3: {
-    left: 61,
+    left: 17,
   },
   thumbsUpIcon: {
+    width: 13,
+    height: 13,
     top: 5,
     left: 0,
+    position: "absolute",
   },
-  speechIcon: {
-    left: 45,
-    top: 5,
-  },
-  group: {
-    top: 148,
-    width: 75,
+  parent: {
     height: 20,
     left: 0,
-  },
-  groupItem: {
-    borderRadius: Border.br_8xs,
-    height: 22,
-    width: 50,
-    position: "absolute",
-  },
-  thumbsUpIcon1: {
-    top: 4,
-    left: 8,
+    width: 31,
   },
   text4: {
-    top: 1,
-    left: 25,
-    width: 17,
-    color: Color.colorGray_200,
-    fontFamily: FontFamily.interRegular,
-    fontSize: FontSize.size_4xs,
-    textAlign: "left",
-    lineHeight: 20,
-    position: "absolute",
+    left: 16,
   },
-  rectangleParent: {
-    top: 176,
-    left: 0,
+  group: {
+    left: 45,
+    height: 20,
+    width: 30,
   },
   groupInner: {
-    width: 40,
-    borderRadius: Border.br_8xs,
+    backgroundColor: "#f3f3f3",
     left: 0,
-  },
-  text5: {
-    fontSize: FontSize.size_smi,
-    textAlign: "left",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    width: 77,
-    color: Color.colorBlack,
-    lineHeight: 20,
-    left: 0,
-    top: 0,
-    position: "absolute",
-  },
-  text6: {
-    top: 20,
-  },
-  container: {
-    left: 60,
-    width: 77,
-  },
-  rectangleView: {
-    borderRadius: Border.br_8xs,
     width: 30,
+    top: 0,
+    height: 30,
+  },
+  bellIcon: {
+    width: 20,
+    top: 5,
+    height: 20,
+  },
+  rectangleGroup: {
+    left: 289,
+    width: 30,
+    top: 0,
     height: 30,
     position: "absolute",
   },
-  bellIcon: {
-    left: 5,
-    top: 5,
-  },
-  groupWrapper: {
-    left: 289,
-    top: 0,
-  },
-  rectangleGroup: {
-    width: 319,
-    left: 0,
-  },
-  groupView: {
-    height: 198,
+  rectangleParent: {
+    top: 88,
+    left: 18,
+    height: 168,
     width: 320,
+    position: "absolute",
   },
-  frameChild: {
-    top: 0,
+  communitydetailChild: {
+    top: 750,
+    left: 9,
+    backgroundColor: "#ccc",
+    width: 343,
+    height: 41,
   },
-  text7: {
-    top: 72,
-  },
-  textTextText1: {
-    top: 35,
-    fontFamily: FontFamily.interExtraLight,
-    fontWeight: "200",
+  writeText: {
+    top: 761,
+    left: 21,
     fontSize: FontSize.size_smi,
-    position: "absolute",
-    lineHeight: 15,
-    width: 319,
-    textAlign: "left",
-    color: Color.colorBlack,
-  },
-  rectangleIcon: {
-    width: 25,
-    borderRadius: Border.br_8xs,
-  },
-  text8: {
-    left: 35,
-    fontSize: FontSize.size_2xs,
-    textAlign: "left",
-    width: 77,
-    color: Color.colorBlack,
-    fontFamily: FontFamily.interMedium,
     fontWeight: "500",
-    lineHeight: 20,
-    top: 0,
-    position: "absolute",
   },
-  groupChild1: {
-    borderRadius: Border.br_8xs,
-    width: 50,
-    backgroundColor: Color.colorWhitesmoke_200,
-    height: 20,
-    position: "absolute",
-  },
-  delete: {
-    color: Color.colorDarkgray_200,
-    fontSize: FontSize.size_4xs,
-    width: 51,
-    textAlign: "center",
-    fontFamily: FontFamily.interMedium,
-    fontWeight: "500",
-    lineHeight: 20,
+  rectangleView: {
+    borderRadius: 10,
     left: 0,
-  },
-  groupPressable: {
-    left: 270,
-    height: 20,
-  },
-  rectangleParent1: {
-    width: 321,
-    height: 25,
-  },
-  parent1: {
-    top: 10,
-  },
-  frameItem: {
-    top: 112,
-  },
-  parent2: {
-    top: 122,
-  },
-  frameInner: {
-    top: 224,
-  },
-  parent3: {
-    top: 234,
-  },
-  lineView: {
-    top: 336,
-  },
-  parent4: {
-    top: 346,
-  },
-  frameChild1: {
-    top: 450,
-  },
-  parent5: {
-    top: 460,
-  },
-  frameChild2: {
-    top: 562,
-  },
-  parent6: {
-    top: 572,
-  },
-  frameChild3: {
-    top: 674,
-  },
-  parent7: {
-    top: 684,
-  },
-  frameChild4: {
-    top: 786,
-  },
-  parent8: {
-    top: 796,
-  },
-  lineParent: {
-    height: 444,
-    marginTop: 20,
-    width: 360,
-  },
-  groupContainer: {
-    top: 100,
-    left: 0,
-    flex: 1,
-  },
-  groupChild16: {
     top: 0,
     backgroundColor: Color.colorWhite,
   },
-  groupChild17: {
-    borderRadius: Border.br_3xs,
-    backgroundColor: Color.colorWhitesmoke_200,
+  rectangleWrapper: {
     left: 0,
     top: 0,
   },
-  textinput: {
-    top: 13,
-    left: 10,
+  image74Icon: {
+    top: 4,
+    width: 24,
+    height: 23,
   },
-  speechIcon1: {
-    top: 11,
-    left: 290,
+  groupParent: {
+    top: 755,
+    left: 310,
   },
-  rectangleParent17: {
-    left: 20,
-    top: 10,
+  text5: {
+    top: 43,
+    left: 142,
+    textAlign: "center",
+    fontSize: FontSize.size_mini,
+    color: Color.colorBlack,
+    lineHeight: 20,
+    width: 77,
   },
-  rectangleParent16: {
-    top: 740,
+  rectangleIcon: {
+    width: 25,
+    height: 25,
+    left: 0,
+    top: 0,
   },
-  communityDetail: {
+  text6: {
+    left: 35,
+    fontSize: FontSize.size_2xs,
+    fontWeight: "500",
+    width: 77,
+    textAlign: "left",
+    color: Color.colorBlack,
+    lineHeight: 20,
+    top: 0,
+  },
+  rectangleContainer: {
+    width: 112,
+    height: 25,
+  },
+  textTextText1: {
+    width: 319,
+  },
+  frameItem: {
+    borderRightWidth: 1,
+    width: 1,
+    height: 11,
+    borderColor: Color.colorGainsboro,
+    borderStyle: "solid",
+  },
+  groupContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 18,
+    paddingHorizontal: 15, // 왼쪽 여백 추가
+    width: 319,
+  },
+  frameInner: {
+    marginTop: 10,
+  },
+  lineParent: {
+    top: 268,
+    left: 0,
+    position: "absolute",
+    flex: 1,
+  },
+  communitydetail: {
+    width: "100%",
     height: 800,
     overflow: "hidden",
-    width: "100%",
     flex: 1,
     backgroundColor: Color.colorWhite,
   },

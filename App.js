@@ -21,11 +21,11 @@ import Diary from "./screens/Diary";
 import DiaryWrite from "./screens/DiaryWrite";
 import MeetUpCreate from "./screens/MeetUpCreate";
 import DiaryCalender from "./screens/DiaryCalender";
-import RecommendInputage from "./screens/RecommendInputage";
-import RecommendInputage1 from "./screens/RecommendInputage1";
-import RecommendInputage2 from "./screens/RecommendInputage2";
-import RecommendInputage3 from "./screens/RecommendInputage3";
-import RecommendInputage4 from "./screens/RecommendInputage4";
+import Recommend13Movement from "./screens/Recommend13Movement";
+import Recommend13Sense from "./screens/Recommend13Sense";
+import Recommend13Emotion from "./screens/Recommend13Emotion";
+import Recommend13Language from "./screens/Recommend13Language";
+import Recommend13Recognition from "./screens/Recommend13Recognition";
 import CurrentPoint from "./screens/CurrentPoint"; 
 
 
@@ -172,28 +172,28 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RecommendInputage"
-              component={RecommendInputage}
+              name="Recommend13Movement"
+              component={Recommend13Movement}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RecommendInputage1"
-              component={RecommendInputage1}
+              name="Recommend13Sense"
+              component={Recommend13Sense}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RecommendInputage2"
-              component={RecommendInputage2}
+              name="Recommend13Emotion"
+              component={Recommend13Emotion}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RecommendInputage3"
-              component={RecommendInputage3}
+              name="Recommend13Language"
+              component={Recommend13Language}
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="RecommendInputage4"
-              component={RecommendInputage4}
+              name="Recommend13Recognition"
+              component={Recommend13Recognition}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>
