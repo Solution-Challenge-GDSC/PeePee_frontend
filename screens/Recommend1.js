@@ -6,52 +6,29 @@ import { Border, FontFamily, FontSize, Color } from "../GlobalStyles";
 
 const Recommend1 = () => {
   const navigation = useNavigation();
-  const [age, setAge] = useState(""); // 나이 상태 추가
-
-
-  const handleRecommendation = async (age) => {
-    try {
-      const response = await fetch("YOUR_API_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          age: age, // 입력된 나이 값
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log(data); // API 응답을 콘솔에 출력하거나 결과를 다른 방식으로 처리함
-    } catch (error) {
-      console.error("There was an error!", error);
-    }
-  };
-
-
   return (
     <View style={styles.recommend}>
-      <Pressable
-        style={styles.ellipseParent}
-        onPress={() => navigation.navigate("Main")}
-      >
-        <Image
-          style={[styles.groupChild, styles.groupChildLayout]}
-          contentFit="cover"
-          source={require("../assets/ellipse-11.png")}
-        />
-        <Image
-          style={[styles.sortLeftIcon, styles.groupChildLayout]}
-          contentFit="cover"
-          source={require("../assets/sort-left1.png")}
-        />
+      <Image
+        style={styles.image74Icon}
+        contentFit="cover"
+        source={require("../assets/image-744.png")}
+      />
+      <View style={[styles.groupParent, styles.groupLayout1]}>
+        <Pressable style={styles.ellipseParent}>
+          <Image
+            style={[styles.groupChild, styles.groupChildLayout]}
+            contentFit="cover"
+            source={require("../assets/ellipse-1.png")}
+          />
+          <Image
+            style={[styles.sortLeftIcon, styles.groupChildLayout]}
+            contentFit="cover"
+            source={require("../assets/sort-left.png")}
+          />
+        </Pressable>
         <Text style={styles.home}>Home</Text>
-        <View style={styles.groupItem} />
-      </Pressable>
+        <View style={[styles.groupItem, styles.groupLayout1]} />
+      </View>
       <Text
         style={[styles.whatKindOf, styles.whatKindOfPosition]}
       >{`What kind of 
@@ -62,57 +39,45 @@ development is my child in?`}</Text>
 to the child's developmental status. 
 Select all that correspond 
 to your child's response for each category.`}</Text>
-      <Image
-        style={styles.image66Icon}
-        contentFit="cover"
-        source={require("../assets/image-66.png")}
-      />
-      <View style={[styles.groupParent, styles.whatKindOfPosition]}>
-        <View style={[styles.rectangleParent, styles.rectangleLayout]}>
-          <View style={[styles.groupInner, styles.groupInnerLayout]} />
-          <TextInput
-            style={[styles.enterYourChilds, styles.goToRecommendTypo]}
-            placeholder="Enter your child’s age"
-            placeholderTextColor="#725233"
-            value={age}
-            onChangeText={(text) => setAge(text)} 
-          />
-        </View>
-        <View style={[styles.rectangleGroup, styles.rectangleLayout]}>
-          <Pressable
-            style={[styles.rectanglePressable, styles.groupInnerLayout]}
-            // onPress={() => navigation.navigate("RecommendInputage")}
-            onPress={() => handleRecommendation(age)} 
-          />
-          <Text style={[styles.goToRecommend, styles.goToRecommendTypo]}>
-            Go to Recommend
-          </Text>
-        </View>
+      <View style={[styles.rectangleParent, styles.whatKindOfPosition]}>
+        <View style={[styles.groupInner, styles.groupLayout]} />
+        <TextInput
+          style={[styles.enterYourChilds, styles.goToRecommendTypo]}
+          placeholder="Enter your child’s age"
+          placeholderTextColor="#fff"
+        />
+<Pressable 
+  style={[styles.rectangleGroup, styles.groupLayout]} 
+  onPress={() => navigation.navigate("Recommend13Movement")}
+>
+  <View style={[styles.rectangleView, styles.groupLayout]} />
+  <Text style={[styles.goToRecommend, styles.goToRecommendTypo]}>
+    Go to Recommend
+  </Text>
+</Pressable>
+
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  groupLayout1: {
+    height: 38,
+    position: "absolute",
+  },
   groupChildLayout: {
-    height: 30,
     width: 30,
-    top: 4,
+    height: 30,
+    top: 0,
     position: "absolute",
   },
   whatKindOfPosition: {
     left: 25,
     position: "absolute",
   },
-  rectangleLayout: {
+  groupLayout: {
     height: 40,
-    position: "absolute",
-  },
-  groupInnerLayout: {
-    borderRadius: Border.br_81xl,
-    height: 40,
-    width: 300,
-    top: 0,
     position: "absolute",
   },
   goToRecommendTypo: {
@@ -122,104 +87,107 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_smi,
     position: "absolute",
   },
+  image74Icon: {
+    width: 460,
+    height: 867,
+    left: 0,
+    top: 0,
+    position: "absolute",
+  },
   groupChild: {
     left: 1,
   },
   sortLeftIcon: {
     left: 0,
   },
+  ellipseParent: {
+    top: 4,
+    width: 31,
+    height: 30,
+    left: 0,
+    position: "absolute",
+  },
   home: {
     top: 10,
     left: 41,
-    fontSize: FontSize.size_mini,
+    fontSize: 15,
     fontWeight: "600",
     fontFamily: FontFamily.interSemiBold,
-    color: Color.colorBlack,
     textAlign: "left",
+    color: Color.colorWhite,
     position: "absolute",
   },
   groupItem: {
     left: 85,
-    backgroundColor: Color.colorGainsboro_300,
+    backgroundColor: "rgba(217, 217, 217, 0)",
     width: 230,
     top: 0,
-    height: 38,
-    position: "absolute",
   },
-  ellipseParent: {
+  groupParent: {
+    top: 44,
     left: 23,
     width: 315,
-    height: 38,
-    top: 50,
-    position: "absolute",
   },
   whatKindOf: {
     top: 119,
     fontSize: 23,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
-    color: Color.colorGray_500,
+    color: Color.colorGoldenrod,
     textAlign: "center",
   },
   itRecommendsThe: {
     top: 215,
-    color: "#725233",
     width: 311,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     fontSize: FontSize.size_smi,
     textAlign: "center",
     left: 25,
-    position: "absolute",
-  },
-  image66Icon: {
-    top: 325,
-    left: -17,
-    width: 395,
-    height: 300,
+    color: Color.colorWhite,
     position: "absolute",
   },
   groupInner: {
-    backgroundColor: "#fff6d4",
-    left: 0,
+    width: 300,
+    borderRadius: Border.br_81xl,
+    left: 3,
+    height: 40,
+    top: 0,
+    backgroundColor: Color.colorGoldenrod,
   },
   enterYourChilds: {
-    left: 57,
+    left: 40,
   },
-  rectangleParent: {
+  rectangleView: {
+    backgroundColor: Color.colorWhite,
     width: 300,
-    height: 40,
+    borderRadius: Border.br_81xl,
     left: 3,
+    height: 40,
     top: 0,
   },
-  rectanglePressable: {
-    backgroundColor: Color.colorGray_500,
-    left: 3,
-    borderRadius: Border.br_81xl,
-  },
   goToRecommend: {
-    color: "#ffe1c6",
+    color: "#000",
     width: 311,
     textAlign: "center",
     left: 0,
   },
   rectangleGroup: {
+    top: 50,
     width: 311,
     left: 0,
-    height: 40,
-    top: 50,
   },
-  groupParent: {
+  rectangleParent: {
     top: 662,
     height: 90,
     width: 311,
   },
   recommend: {
-    backgroundColor: Color.colorGoldenrod_200,
     flex: 1,
     width: "100%",
-    height: 800,
+    height: 860,
     overflow: "hidden",
+    backgroundColor: Color.colorGoldenrod,
   },
 });
 

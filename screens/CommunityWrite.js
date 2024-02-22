@@ -52,7 +52,7 @@ const CommynityWrite = () => {
 
       if (response.status === 200) {
         Alert.alert("Success", "Board created successfully");
-       // Or navigate to another screen
+        navigation.navigate("Community"); // Community 화면으로 이동
       } else {
         Alert.alert("Error", "Failed to create board");
       }
@@ -87,10 +87,10 @@ const CommynityWrite = () => {
         value={content}
         onChangeText={setContent}
       />
-<Pressable onPress={() => {
-    handleSubmit(); // Call handleSubmit function
-    navigation.navigate("Community"); // Navigate to the "Community" screen
-  }} style={[styles.commynityWriteInner, styles.groupLayout]}>
+<Pressable 
+  onPress={handleSubmit} 
+  style={[styles.commynityWriteInner, styles.groupLayout]}
+>
   <View style={[styles.rectangleGroup, styles.groupLayout]}>
     <View style={[styles.groupItem, styles.groupLayout]} />
     <Text style={[styles.upload, styles.uploadTypo]}>Upload</Text>

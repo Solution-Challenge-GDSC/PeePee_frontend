@@ -1,37 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, Image , Pressable} from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image, Pressable, TouchableOpacity } from "react-native";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
 
 const Community = () => {
   const navigation = useNavigation();
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const url = `https://applemango.store/board/FREE_BOARD`;
-        const config = {
-          headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk',
-          },
-        };
-        const response = await axios.get(url, config);
-        if (response.data.isSuccess) {
-          setPosts(response.data.result);
-          console.log(response.data.result); // 로그로 결과 확인
-        } else {
-          console.error('Failed to fetch posts:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching posts:', error);
+  const fetchPosts = async () => {
+    try {
+      const url = `https://applemango.store/board/FREE_BOARD`;
+      const config = {
+        headers: {
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk',
+        },
+      };
+      const response = await axios.get(url, config);
+      if (response.data.isSuccess) {
+        setPosts(response.data.result);
+      } else {
+        console.error('Failed to fetch posts:', response.data.message);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchPosts();
   }, []);
-
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchPosts(); // 화면이 포커스될 때마다 게시글을 다시 가져옴
+    }, [])
+  );
   // 첫 번째 게시글 정보 확인 및 기본값 할당
   const firstPost = posts[0] || {};
   const secondPost = posts[1] || {};
@@ -43,6 +47,20 @@ const Community = () => {
   const eighthPost = posts[7] || {};
   const ninthPost = posts[8] || {};
   const tenthPost = posts[9] || {};
+
+  const postss = [
+    firstPost,
+    secondPost,
+    thirdPost,
+    fourthPost,
+    fifthPost,
+    sixthPost,
+    seventhPost,
+    eighthPost,
+    ninthPost,
+    // 이 배열에 더 많은 게시글을 추가할 수 있습니다.
+  ];
+  
   return (
     <View style={styles.community}>
       <Image
@@ -71,183 +89,34 @@ const Community = () => {
         <Text style={styles.text}>고민게시판</Text>
       </Pressable>
 
-
-
       <ScrollView
-        style={[styles.lineParent, styles.frameChildPosition]}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.frameScrollViewContent}
-      >
-        <View style={[styles.frameChild, styles.frameChildLayout]} />
-
-
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{firstPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{firstPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{firstPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{firstPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{firstPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{firstPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-        
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{secondPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{secondPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{secondPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{secondPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{secondPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{secondPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{thirdPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{thirdPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{thirdPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{thirdPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{thirdPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{thirdPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{fourthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{fourthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{fourthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{fourthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{fourthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{fourthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{fifthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{fifthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{fifthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{fifthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{fifthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{fifthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{sixthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{sixthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{sixthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{sixthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{sixthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{sixthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{seventhPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{seventhPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{seventhPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{seventhPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{seventhPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{seventhPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{eighthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{eighthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{eighthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{eighthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{eighthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{eighthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{ninthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{ninthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{ninthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{ninthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{ninthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{ninthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-        <View style={[styles.frameItem, styles.frameChildLayout]} />
-        <View style={[styles.parent, styles.groupParentLayout]}>
-          <Text style={styles.text3}>{tenthPost.title || "제목 없음"}</Text>
-          <Text style={styles.textTextText}>{tenthPost.content || "내용 없음"}</Text>
-          <Text style={[styles.text4, styles.textTypo1]}>{tenthPost.createTime || "시간 정보 없음"}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>{tenthPost.nickName || "익명"}</Text>
-          <Text style={[styles.text6, styles.textTypo]}>{tenthPost.likeCount || 0}</Text>
-          <Text style={[styles.text7, styles.textTypo]}>{tenthPost.commentCount || 0}</Text>
-          {/* 아이콘 출력 */}
-          <View style={[styles.lineView, styles.groupChildLayout]} />
-          <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-          <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-        </View>
-
-
-
-        <View style={[styles.frameChild8, styles.frameChildLayout]} />
-        <View style={[styles.parent7, styles.parentPosition]}>
-          <Text style={styles.text3}>게시글 제목제목제목제목제목</Text>
-          <Text
-            style={styles.textTextText}
-          >{`text text text text text text text text text text text text text text text text text text `}</Text>
-          <Text style={[styles.text5, styles.text5Layout]}>익명</Text>
-          <Text style={[styles.text6, styles.textTypo]}>10</Text>
-          <Text style={[styles.text7, styles.textTypo]}>10</Text>
-          <View style={[styles.groupChild1, styles.groupChildLayout]} />
-          <View style={[styles.groupChild2, styles.groupChildLayout]} />
-          <Image
-            style={[styles.thumbsUpIcon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/thumbs-up1.png")}
-          />
-          <Image
-            style={[styles.speechIcon, styles.iconLayout]}
-            contentFit="cover"
-            source={require("../assets/speech1.png")}
-          />
-        </View>
-      </ScrollView>
+  style={[styles.lineParent, styles.frameChildPosition]}
+  showsVerticalScrollIndicator={false}
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={styles.frameScrollViewContent}
+>
+  {postss.map((post, index) => (
+    <TouchableOpacity 
+      key={index} 
+      style={[styles.parent, styles.groupParentLayout, index !== 0 && styles.frameItem, styles.group]}
+      onPress={() => navigation.navigate('CommunityDetail', { boardId: post.boardId })} // post.diaryId를 넘겨줍니다
+       >
+   
+      <Text style={styles.text3}>{post.title || "제목 없음"}</Text>
+      <Text style={styles.textTextText}>{post.content || "내용 없음"}</Text>
+      <Text style={[styles.text4, styles.textTypo1]}>{post.createTime || "시간 정보 없음"}</Text>
+      <Text style={[styles.text5, styles.text5Layout]}>{post.nickName || "익명"}</Text>
+      
+      <Text style={[styles.text6, styles.textTypo]}>{post.likeCount || 0}</Text>
+      <Text style={[styles.text7, styles.textTypo]}>{post.commentCount || 0}</Text>
+      {/* 아이콘 출력 */}
+      <View style={[styles.lineView, styles.groupChildLayout]} />
+      <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
+      <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
+  
+    </TouchableOpacity>
+  ))}
+</ScrollView>
 
 
 
@@ -498,6 +367,16 @@ const styles = StyleSheet.create({
   frameInner: {
     zIndex: 4,
     marginTop: 18,
+  },
+  frameInner2: {
+    marginTop: 10,
+  },
+  frameLayout2: {
+    height: 1,
+    width: 361,
+    borderTopWidth: 1,
+    borderColor: Color.colorGainsboro,
+    borderStyle: "solid",
   },
   container: {
     zIndex: 5,
