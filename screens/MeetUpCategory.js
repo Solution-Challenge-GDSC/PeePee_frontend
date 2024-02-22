@@ -78,7 +78,7 @@ const MeetUpCategory = () => {
         <Pressable
           key={meetup.id}
           style={styles.rectangleGroup}
-          onPress={() => navigation.navigate("MeetUpDetail", { meetupId: meetup.meetupId,  address: meetup.address })}
+          onPress={() => navigation.navigate("MeetUpDetail", { meetupId: meetup.meetupId,  address: meetup.address, latitude:meetup.latitude, longitude:meetup.longitude })}
         >
       
         <Text style={[styles.near, styles.nearTypo]}>Near</Text>

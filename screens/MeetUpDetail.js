@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios"; // axios import
+import MapView, { Marker } from 'react-native-maps';
 import { FontFamily, FontSize, Border, Color } from "../GlobalStyles";
 import { add } from "react-native-reanimated";
 
 const MeetUpDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { meetupId, address } = route.params; // 이렇게 수정
-  console.log(meetupId, address);
+  const { meetupId, address, latitude, longitude } = route.params; // 이렇게 수정
+  console.log(meetupId, address, latitude, longitude);
 
   const [meetupDetail, setMeetupDetail] = useState(null); // 상세 정보를 저장할 상태
   const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
@@ -20,7 +21,8 @@ const MeetUpDetail = () => {
         const response = await axios.get(`https://applemango.store/meetup/one/${meetupId}`, {
           headers: { Authorization: `Bearer ${accessToken}` }
         });
-        setMeetupDetail(response.data);
+        console.log(response.data)
+        setMeetupDetail(response.data.result);
         console.log(meetupDetail);
       } catch (error) {
         console.error("Meetup 상세 정보를 불러오는 데 실패했습니다.", error);
@@ -28,7 +30,7 @@ const MeetUpDetail = () => {
     };
 
     fetchMeetupDetail();
-  }, [meetupId]); // postId가 변경될 때마다 요청을 다시 보냅니다.
+  }, []); // postId가 변경될 때마다 요청을 다시 보냅니다.
 
   if (!meetupDetail) {
     return <Text>Loading...</Text>; // 데이터 로딩 중 표시
@@ -36,11 +38,16 @@ const MeetUpDetail = () => {
 
   return (
     <View style={styles.meetUpDetail}>
-      <Image
+         <MapView
         style={[styles.meetUpDetailChild, styles.meetPosition]}
-        contentFit="cover"
-        source={require("../assets/rectangle-363.png")}
-      />
+        initialRegion={{
+          latitude: latitude,
+          longitude: longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}>
+        <Marker coordinate={{latitude: latitude, longitude: longitude}} />
+      </MapView>
       <View style={[styles.meetUpDetailItem, styles.meetPosition]} />
       <Image
         style={[styles.meetUpDetailInner, styles.sortLeftLayout]}
@@ -57,20 +64,23 @@ const MeetUpDetail = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
+      <Text style={[styles.activityDay, styles.whatDoWeFlexBox]}>
+       Activity Day: {`${meetupDetail.activityDay}`}
+     </Text>
       <Text style={[styles.howManyPeople, styles.whatDoWeFlexBox]}>
         How many people in here?
       </Text>
       <Text style={[styles.whatDoWe, styles.whatDoWeFlexBox]}>
         What do we do?
       </Text>
-      <Text style={[styles.mom30Baby, styles.wePlayInTypo]}>{`15 Mom 
-30 Baby`}</Text>
+      <Text style={[styles.mom30Baby, styles.wePlayInTypo]}>
+      {`${meetupDetail.parents} Mom \n${meetupDetail.baby} Baby`}
+      </Text>
       <Text
         style={[styles.wePlayIn, styles.wePlayInTypo]}
-      >{`We play in the park among our children, 
-and parents have time to talk
-
-Baby can do a lot of Activity`}</Text>
+      >
+        {`${meetupDetail.content}`}
+      </Text>
       <Image
         style={[styles.babysRoomIcon, styles.sortLeftLayout]}
         contentFit="cover"
@@ -79,7 +89,7 @@ Baby can do a lot of Activity`}</Text>
       <View style={[styles.rectangleParent, styles.groupChildLayout]}>
         <View style={[styles.groupChild, styles.groupPosition]} />
         <Text style={[styles.yeokgokPark, styles.whatDoWeFlexBox]}>
-          {meetupDetail.category}
+          {`${meetupDetail.category}`}
         </Text>
         <Text style={[styles.jibongRo51beonGilBucheon, styles.whatDoWeFlexBox]}>
           {address}
