@@ -1,11 +1,38 @@
-import * as React from "react";
-import { Image } from "expo-image";
-import { StyleSheet, View, Pressable, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import axios from "axios"; // axios import
 import { FontFamily, FontSize, Border, Color } from "../GlobalStyles";
+import { add } from "react-native-reanimated";
 
 const MeetUpDetail = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { meetupId, address } = route.params; // 이렇게 수정
+  console.log(meetupId, address);
+
+  const [meetupDetail, setMeetupDetail] = useState(null); // 상세 정보를 저장할 상태
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
+  
+  useEffect(() => {
+    const fetchMeetupDetail = async () => {
+      try {
+        const response = await axios.get(`https://applemango.store/meetup/one/${meetupId}`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        setMeetupDetail(response.data);
+        console.log(meetupDetail);
+      } catch (error) {
+        console.error("Meetup 상세 정보를 불러오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchMeetupDetail();
+  }, [meetupId]); // postId가 변경될 때마다 요청을 다시 보냅니다.
+
+  if (!meetupDetail) {
+    return <Text>Loading...</Text>; // 데이터 로딩 중 표시
+  }
 
   return (
     <View style={styles.meetUpDetail}>
@@ -52,10 +79,10 @@ Baby can do a lot of Activity`}</Text>
       <View style={[styles.rectangleParent, styles.groupChildLayout]}>
         <View style={[styles.groupChild, styles.groupPosition]} />
         <Text style={[styles.yeokgokPark, styles.whatDoWeFlexBox]}>
-          Yeokgok Park
+          {meetupDetail.category}
         </Text>
         <Text style={[styles.jibongRo51beonGilBucheon, styles.whatDoWeFlexBox]}>
-          77, Jibong-ro 51beon-gil, Bucheon-si
+          {address}
         </Text>
         <Image
           style={[styles.locationIcon, styles.locationIconLayout]}
