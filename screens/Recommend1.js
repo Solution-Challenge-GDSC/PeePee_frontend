@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +6,14 @@ import { Border, FontFamily, FontSize, Color } from "../GlobalStyles";
 
 const Recommend1 = () => {
   const navigation = useNavigation();
+  const [childAge, setChildAge] = useState('');
+
+  const goToRecommend13Move = () => {
+    // childAge 값을 다음 화면으로 전달하면서 네비게이션을 수행합니다.
+    navigation.navigate("Recommend13Movement", { childAge });
+  };
+
+  
   return (
     <View style={styles.recommend}>
       <Image
@@ -40,21 +48,24 @@ to the child's developmental status.
 Select all that correspond 
 to your child's response for each category.`}</Text>
       <View style={[styles.rectangleParent, styles.whatKindOfPosition]}>
-        <View style={[styles.groupInner, styles.groupLayout]} />
+        <View style={[styles.rectangleView, styles.groupLayout]} />
         <TextInput
-          style={[styles.enterYourChilds, styles.goToRecommendTypo]}
+          style={[styles.enterYourChilds, styles.goToRecommendTypo, { paddingLeft: 52}]}
           placeholder="Enter your child’s age"
-          placeholderTextColor="#fff"
+          placeholderTextColor="#000"
+          value={childAge}
+          onChangeText={text => setChildAge(text)}
         />
-<Pressable 
-  style={[styles.rectangleGroup, styles.groupLayout]} 
-  onPress={() => navigation.navigate("Recommend13Movement")}
->
-  <View style={[styles.rectangleView, styles.groupLayout]} />
-  <Text style={[styles.goToRecommend, styles.goToRecommendTypo]}>
-    Go to Recommend
-  </Text>
-</Pressable>
+
+        <Pressable 
+          style={[styles.rectangleGroup, styles.groupLayout]} 
+          onPress={goToRecommend13Move} // 수정
+        >
+          <View style={[styles.rectangleView, styles.groupLayout]} />
+          <Text style={[styles.goToRecommend, styles.goToRecommendTypo]}>
+            Go to Recommend
+          </Text>
+        </Pressable>
 
       </View>
     </View>

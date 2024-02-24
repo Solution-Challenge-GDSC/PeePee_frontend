@@ -1,76 +1,81 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, Pressable, View } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { useRoute } from "@react-navigation/native";
+
 
 const Recommend13Language = () => {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대비하여 기본값으로 빈 객체를 설정합니다.
+  
   return (
     <View style={styles.recommend13language}>
-      <Image
-        style={[styles.recommend13languageChild, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-11.png")}
-      />
-      <Image
-        style={[styles.sortLeftIcon, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/sort-left1.png")}
-      />
-      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
-      <Pressable style={[styles.rectangleParent, styles.rectangleGroupLayout]}>
+      <View style={styles.ellipseParent}>
+        <Image
+          style={[styles.groupChild, styles.groupChildLayout]}
+          contentFit="cover"
+          source={require("../assets/ellipse-1.png")}
+        />
+        <Image
+          style={styles.sortLeftIcon}
+          contentFit="cover"
+          source={require("../assets/sort-left.png")}
+        />
+      </View>
+      <Text style={[styles.home, styles.homeFlexBox]}>Home</Text>
+      <Pressable style={[styles.rectangleParent, styles.rectangleLayout]}>
         <View style={styles.groupShadowBox} />
-        <Text style={styles.text}>
-          기분이 좋을 때는 입을 오물거리며 옹알이를 한다
-        </Text>
+        <Text style={styles.whenABaby}>{`When a baby is in a good mood, 
+he mumbles and babbles`}</Text>
       </Pressable>
-      <Text style={[styles.category, styles.homeTypo]}>Category</Text>
-      <Text style={[styles.languageDevelopment, styles.homeTypo]}>
-        Language Development
+      <Text style={[styles.category, styles.homeFlexBox]}>Category</Text>
+      <Text style={[styles.languageDevelopment, styles.homeFlexBox]}>
+        Speech Development
       </Text>
-      <Pressable style={[styles.rectangleGroup, styles.rectangleGroupLayout]}>
+      <Pressable style={[styles.rectangleGroup, styles.rectangleLayout]}>
         <View style={styles.groupShadowBox} />
         <Text
-          style={[styles.text1, styles.textTypo]}
-        >{`엄마가 아기의 옹알이를 응답하면 신이 나서 알 수 
-없는 말을 옹알거리거나 기뻐서 크게 웃기도 한다`}</Text>
+          style={[styles.whenAMother, styles.whenAMotherTypo]}
+        >{`When a mother responds to her 
+baby's babbling, she mumbles or laughs loudly
+ with joy`}</Text>
       </Pressable>
       <Pressable
-        style={[styles.rectangleContainer, styles.rectangleGroupLayout]}
+        style={[styles.recommend13languageInner, styles.rectangleLayout]}
       >
         <View style={styles.groupShadowBox} />
-        <Text
-          style={[styles.text2, styles.textTypo]}
-        >{`엄마 얼굴을 보고 웃는 사회적 미소가 나타나기도 하며 
-소리가 나는 쪽으로 머리를 돌린다`}</Text>
       </Pressable>
-      <Pressable style={[styles.groupPressable, styles.rectangleGroupLayout]}>
+
+
+      <Pressable style={[styles.rectangleContainer, styles.rectangleLayout]}>
         <View style={styles.groupShadowBox} />
-        <Text style={[styles.text3, styles.textTypo]}>
-          구르르 하면서 목을 울리는 소리를 낸다
+        <Text style={[styles.makeARoaring, styles.whenAMotherTypo]}>
+          Make a roaring sound
         </Text>
       </Pressable>
-      <Text style={[styles.text4, styles.text4Layout]}>
-        아래의 항목 중 아이의 발달 상태에 해당하는 항목을 모두 골라주세요
-      </Text>
-      <View style={[styles.groupView, styles.rectangleParentLayout]}>
+      <Pressable style={[styles.groupPressable, styles.rectangleParentLayout]}>
         <Pressable
           style={[styles.rectanglePressable, styles.groupChildShadowBox]}
           onPress={() => navigation.navigate("Recommend13Movement")}
         />
         <Image
-          style={[styles.acrobaticsIcon, styles.iconLayout]}
+          style={[styles.acrobaticsIcon, styles.iconPosition1]}
           contentFit="cover"
           source={require("../assets/acrobatics.png")}
         />
         <Text style={[styles.motion, styles.senseTypo]}>Motion</Text>
-      </View>
-      <View style={[styles.rectangleParent1, styles.rectangleParentLayout]}>
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.rectangleParent1, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Recognition")}
+      >
         <Pressable
-          style={[styles.groupChild1, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Recognition")}
+          style={[styles.groupChild2, styles.groupChildShadowBox]}
         />
         <Image
           style={[styles.bookIcon, styles.iconPosition]}
@@ -78,20 +83,28 @@ const Recommend13Language = () => {
           source={require("../assets/book.png")}
         />
         <Text style={[styles.recognition, styles.senseTypo]}>Recognition</Text>
-      </View>
-      <View style={[styles.rectangleParent2, styles.rectangleParentLayout]}>
-        <View style={[styles.groupChild2, styles.groupChildPosition]} />
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.rectangleParent2, styles.rectangleParentLayout]}
+      >
+        <View style={[styles.groupChild3, styles.groupChildShadowBox, {backgroundColor: '#1F1F45'}]} />
         <Image
           style={[styles.bookIcon, styles.iconPosition]}
           contentFit="cover"
           source={require("../assets/voice.png")}
         />
         <Text style={[styles.speech, styles.senseTypo]}>Speech</Text>
-      </View>
-      <View style={[styles.rectangleParent3, styles.rectangleParentLayout]}>
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.rectangleParent3, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Emotion")}
+      >
         <Pressable
-          style={[styles.groupChild3, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Emotion")}
+          style={[styles.groupChild4, styles.groupChildShadowBox]}
         />
         <Image
           style={[styles.bookIcon, styles.iconPosition]}
@@ -99,10 +112,15 @@ const Recommend13Language = () => {
           source={require("../assets/handmade.png")}
         />
         <Text style={[styles.emotion, styles.senseTypo]}>Emotion</Text>
-      </View>
-      <View style={[styles.rectangleParent4, styles.rectangleParentLayout]}>
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.rectangleParent4, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Sense")}
+      >
         <Pressable
-          style={[styles.groupChild4, styles.groupChildShadowBox]}
+          style={[styles.groupChild5, styles.groupChildShadowBox]}
           onPress={() => navigation.navigate("Recommend13Sense")}
         />
         <Text style={[styles.sense, styles.senseTypo]}>Sense</Text>
@@ -111,47 +129,45 @@ const Recommend13Language = () => {
           contentFit="cover"
           source={require("../assets/tongue-out.png")}
         />
+      </Pressable>
+
+
+      <View style={styles.pleaseSelectAllOfTheItemsWrapper}>
+        <Text
+          style={[styles.pleaseSelectAll, styles.homeFlexBox]}
+        >{`Please select all of the items below 
+that correspond to your child's developmental status`}</Text>
       </View>
-      <View style={[styles.rectangleParent5, styles.groupChild5Layout]}>
-        <View style={[styles.groupChild5, styles.groupChild5Layout]} />
-        <Text style={[styles.finish, styles.text4Layout]}>Finish</Text>
-      </View>
+      <Text
+        style={[styles.aBabySometimes, styles.whenAMotherTypo]}
+      >{`A baby sometimes has a social smile
+ on his mother's face and turns his head
+ toward the sound`}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sortLeftIconLayout: {
-    height: 30,
-    top: 28,
+  groupChildLayout: {
     width: 30,
     position: "absolute",
   },
-  homeTypo: {
+  homeFlexBox: {
     textAlign: "left",
-    color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_mini,
     position: "absolute",
   },
-  rectangleGroupLayout: {
+  rectangleLayout: {
     height: 50,
     width: 300,
     left: 29,
     position: "absolute",
   },
-  textTypo: {
+  whenAMotherTypo: {
     textAlign: "center",
     color: Color.colorDarkgray,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     fontSize: FontSize.size_smi,
-    position: "absolute",
-  },
-  text4Layout: {
-    lineHeight: 20,
-    textAlign: "left",
     position: "absolute",
   },
   rectangleParentLayout: {
@@ -175,11 +191,13 @@ const styles = StyleSheet.create({
       width: 0,
       height: 4,
     },
+    left: 0,
+    top: 0,
     position: "absolute",
   },
-  iconLayout: {
-    height: 40,
+  iconPosition1: {
     top: 10,
+    height: 40,
   },
   senseTypo: {
     color: Color.colorGainsboro_100,
@@ -195,25 +213,33 @@ const styles = StyleSheet.create({
     width: 30,
     position: "absolute",
   },
-  groupChildPosition: {
-    backgroundColor: Color.colorDarkslateblue,
-    left: 0,
+  groupChild: {
+    left: 1,
     top: 0,
-  },
-  groupChild5Layout: {
-    height: 37,
-    width: 105,
-    position: "absolute",
-  },
-  recommend13languageChild: {
-    left: 18,
+    height: 30,
   },
   sortLeftIcon: {
+    left: 0,
+    width: 30,
+    top: 0,
+    height: 30,
+    position: "absolute",
+  },
+  ellipseParent: {
+    top: 28,
     left: 17,
+    width: 31,
+    height: 30,
+    position: "absolute",
   },
   home: {
     top: 34,
     left: 58,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
   groupShadowBox: {
     borderWidth: 1,
@@ -228,20 +254,20 @@ const styles = StyleSheet.create({
     },
     shadowColor: "rgba(0, 0, 0, 0.01)",
     borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
     height: 50,
     width: 300,
+    left: 0,
+    top: 0,
     position: "absolute",
     backgroundColor: Color.colorWhite,
   },
-  text: {
-    left: 21,
+  whenABaby: {
+    top: 9,
     color: Color.colorDarkgray,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     fontSize: FontSize.size_smi,
-    top: 17,
+    left: 50,
     textAlign: "left",
     position: "absolute",
   },
@@ -251,67 +277,54 @@ const styles = StyleSheet.create({
   category: {
     top: 88,
     left: 30,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
   languageDevelopment: {
     top: 236,
     left: 30,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
-  text1: {
-    left: 16,
-    top: 9,
+  whenAMother: {
+    top: 1,
+    left: 4,
   },
   rectangleGroup: {
     top: 334,
   },
-  text2: {
-    left: 7,
-    top: 9,
-  },
-  rectangleContainer: {
+  recommend13languageInner: {
     top: 394,
   },
-  text3: {
-    left: 48,
+  makeARoaring: {
     top: 17,
-    textAlign: "center",
+    left: 85,
   },
-  groupPressable: {
+  rectangleContainer: {
     top: 454,
   },
-  text4: {
-    top: 760,
-    left: 36,
-    fontSize: FontSize.size_3xs,
-    fontWeight: "300",
-    fontFamily: FontFamily.interLight,
-    color: Color.colorRosybrown,
-  },
   rectanglePressable: {
-    left: 0,
-    top: 0,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
     backgroundColor: Color.colorWhite,
   },
   acrobaticsIcon: {
+    height: 40,
     left: 13,
     width: 30,
     position: "absolute",
-    top: 10,
   },
   motion: {
     left: 15,
   },
-  groupView: {
+  groupPressable: {
     left: 30,
   },
-  groupChild1: {
-    left: 0,
-    top: 0,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
+  groupChild2: {
     backgroundColor: Color.colorWhite,
   },
   bookIcon: {
@@ -324,22 +337,8 @@ const styles = StyleSheet.create({
   rectangleParent1: {
     left: 91,
   },
-  groupChild2: {
-    elevation: 7,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
-    height: 80,
-    width: 55,
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro_100,
-    borderStyle: "solid",
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    position: "absolute",
+  groupChild3: {
+    backgroundColor: Color.colorDarkslateblue,
   },
   speech: {
     left: 14,
@@ -347,12 +346,7 @@ const styles = StyleSheet.create({
   rectangleParent2: {
     left: 152,
   },
-  groupChild3: {
-    left: 0,
-    top: 0,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
+  groupChild4: {
     backgroundColor: Color.colorWhite,
   },
   emotion: {
@@ -361,12 +355,7 @@ const styles = StyleSheet.create({
   rectangleParent3: {
     left: 213,
   },
-  groupChild4: {
-    left: 0,
-    top: 0,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
+  groupChild5: {
     backgroundColor: Color.colorWhite,
   },
   sense: {
@@ -379,26 +368,26 @@ const styles = StyleSheet.create({
   rectangleParent4: {
     left: 274,
   },
-  groupChild5: {
-    backgroundColor: Color.colorDarkslateblue,
-    left: 0,
-    top: 0,
-    borderRadius: Border.br_3xs,
-    width: 105,
-  },
-  finish: {
-    letterSpacing: 0.5,
-    fontWeight: "700",
-    fontFamily: FontFamily.interBold,
-    color: Color.colorWhite,
-    top: 9,
-    left: 30,
-    fontSize: FontSize.size_mini,
+  pleaseSelectAll: {
+    left: 28,
+    fontSize: FontSize.size_3xs,
     lineHeight: 20,
+    fontWeight: "300",
+    fontFamily: FontFamily.interLight,
+    color: Color.colorRosybrown,
+    top: 0,
   },
-  rectangleParent5: {
-    top: 713,
-    left: 224,
+  pleaseSelectAllOfTheItemsWrapper: {
+    top: 743,
+    width: 303,
+    height: 40,
+    left: 13,
+    position: "absolute",
+  },
+  aBabySometimes: {
+    top: 395,
+    left: 50,
+    textAlign: "center",
   },
   recommend13language: {
     flex: 1,

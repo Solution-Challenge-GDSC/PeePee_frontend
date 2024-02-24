@@ -4,11 +4,11 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles3";
 
-const Loding1 = () => {
+const Loding4 = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.loding2}>
+    <View style={styles.loding5}>
       <Pressable
         style={styles.ellipseParent}
         onPress={() => navigation.navigate("Recommend13Sense")}
@@ -24,47 +24,38 @@ const Loding1 = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
-      <View style={styles.buyAScarfWrapper}>
-        <Text style={styles.buyAScarf}>Buy a scarf</Text>
+      <View style={styles.aFlashlightPlayWrapper}>
+        <Text style={styles.aFlashlightPlay}>A flashlight Play</Text>
       </View>
       <View style={[styles.rectangleParent, styles.rectangleLayout1]}>
         <View style={styles.groupItem} />
-        <Text style={[styles.recognition, styles.emotionTypo]}>
+        <Text style={[styles.recognition, styles.languageTypo]}>
           recognition
         </Text>
       </View>
       <View style={[styles.rectangleGroup, styles.rectangleLayout1]}>
         <View style={styles.groupItem} />
-        <Text style={[styles.emotion, styles.emotionTypo]}>emotion</Text>
+        <Text style={[styles.language, styles.languageTypo]}>language</Text>
       </View>
       <View style={[styles.rectangleContainer, styles.rectangleLayout]}>
         <View style={[styles.rectangleView, styles.groupChild1Border]} />
         <Text
-          style={[styles.playThatDramatizes, styles.fillTheEmptyTypo]}
-        >{`Play that dramatizes real situations not only gives pleasure, but through understanding the situation, the child learns comprehension and appropriate behavior for the situation. 
+          style={[styles.childrenInThis, styles.weShowTheTypo]}
+        >{`Children in this period know that things have names and are interested in calling them by name. 
 
-In addition, scarves are colorful as well as touch, which helps children develop their senses.`}</Text>
+Play the game of guessing the name of the object while shadowing with a flashlight.`}</Text>
       </View>
       <View style={[styles.groupView, styles.groupLayout]}>
         <View style={[styles.groupChild1, styles.groupLayout]} />
         <Text
-          style={[styles.fillTheEmpty, styles.image80IconPosition]}
-        >{`Fill the empty tissue box (or basket) with the scarf.
-Speak like a scarf seller to a child.
+          style={[styles.weShowThe, styles.weShowTheTypo]}
+        >{`1. We show the child a flashlight and we talk, "What's this? Should we try putting the button up here?" "Wow -- the light is on." 
 
-"I sell scarves. Buy a scarf!"
-
-If your child takes a scarf out of the tissue box, say, "Give me money, it's 100 won," etc.
-
-When you pull all the scarves out of the box, decorate your body with the scarves.
-
-Please allow the child to see the child wearing the scarf here and there through the mirror. 
-
-After wearing a scarf, have your child put the scarf back in the box.`}</Text>
+2. Give the child some time to explore the flashlight, then turn it off and darken the room. If the light in the room is suddenly turned off, children may be surprised, so talk to the child and turn it off.`}</Text>
         <Image
-          style={[styles.image80Icon, styles.image80IconPosition]}
+          style={styles.image81Icon}
           contentFit="cover"
-          source={require("../assets/image-801.png")}
+          source={require("../assets/image-81.png")}
         />
       </View>
     </View>
@@ -78,7 +69,7 @@ const styles = StyleSheet.create({
     height: 30,
     position: "absolute",
   },
-  emotionTypo: {
+  languageTypo: {
     textAlign: "left",
     color: Color.colorWhite,
     fontFamily: FontFamily.interMedium,
@@ -88,7 +79,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   rectangleLayout: {
-    height: 164,
+    height: 142,
     width: 300,
     position: "absolute",
   },
@@ -101,20 +92,16 @@ const styles = StyleSheet.create({
     top: 0,
     backgroundColor: Color.colorWhite,
   },
-  fillTheEmptyTypo: {
+  weShowTheTypo: {
     fontFamily: FontFamily.interLight,
     fontWeight: "300",
     textAlign: "left",
     fontSize: FontSize.size_smi,
-  },
-  groupLayout: {
-    height: 439,
-    width: 300,
     position: "absolute",
   },
-  image80IconPosition: {
-    width: 270,
-    left: 15,
+  groupLayout: {
+    height: 316,
+    width: 300,
     position: "absolute",
   },
   groupChild: {
@@ -138,8 +125,8 @@ const styles = StyleSheet.create({
     height: 30,
     position: "absolute",
   },
-  buyAScarf: {
-    left: 90,
+  aFlashlightPlay: {
+    left: 63,
     fontSize: FontSize.size_3xl,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
@@ -148,11 +135,11 @@ const styles = StyleSheet.create({
     top: 0,
     position: "absolute",
   },
-  buyAScarfWrapper: {
-    top: 73,
-    left: 31,
-    height: 35,
+  aFlashlightPlayWrapper: {
+    top: 78,
+    height: 27,
     width: 300,
+    left: 30,
     position: "absolute",
   },
   groupItem: {
@@ -168,30 +155,28 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   recognition: {
-    left: 35,
+    left: 41,
   },
   rectangleParent: {
     left: 30,
   },
-  emotion: {
-    left: 45,
+  language: {
+    left: 42,
   },
   rectangleGroup: {
     left: 190,
   },
   rectangleView: {
-    height: 164,
+    height: 142,
     width: 300,
     position: "absolute",
   },
-  playThatDramatizes: {
-    top: 10,
-    left: 20,
+  childrenInThis: {
+    top: 14,
+    left: 18,
     color: Color.colorGray_100,
     width: 260,
-    height: 149,
-    position: "absolute",
-    fontWeight: "300",
+    height: 128,
   },
   rectangleContainer: {
     top: 175,
@@ -206,24 +191,25 @@ const styles = StyleSheet.create({
     top: 0,
     backgroundColor: Color.colorWhite,
   },
-  fillTheEmpty: {
-    top: 127,
-    height: 312,
-    fontFamily: FontFamily.interLight,
-    fontWeight: "300",
-    textAlign: "left",
-    fontSize: FontSize.size_smi,
+  weShowThe: {
+    top: 149,
+    left: 15,
+    width: 270,
+    height: 155,
     color: Color.colorBlack,
   },
-  image80Icon: {
-    top: 21,
-    height: 97,
+  image81Icon: {
+    top: 25,
+    left: 16,
+    width: 271,
+    height: 100,
+    position: "absolute",
   },
   groupView: {
-    top: 350,
+    top: 335,
     left: 30,
   },
-  loding2: {
+  loding5: {
     flex: 1,
     width: "100%",
     height: 800,
@@ -232,4 +218,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loding1;
+export default Loding4;
