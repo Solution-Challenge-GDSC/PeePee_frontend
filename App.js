@@ -10,6 +10,9 @@ import CommunityWrite from "./screens/CommunityWrite";
 import Loding from "./screens/Loding";
 import Loding1 from "./screens/Loding1";
 import Loding2 from "./screens/Loding2";
+import Loding3 from "./screens/Loding3";
+import Loding4 from "./screens/Loding4";
+
 import Community from "./screens/Community";
 import CommunityDetail from "./screens/CommunityDetail";
 import MeetUpIntromom from "./screens/MeetUpIntromom";
@@ -27,7 +30,6 @@ import Recommend13Emotion from "./screens/Recommend13Emotion";
 import Recommend13Language from "./screens/Recommend13Language";
 import Recommend13Recognition from "./screens/Recommend13Recognition";
 import CurrentPoint from "./screens/CurrentPoint"; 
-
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
@@ -117,6 +119,16 @@ const App = () => {
             <Stack.Screen
               name="Loding2"
               component={Loding2}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Loding3"
+              component={Loding3}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Loding4"
+              component={Loding4}
               options={{ headerShown: false }}
             />
             <Stack.Screen

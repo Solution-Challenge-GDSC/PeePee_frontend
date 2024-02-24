@@ -1,63 +1,71 @@
 import * as React from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, Pressable, View } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { useRoute } from "@react-navigation/native";
+
 
 const Recommend13Recognition = () => {
   const navigation = useNavigation();
-
+  const route = useRoute();
+  const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대비하여 기본값으로 빈 객체를 설정합니다.
+  
   return (
     <View style={styles.recommend13recognition}>
-      <Image
-        style={[styles.recommend13recognitionChild, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-11.png")}
-      />
-      <Image
-        style={[styles.sortLeftIcon, styles.sortLeftIconLayout]}
-        contentFit="cover"
-        source={require("../assets/sort-left1.png")}
-      />
-      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
+      <View style={styles.ellipseParent}>
+        <Image
+          style={[styles.groupChild, styles.groupChildLayout]}
+          contentFit="cover"
+          source={require("../assets/ellipse-1.png")}
+        />
+        <Image
+          style={styles.sortLeftIcon}
+          contentFit="cover"
+          source={require("../assets/sort-left.png")}
+        />
+      </View>
+      <Text style={[styles.home, styles.homeFlexBox]}>Home</Text>
       <Pressable style={[styles.rectangleParent, styles.rectangleGroupLayout]}>
-        <View style={[styles.groupChild, styles.groupChildBorder]} />
-        <Text style={styles.text}>타인의 얼굴에 주의를 기울인다</Text>
+        <View style={[styles.groupItem, styles.groupChildBorder]} />
+        <Text style={styles.payAttentionTo}>
+          Pay attention to other people's faces
+        </Text>
       </Pressable>
-      <Text style={[styles.category, styles.homeTypo]}>Category</Text>
-      <Text style={[styles.recognitionDevelopment, styles.homeTypo]}>
+      <Text style={[styles.category, styles.homeFlexBox]}>Category</Text>
+      <Text style={[styles.recognitionDevelopment, styles.homeFlexBox]}>
         Recognition Development
       </Text>
       <Pressable style={[styles.rectangleGroup, styles.rectangleGroupLayout]}>
-        <View style={[styles.groupItem, styles.groupChildBorder]} />
+        <View style={[styles.groupInner, styles.groupChildBorder]} />
         <Text
-          style={[styles.text1, styles.textTypo]}
-        >{`눈으로 사물을 따라가기 시작하고 
-멀리서도 사람을 인식할 수 있다`}</Text>
+          style={[styles.canStartFollowing, styles.ifActivitiesDoTypo]}
+        >{`Can start following things with his or her eyes
+ and recognize people from a distance`}</Text>
       </Pressable>
       <Pressable
         style={[styles.rectangleContainer, styles.rectangleGroupLayout]}
       >
-        <View style={[styles.groupInner, styles.groupChildBorder]} />
-        <Text
-          style={[styles.text1, styles.textTypo]}
-        >{`활동이 바뀌지 않으면 지루해하여 
-울음 등의 반응이 나타날 수 있다`}</Text>
-      </Pressable>
-      <Pressable style={[styles.groupPressable, styles.rectangleGroupLayout]}>
         <View style={[styles.rectangleView, styles.groupChildBorder]} />
         <Text
-          style={[styles.text3, styles.textTypo]}
-        >{`우연히 했던 행동을 통해서 새로운 경험을 하게 되고 
-그 행동을 반복한다`}</Text>
+          style={[styles.ifActivitiesDo, styles.ifActivitiesDoTypo]}
+        >{`If activities do not change, reactions such as
+ crying because they are bored may appear`}</Text>
       </Pressable>
-      <Text style={[styles.text4, styles.text4Layout]}>
-        아래의 항목 중 아이의 발달 상태에 해당하는 항목을 모두 골라주세요
-      </Text>
-      <View style={[styles.groupView, styles.rectangleParentLayout]}>
+      <Pressable style={[styles.groupPressable, styles.rectangleGroupLayout]}>
+        <View style={[styles.groupChild1, styles.groupChildBorder]} />
+        <Text
+          style={[styles.throughAccidentalActions, styles.ifActivitiesDoTypo]}
+        >{`Through accidental actions,
+ experience new experiences and repeat them`}</Text>
+      </Pressable>
+
+      <Pressable
+        style={[styles.rectangleParent1, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Movement")}
+      >
         <Pressable
           style={[styles.rectanglePressable, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Movement")}
         />
         <Image
           style={[styles.acrobaticsIcon, styles.iconLayout]}
@@ -65,73 +73,86 @@ const Recommend13Recognition = () => {
           source={require("../assets/acrobatics.png")}
         />
         <Text style={[styles.motion, styles.senseTypo]}>Motion</Text>
-      </View>
-      <View style={[styles.rectangleParent1, styles.rectangleParentLayout]}>
-        <View style={[styles.groupChild1, styles.groupChildPosition]} />
+      </Pressable>
+
+
+      <Pressable
+        style={[styles.rectangleParent2, styles.rectangleParentLayout]}
+      >
+        <View style={[styles.groupChild2, styles.groupChildShadowBox, {backgroundColor: '#1F1F45'}]} />
         <Image
-          style={[styles.bookIcon, styles.iconPosition]}
+          style={[styles.bookIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/book.png")}
         />
         <Text style={[styles.recognition, styles.senseTypo]}>Recognition</Text>
-      </View>
-      <View style={[styles.rectangleParent2, styles.rectangleParentLayout]}>
+      </Pressable>
+
+      
+      <Pressable
+        style={[styles.rectangleParent3, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Language")}
+      >
         <Pressable
-          style={[styles.groupChild2, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Language")}
+          style={[styles.groupChild3, styles.groupChildShadowBox]}
         />
         <Image
-          style={[styles.bookIcon, styles.iconPosition]}
+          style={[styles.bookIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/voice.png")}
         />
         <Text style={[styles.speech, styles.senseTypo]}>Speech</Text>
-      </View>
-      <View style={[styles.rectangleParent3, styles.rectangleParentLayout]}>
+      </Pressable>
+      <Pressable
+        style={[styles.rectangleParent4, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Emotion")}
+      >
         <Pressable
-          style={[styles.groupChild3, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Emotion")}
+          style={[styles.groupChild4, styles.groupChildShadowBox]}
         />
         <Image
-          style={[styles.bookIcon, styles.iconPosition]}
+          style={[styles.bookIcon, styles.iconLayout]}
           contentFit="cover"
           source={require("../assets/handmade.png")}
         />
         <Text style={[styles.emotion, styles.senseTypo]}>Emotion</Text>
-      </View>
-      <View style={[styles.rectangleParent4, styles.rectangleParentLayout]}>
+      </Pressable>
+
+      <Pressable
+        style={[styles.rectangleParent5, styles.rectangleParentLayout]}
+        onPress={() => navigation.navigate("Recommend13Sense")}
+      >
         <Pressable
-          style={[styles.groupChild4, styles.groupChildShadowBox]}
-          onPress={() => navigation.navigate("Recommend13Sense")}
+          style={[styles.groupChild5, styles.groupChildShadowBox]}
         />
         <Text style={[styles.sense, styles.senseTypo]}>Sense</Text>
         <Image
-          style={[styles.tongueOutIcon, styles.iconPosition]}
+          style={[styles.tongueOutIcon, styles.groupChildLayout]}
           contentFit="cover"
           source={require("../assets/tongue-out.png")}
         />
-      </View>
-      <View style={[styles.rectangleParent5, styles.groupChild5Layout]}>
-        <View style={[styles.groupChild5, styles.groupChild5Layout]} />
-        <Text style={[styles.finish, styles.text4Layout]}>Finish</Text>
+      </Pressable>
+
+
+      <View
+        style={[styles.pleaseSelectAllOfTheItemsWrapper, styles.iconLayout]}
+      >
+        <Text
+          style={[styles.pleaseSelectAll, styles.homeFlexBox]}
+        >{`Please select all of the items below 
+that correspond to your child's developmental status`}</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sortLeftIconLayout: {
-    height: 30,
-    top: 28,
+  groupChildLayout: {
     width: 30,
     position: "absolute",
   },
-  homeTypo: {
+  homeFlexBox: {
     textAlign: "left",
-    color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_mini,
     position: "absolute",
   },
   rectangleGroupLayout: {
@@ -144,22 +165,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    left: 0,
-    top: 0,
     backgroundColor: Color.colorWhite,
   },
-  textTypo: {
+  ifActivitiesDoTypo: {
     textAlign: "center",
     top: 9,
     color: Color.colorDarkgray,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     fontSize: FontSize.size_smi,
-    position: "absolute",
-  },
-  text4Layout: {
-    lineHeight: 20,
-    textAlign: "left",
     position: "absolute",
   },
   rectangleParentLayout: {
@@ -180,11 +194,13 @@ const styles = StyleSheet.create({
       width: 0,
       height: 4,
     },
+    left: 0,
+    top: 0,
     position: "absolute",
   },
   iconLayout: {
     height: 40,
-    top: 10,
+    position: "absolute",
   },
   senseTypo: {
     color: Color.colorGainsboro_100,
@@ -195,32 +211,35 @@ const styles = StyleSheet.create({
     textAlign: "left",
     position: "absolute",
   },
-  groupChildPosition: {
-    backgroundColor: Color.colorDarkslateblue,
-    left: 0,
+  groupChild: {
+    left: 1,
     top: 0,
-  },
-  iconPosition: {
-    left: 12,
-    width: 30,
-    position: "absolute",
-  },
-  groupChild5Layout: {
-    height: 37,
-    width: 105,
-    position: "absolute",
-  },
-  recommend13recognitionChild: {
-    left: 18,
+    height: 30,
   },
   sortLeftIcon: {
+    left: 0,
+    width: 30,
+    top: 0,
+    height: 30,
+    position: "absolute",
+  },
+  ellipseParent: {
+    top: 28,
     left: 17,
+    width: 31,
+    height: 30,
+    position: "absolute",
   },
   home: {
     top: 34,
     left: 58,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
-  groupChild: {
+  groupItem: {
     shadowOpacity: 1,
     elevation: 3,
     shadowRadius: 3,
@@ -229,18 +248,18 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowColor: "rgba(0, 0, 0, 0.01)",
+    borderRadius: Border.br_3xs,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
     height: 50,
     width: 300,
+    left: 0,
+    top: 0,
     position: "absolute",
   },
-  text: {
+  payAttentionTo: {
     top: 17,
-    left: 67,
+    left: 44,
     color: Color.colorDarkgray,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
@@ -254,34 +273,20 @@ const styles = StyleSheet.create({
   category: {
     top: 88,
     left: 30,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
   recognitionDevelopment: {
     top: 236,
     left: 30,
-  },
-  groupItem: {
-    shadowOpacity: 1,
-    elevation: 3,
-    shadowRadius: 3,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowColor: "rgba(0, 0, 0, 0.01)",
-    borderColor: Color.colorGainsboro_100,
-    borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
-    height: 50,
-    width: 300,
-    position: "absolute",
-  },
-  text1: {
-    left: 59,
-  },
-  rectangleGroup: {
-    top: 334,
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    fontSize: FontSize.size_mini,
+    textAlign: "left",
   },
   groupInner: {
     shadowOpacity: 1,
@@ -292,17 +297,20 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowColor: "rgba(0, 0, 0, 0.01)",
+    borderRadius: Border.br_3xs,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
     height: 50,
     width: 300,
+    left: 0,
+    top: 0,
     position: "absolute",
   },
-  rectangleContainer: {
-    top: 394,
+  canStartFollowing: {
+    left: 8,
+  },
+  rectangleGroup: {
+    top: 334,
   },
   rectangleView: {
     shadowOpacity: 1,
@@ -313,120 +321,107 @@ const styles = StyleSheet.create({
       height: 4,
     },
     shadowColor: "rgba(0, 0, 0, 0.01)",
+    borderRadius: Border.br_3xs,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    borderRadius: Border.br_3xs,
-    left: 0,
-    top: 0,
     height: 50,
     width: 300,
+    left: 0,
+    top: 0,
     position: "absolute",
   },
-  text3: {
-    left: 11,
+  ifActivitiesDo: {
+    left: 12,
+  },
+  rectangleContainer: {
+    top: 394,
+  },
+  groupChild1: {
+    shadowOpacity: 1,
+    elevation: 3,
+    shadowRadius: 3,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowColor: "rgba(0, 0, 0, 0.01)",
+    borderRadius: Border.br_3xs,
+    borderColor: Color.colorGainsboro_100,
+    borderStyle: "solid",
+    height: 50,
+    width: 300,
+    left: 0,
+    top: 0,
+    position: "absolute",
+  },
+  throughAccidentalActions: {
+    left: 6,
   },
   groupPressable: {
     top: 454,
-  },
-  text4: {
-    top: 760,
-    left: 36,
-    fontSize: FontSize.size_3xs,
-    fontWeight: "300",
-    fontFamily: FontFamily.interLight,
-    color: Color.colorRosybrown,
   },
   rectanglePressable: {
     borderWidth: 1,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    left: 0,
-    top: 0,
     backgroundColor: Color.colorWhite,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
   },
   acrobaticsIcon: {
     left: 13,
-    width: 30,
-    position: "absolute",
     top: 10,
+    height: 40,
+    width: 30,
   },
   motion: {
     left: 15,
   },
-  groupView: {
+  rectangleParent1: {
     left: 30,
   },
-  groupChild1: {
-    elevation: 7,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
-    height: 80,
-    width: 55,
-    shadowOpacity: 1,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    position: "absolute",
+  groupChild2: {
+    backgroundColor: Color.colorDarkslateblue,
   },
   bookIcon: {
-    height: 40,
     top: 10,
+    height: 40,
+    width: 30,
+    left: 12,
   },
   recognition: {
     left: 6,
   },
-  rectangleParent1: {
-    left: 91,
-  },
-  groupChild2: {
-    borderWidth: 1,
-    borderColor: Color.colorGainsboro_100,
-    borderStyle: "solid",
-    left: 0,
-    top: 0,
-    backgroundColor: Color.colorWhite,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
-  },
-  speech: {
-    left: 14,
-  },
   rectangleParent2: {
-    left: 152,
+    left: 91,
   },
   groupChild3: {
     borderWidth: 1,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    left: 0,
-    top: 0,
     backgroundColor: Color.colorWhite,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
   },
-  emotion: {
-    left: 13,
+  speech: {
+    left: 14,
   },
   rectangleParent3: {
-    left: 213,
+    left: 152,
   },
   groupChild4: {
     borderWidth: 1,
     borderColor: Color.colorGainsboro_100,
     borderStyle: "solid",
-    left: 0,
-    top: 0,
     backgroundColor: Color.colorWhite,
-    shadowRadius: 7,
-    shadowColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: Border.br_81xl,
+  },
+  emotion: {
+    left: 13,
+  },
+  rectangleParent4: {
+    left: 213,
+  },
+  groupChild5: {
+    borderWidth: 1,
+    borderColor: Color.colorGainsboro_100,
+    borderStyle: "solid",
+    backgroundColor: Color.colorWhite,
   },
   sense: {
     left: 16,
@@ -434,30 +429,24 @@ const styles = StyleSheet.create({
   tongueOutIcon: {
     top: 13,
     height: 35,
-  },
-  rectangleParent4: {
-    left: 274,
-  },
-  groupChild5: {
-    backgroundColor: Color.colorDarkslateblue,
-    left: 0,
-    top: 0,
-    borderRadius: Border.br_3xs,
-    width: 105,
-  },
-  finish: {
-    letterSpacing: 0.5,
-    fontWeight: "700",
-    fontFamily: FontFamily.interBold,
-    color: Color.colorWhite,
-    top: 9,
-    lineHeight: 20,
-    left: 30,
-    fontSize: FontSize.size_mini,
+    left: 12,
   },
   rectangleParent5: {
-    top: 713,
-    left: 224,
+    left: 274,
+  },
+  pleaseSelectAll: {
+    left: 28,
+    fontSize: FontSize.size_3xs,
+    lineHeight: 20,
+    fontWeight: "300",
+    fontFamily: FontFamily.interLight,
+    color: Color.colorRosybrown,
+    top: 0,
+  },
+  pleaseSelectAllOfTheItemsWrapper: {
+    top: 743,
+    width: 303,
+    left: 13,
   },
   recommend13recognition: {
     flex: 1,

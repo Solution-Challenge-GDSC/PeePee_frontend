@@ -1,129 +1,226 @@
 import * as React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text } from "react-native";
-import { Color, FontFamily, Border, FontSize } from "../GlobalStyles";
+import { useNavigation } from "@react-navigation/native";
+import { Color, FontFamily, FontSize, Border } from "../GlobalStyles3";
 
 const Loding2 = () => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.loding}>
-      <Image
-        style={[styles.lodingChild, styles.lodingChildLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-1.png")}
-      />
-      <Image
-        style={[styles.sortLeftIcon, styles.lodingChildLayout]}
-        contentFit="cover"
-        source={require("../assets/sort-left.png")}
-      />
-      <View style={[styles.lodingItem, styles.parentLayout]} />
-      <Text style={styles.vlalablalb}>vlalablalb</Text>
-      <Text style={[styles.text, styles.textClr]}>
-        이 시기 아동발달ㅇ는 이런 방향의 놀이를 하는게 좋다~ 부모님은 어떤
-        식으로 아이들 대해야 한다~
-      </Text>
-      <Image
-        style={[styles.image63Icon, styles.parentLayout]}
-        contentFit="cover"
-        source={require("../assets/image-63.png")}
-      />
-      <View style={[styles.parent, styles.parentLayout]}>
+    <View style={styles.loding3}>
+      <Pressable
+        style={styles.ellipseParent}
+        onPress={() => navigation.navigate("Recommend13Sense")}
+      >
+        <Image
+          style={styles.groupChild}
+          contentFit="cover"
+          source={require("../assets/ellipse-1.png")}
+        />
+        <Image
+          style={styles.sortLeftIcon}
+          contentFit="cover"
+          source={require("../assets/sort-left.png")}
+        />
+      </Pressable>
+      <View style={styles.beCarefulOfColdWrapper}>
+        <Text style={styles.beCarefulOf}>Be careful of cold</Text>
+      </View>
+      <View style={[styles.rectangleParent, styles.rectangleLayout1]}>
+        <View style={styles.groupItem} />
+        <Text style={[styles.language, styles.languageTypo]}>language</Text>
+      </View>
+      <View style={[styles.rectangleGroup, styles.rectangleLayout1]}>
+        <View style={styles.groupItem} />
+        <Text style={[styles.exercise, styles.languageTypo]}>exercise</Text>
+      </View>
+      <View style={[styles.rectangleContainer, styles.rectangleLayout]}>
+        <View style={[styles.rectangleView, styles.groupChild1Border]} />
         <Text
-          style={[styles.text1, styles.textClr]}
-        >{`놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법
-놀이방법놀이방법놀이방법놀이방법놀이방법`}</Text>
-        <View style={styles.frameChild} />
+          style={[styles.whenMakingAny, styles.outOfTheTypo]}
+        >{`When making any movement or content, please reflect your child's opinion as much as possible and enjoy it.
+
+If your child is able to write or is interested in writing, it is also good to help him write on a large drawing paper and decorate it with crayons or colored pencils.`}</Text>
+      </View>
+      <View style={[styles.groupView, styles.groupLayout]}>
+        <View style={[styles.groupChild1, styles.groupLayout]} />
+        <Text
+          style={[styles.outOfThe, styles.outOfThePosition]}
+        >{`1. Out of the window: Point forward with the child and the index finger of the right hand.
+
+2. It's raining: Move both your fingers quickly and lower from top of your head. 
+
+3. My mom and dad told me not to play: Pretend to wipe your tears with both hands. 
+
+4. Secretly: Pretending to sneak out.`}</Text>
+        <Image
+          style={[styles.image80Icon, styles.outOfThePosition]}
+          contentFit="cover"
+          source={require("../assets/image-802.png")}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  lodingChildLayout: {
+  rectangleLayout1: {
+    width: 140,
+    top: 125,
     height: 30,
+    position: "absolute",
+  },
+  languageTypo: {
+    textAlign: "left",
+    color: Color.colorWhite,
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
+    fontSize: FontSize.size_smi,
+    top: 7,
+    position: "absolute",
+  },
+  rectangleLayout: {
+    height: 150,
+    width: 300,
+    position: "absolute",
+  },
+  groupChild1Border: {
+    borderColor: Color.colorGainsboro,
+    borderRadius: Border.br_3xs,
+    borderWidth: 1,
+    borderStyle: "solid",
+    left: 0,
+    top: 0,
+    backgroundColor: Color.colorWhite,
+  },
+  outOfTheTypo: {
+    fontFamily: FontFamily.interLight,
+    fontWeight: "300",
+    textAlign: "left",
+    fontSize: FontSize.size_smi,
+  },
+  groupLayout: {
+    height: 323,
+    width: 300,
+    position: "absolute",
+  },
+  outOfThePosition: {
+    width: 270,
+    left: 15,
+    position: "absolute",
+  },
+  groupChild: {
+    left: 1,
     width: 30,
-    top: 28,
+    top: 0,
+    height: 30,
     position: "absolute",
-  },
-  parentLayout: {
-    width: 300,
-    position: "absolute",
-  },
-  textClr: {
-    color: Color.colorDarkslategray_200,
-    fontFamily: FontFamily.interRegular,
-    width: 300,
-    position: "absolute",
-  },
-  lodingChild: {
-    left: 18,
   },
   sortLeftIcon: {
+    left: 0,
+    width: 30,
+    top: 0,
+    height: 30,
+    position: "absolute",
+  },
+  ellipseParent: {
+    top: 28,
     left: 17,
+    width: 31,
+    height: 30,
+    position: "absolute",
   },
-  lodingItem: {
-    top: 251,
-    borderRadius: Border.br_11xl,
-    backgroundColor: Color.colorGray_600,
-    height: 200,
-    left: 30,
-  },
-  vlalablalb: {
-    top: 78,
-    left: 128,
+  beCarefulOf: {
+    top: -7,
+    left: 57,
     fontSize: FontSize.size_3xl,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
+    textAlign: "center",
     color: Color.colorBlack,
-    textAlign: "center",
     position: "absolute",
   },
-  text: {
-    top: 115,
-    fontSize: FontSize.size_xs,
-    textAlign: "center",
+  beCarefulOfColdWrapper: {
+    top: 78,
+    height: 29,
+    width: 300,
     left: 30,
+    position: "absolute",
   },
-  image63Icon: {
-    top: 285,
-    left: 10,
-    height: 166,
-  },
-  text1: {
-    top: 0,
+  groupItem: {
+    borderRadius: Border.br_11xl,
+    backgroundColor: Color.colorGoldenrod,
+    borderColor: Color.colorWhite,
+    borderWidth: 1,
+    borderStyle: "solid",
+    width: 140,
     left: 0,
-    fontSize: FontSize.size_mid,
-    letterSpacing: 0.5,
-    lineHeight: 25,
-    textAlign: "left",
-  },
-  frameChild: {
-    top: 508,
-    left: 13,
-    backgroundColor: Color.colorGoldenrod_100,
-    width: 280,
-    height: 67,
+    top: 0,
+    height: 30,
     position: "absolute",
   },
-  parent: {
-    top: 505,
-    height: 575,
+  language: {
+    left: 41,
+  },
+  rectangleParent: {
     left: 30,
   },
-  loding: {
-    backgroundColor: Color.colorLightseagreen,
+  exercise: {
+    left: 45,
+  },
+  rectangleGroup: {
+    left: 190,
+  },
+  rectangleView: {
+    height: 150,
+    width: 300,
+    position: "absolute",
+  },
+  whenMakingAny: {
+    top: 9,
+    left: 23,
+    color: Color.colorGray_100,
+    width: 260,
+    height: 135,
+    position: "absolute",
+  },
+  rectangleContainer: {
+    top: 175,
+    left: 30,
+  },
+  groupChild1: {
+    borderColor: Color.colorGainsboro,
+    borderRadius: Border.br_3xs,
+    borderWidth: 1,
+    borderStyle: "solid",
+    left: 0,
+    top: 0,
+    backgroundColor: Color.colorWhite,
+  },
+  outOfThe: {
+    top: 149,
+    height: 174,
+    fontFamily: FontFamily.interLight,
+    fontWeight: "300",
+    textAlign: "left",
+    fontSize: FontSize.size_smi,
+    color: Color.colorBlack,
+  },
+  image80Icon: {
+    top: 29,
+    height: 100,
+  },
+  groupView: {
+    top: 346,
+    left: 30,
+  },
+  loding3: {
     flex: 1,
     width: "100%",
     height: 800,
     overflow: "hidden",
+    backgroundColor: Color.colorWhite,
   },
 });
 

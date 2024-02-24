@@ -4,11 +4,11 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles3";
 
-const Loding1 = () => {
+const Loding3 = () => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.loding2}>
+    <View style={styles.loding4}>
       <Pressable
         style={styles.ellipseParent}
         onPress={() => navigation.navigate("Recommend13Sense")}
@@ -24,47 +24,40 @@ const Loding1 = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
-      <View style={styles.buyAScarfWrapper}>
-        <Text style={styles.buyAScarf}>Buy a scarf</Text>
+      <View
+        style={[styles.letsHaveFunTogetherWrapper, styles.rectangleLayout1]}
+      >
+        <Text style={styles.letsHaveFun}>Let's have fun together</Text>
       </View>
-      <View style={[styles.rectangleParent, styles.rectangleLayout1]}>
+      <View style={[styles.rectangleParent, styles.rectangleLayout]}>
         <View style={styles.groupItem} />
-        <Text style={[styles.recognition, styles.emotionTypo]}>
-          recognition
-        </Text>
+        <Text style={[styles.language, styles.languageTypo]}>language</Text>
       </View>
-      <View style={[styles.rectangleGroup, styles.rectangleLayout1]}>
+      <View style={[styles.rectangleGroup, styles.rectangleLayout]}>
         <View style={styles.groupItem} />
-        <Text style={[styles.emotion, styles.emotionTypo]}>emotion</Text>
+        <Text style={[styles.exercise, styles.languageTypo]}>exercise</Text>
       </View>
-      <View style={[styles.rectangleContainer, styles.rectangleLayout]}>
+      <View style={[styles.rectangleContainer, styles.rectangleLayout1]}>
         <View style={[styles.rectangleView, styles.groupChild1Border]} />
         <Text
-          style={[styles.playThatDramatizes, styles.fillTheEmptyTypo]}
-        >{`Play that dramatizes real situations not only gives pleasure, but through understanding the situation, the child learns comprehension and appropriate behavior for the situation. 
+          style={[styles.whenMakingAny, styles.myToyHitTypo]}
+        >{`When making any movement or content, please reflect your child's opinion as much as possible and enjoy it.
 
-In addition, scarves are colorful as well as touch, which helps children develop their senses.`}</Text>
+If your child is able to write or is interested in writing, it is also good to help him write on a large drawing paper and decorate it with crayons or colored pencils.`}</Text>
       </View>
       <View style={[styles.groupView, styles.groupLayout]}>
         <View style={[styles.groupChild1, styles.groupLayout]} />
         <Text
-          style={[styles.fillTheEmpty, styles.image80IconPosition]}
-        >{`Fill the empty tissue box (or basket) with the scarf.
-Speak like a scarf seller to a child.
+          style={[styles.myToyHit, styles.myToyHitPosition]}
+        >{`1. My Toy: Hit the chest 3 times with both hands. 
 
-"I sell scarves. Buy a scarf!"
+2. If I play alone: Shake the toy with both hands. 
 
-If your child takes a scarf out of the tissue box, say, "Give me money, it's 100 won," etc.
-
-When you pull all the scarves out of the box, decorate your body with the scarves.
-
-Please allow the child to see the child wearing the scarf here and there through the mirror. 
-
-After wearing a scarf, have your child put the scarf back in the box.`}</Text>
+3. Greedy: With your lips forward, your face crushed, your stomach out, you hit your stomach with both hands.`}</Text>
         <Image
-          style={[styles.image80Icon, styles.image80IconPosition]}
+          style={[styles.image80Icon, styles.myToyHitPosition]}
           contentFit="cover"
-          source={require("../assets/image-801.png")}
+          source={require("../assets/image-803.png")}
         />
       </View>
     </View>
@@ -73,23 +66,22 @@ After wearing a scarf, have your child put the scarf back in the box.`}</Text>
 
 const styles = StyleSheet.create({
   rectangleLayout1: {
+    width: 300,
+    position: "absolute",
+  },
+  rectangleLayout: {
     width: 140,
     top: 125,
     height: 30,
     position: "absolute",
   },
-  emotionTypo: {
+  languageTypo: {
     textAlign: "left",
     color: Color.colorWhite,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     fontSize: FontSize.size_smi,
     top: 7,
-    position: "absolute",
-  },
-  rectangleLayout: {
-    height: 164,
-    width: 300,
     position: "absolute",
   },
   groupChild1Border: {
@@ -101,18 +93,18 @@ const styles = StyleSheet.create({
     top: 0,
     backgroundColor: Color.colorWhite,
   },
-  fillTheEmptyTypo: {
+  myToyHitTypo: {
     fontFamily: FontFamily.interLight,
     fontWeight: "300",
     textAlign: "left",
     fontSize: FontSize.size_smi,
   },
   groupLayout: {
-    height: 439,
+    height: 316,
     width: 300,
     position: "absolute",
   },
-  image80IconPosition: {
+  myToyHitPosition: {
     width: 270,
     left: 15,
     position: "absolute",
@@ -138,8 +130,8 @@ const styles = StyleSheet.create({
     height: 30,
     position: "absolute",
   },
-  buyAScarf: {
-    left: 90,
+  letsHaveFun: {
+    left: 26,
     fontSize: FontSize.size_3xl,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
@@ -148,12 +140,10 @@ const styles = StyleSheet.create({
     top: 0,
     position: "absolute",
   },
-  buyAScarfWrapper: {
-    top: 73,
-    left: 31,
-    height: 35,
-    width: 300,
-    position: "absolute",
+  letsHaveFunTogetherWrapper: {
+    top: 78,
+    height: 27,
+    left: 30,
   },
   groupItem: {
     borderRadius: Border.br_11xl,
@@ -167,34 +157,35 @@ const styles = StyleSheet.create({
     height: 30,
     position: "absolute",
   },
-  recognition: {
-    left: 35,
+  language: {
+    left: 41,
   },
   rectangleParent: {
     left: 30,
   },
-  emotion: {
+  exercise: {
     left: 45,
   },
   rectangleGroup: {
     left: 190,
   },
   rectangleView: {
-    height: 164,
+    height: 150,
     width: 300,
     position: "absolute",
   },
-  playThatDramatizes: {
-    top: 10,
+  whenMakingAny: {
+    top: 9,
     left: 20,
     color: Color.colorGray_100,
     width: 260,
-    height: 149,
+    height: 141,
     position: "absolute",
     fontWeight: "300",
   },
   rectangleContainer: {
     top: 175,
+    height: 150,
     left: 30,
   },
   groupChild1: {
@@ -206,24 +197,24 @@ const styles = StyleSheet.create({
     top: 0,
     backgroundColor: Color.colorWhite,
   },
-  fillTheEmpty: {
-    top: 127,
-    height: 312,
+  myToyHit: {
+    top: 149,
     fontFamily: FontFamily.interLight,
     fontWeight: "300",
     textAlign: "left",
     fontSize: FontSize.size_smi,
+    height: 150,
     color: Color.colorBlack,
   },
   image80Icon: {
-    top: 21,
-    height: 97,
+    top: 29,
+    height: 100,
   },
   groupView: {
-    top: 350,
+    top: 346,
     left: 30,
   },
-  loding2: {
+  loding4: {
     flex: 1,
     width: "100%",
     height: 800,
@@ -232,4 +223,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Loding1;
+export default Loding3;
