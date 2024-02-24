@@ -78,7 +78,7 @@ const MeetUpCategory = () => {
         <Pressable
           key={meetup.id}
           style={styles.rectangleGroup}
-          onPress={() => navigation.navigate("MeetUpDetail", { meetupId: meetup.meetupId,  address: meetup.address, latitude:meetup.latitude, longitude:meetup.longitude })}
+          onPress={() => navigation.navigate("MeetUpDetail", { meetupId: meetup.meetupId,  address: meetup.address, latitude:meetup.latitude, longitude:meetup.longitude , nowlatitude:latitude, nowlongitude:longitude })}
         >
       
         <Text style={[styles.near, styles.nearTypo]}>Near</Text>
@@ -145,9 +145,9 @@ const MeetUpCategory = () => {
         />
       </View>
       <Pressable style={[styles.groupPressable, styles.groupLayout]}>
-        <Pressable
+      <Pressable
           style={[styles.groupInner, styles.groupLayout]}
-          onPress={() => navigation.navigate("MeetUpCreate")}
+          onPress={() => navigation.navigate("MeetUpCreate", {latitude:latitude, longitude:longitude})}
         />
         <Image
           style={[styles.quillPenIcon, styles.iconLayout]}

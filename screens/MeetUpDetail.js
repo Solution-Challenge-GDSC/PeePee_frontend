@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, ImageBackground } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import axios from "axios"; // axios import
 import MapView, { Marker } from 'react-native-maps';
 import { FontFamily, FontSize, Border, Color } from "../GlobalStyles";
-import { add } from "react-native-reanimated";
+
 
 const MeetUpDetail = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { meetupId, address, latitude, longitude } = route.params; // 이렇게 수정
+  const { meetupId, address, latitude, longitude, nowlatitude, nowlongitude } = route.params; // 이렇게 수정
   console.log(meetupId, address, latitude, longitude);
 
   const [meetupDetail, setMeetupDetail] = useState(null); // 상세 정보를 저장할 상태
@@ -38,8 +38,8 @@ const MeetUpDetail = () => {
 
   return (
     <View style={styles.meetUpDetail}>
-         <MapView
-        style={[styles.meetUpDetailChild, styles.meetPosition]}
+       <MapView
+        style={[styles.image53Icon]}
         initialRegion={{
           latitude: latitude,
           longitude: longitude,
@@ -48,15 +48,16 @@ const MeetUpDetail = () => {
         }}>
         <Marker coordinate={{latitude: latitude, longitude: longitude}} />
       </MapView>
-      <View style={[styles.meetUpDetailItem, styles.meetPosition]} />
-      <Image
-        style={[styles.meetUpDetailInner, styles.sortLeftLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-1.png")}
-      />
-      <Pressable
+      <View style={styles.meetUpDetailChild} />
+      <Pressable style={styles.ellipseParent}>
+        <Image
+          style={[styles.groupChild, styles.groupChildLayout]}
+          contentFit="cover"
+          source={require("../assets/ellipse-1.png")}
+        />
+         <Pressable
         style={[styles.sortLeft, styles.sortLeftLayout]}
-        onPress={() => navigation.navigate("MeetUpCategory")}
+        onPress={() => navigation.navigate("MeetUpCategory", { latitude:nowlatitude, longitude:nowlongitude})}
       >
         <Image
           style={styles.icon}
@@ -64,35 +65,20 @@ const MeetUpDetail = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
-      <Text style={[styles.activityDay, styles.whatDoWeFlexBox]}>
-       Activity Day: {`${meetupDetail.activityDay}`}
-     </Text>
-      <Text style={[styles.howManyPeople, styles.whatDoWeFlexBox]}>
-        How many people in here?
-      </Text>
-      <Text style={[styles.whatDoWe, styles.whatDoWeFlexBox]}>
-        What do we do?
-      </Text>
-      <Text style={[styles.mom30Baby, styles.wePlayInTypo]}>
-      {`${meetupDetail.parents} Mom \n${meetupDetail.baby} Baby`}
-      </Text>
+      </Pressable>
+      <Text style={[styles.category, styles.categoryTypo]}>Category</Text>
+      <Text style={[styles.whatDoWe, styles.categoryTypo]}>What do we do?</Text>
       <Text
-        style={[styles.wePlayIn, styles.wePlayInTypo]}
+        style={[styles.wePlayIn, styles.textTypo]}
       >
-        {`${meetupDetail.content}`}
-      </Text>
-      <Image
-        style={[styles.babysRoomIcon, styles.sortLeftLayout]}
-        contentFit="cover"
-        source={require("../assets/babys-room.png")}
-      />
-      <View style={[styles.rectangleParent, styles.groupChildLayout]}>
-        <View style={[styles.groupChild, styles.groupPosition]} />
-        <Text style={[styles.yeokgokPark, styles.whatDoWeFlexBox]}>
-          {`${meetupDetail.category}`}
+          {`${meetupDetail.content}`}</Text>
+      <View style={[styles.rectangleParent, styles.groupItemLayout]}>
+        <View style={[styles.groupItem, styles.groupPosition]} />
+        <Text style={[styles.yeokgokPark, styles.yeokgokParkClr]}>
+        {`${meetupDetail.category}`}
         </Text>
-        <Text style={[styles.jibongRo51beonGilBucheon, styles.whatDoWeFlexBox]}>
-          {address}
+        <Text style={[styles.jibongRo51beonGilBucheon, styles.yeokgokParkClr]}>
+        {address}
         </Text>
         <Image
           style={[styles.locationIcon, styles.locationIconLayout]}
@@ -101,7 +87,7 @@ const MeetUpDetail = () => {
         />
       </View>
       <Pressable style={[styles.rectangleGroup, styles.groupLayout]}>
-        <View style={[styles.groupItem, styles.groupLayout]} />
+        <View style={[styles.groupInner, styles.groupLayout]} />
         <Text style={[styles.joinIn, styles.joinInTypo]}>Join In</Text>
         <Image
           style={[styles.queryInnerJoinRight, styles.locationIconLayout]}
@@ -109,39 +95,60 @@ const MeetUpDetail = () => {
           source={require("../assets/query-inner-join-right.png")}
         />
       </Pressable>
+      <Text style={styles.name}>{`${meetupDetail.nickName}`}</Text>
+      <Text style={[styles.text, styles.textTypo]}>{`${meetupDetail.activityDay}`}</Text>
+      <ImageBackground
+        style={styles.meetUpDetailItem}
+        resizeMode="cover"
+       // source={{ uri: meetupDetail.profileImage }}
+       source={require("../assets/ellipse38.png")}
+
+      />
+      <View style={[styles.rectangleContainer, styles.viewLayout]}>
+        <View style={[styles.rectangleView, styles.viewLayout]} />
+        <Text style={[styles.mom15, styles.mom15Typo]}>{`Mom ${meetupDetail.parents}`}</Text>
+      </View>
+      <View style={[styles.groupView, styles.viewLayout]}>
+        <View style={[styles.rectangleView, styles.viewLayout]} />
+        <Text style={[styles.baby5, styles.mom15Typo]}>{`Baby ${meetupDetail.baby}`}</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  meetPosition: {
-    width: 360,
-    left: 0,
-    position: "absolute",
-  },
-  sortLeftLayout: {
-    height: 30,
+  groupChildLayout: {
     width: 30,
+    top: 0,
+    height: 30,
     position: "absolute",
   },
-  whatDoWeFlexBox: {
+  categoryTypo: {
     textAlign: "left",
+    color: Color.colorBlack,
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
     position: "absolute",
   },
-  wePlayInTypo: {
-    fontFamily: FontFamily.interRegular,
+  textTypo: {
+    fontFamily: FontFamily.interBold,
     fontSize: FontSize.size_smi,
     textAlign: "left",
     position: "absolute",
   },
-  groupChildLayout: {
+  groupItemLayout: {
     height: 70,
     position: "absolute",
   },
   groupPosition: {
     borderRadius: Border.br_3xs,
-    left: 0,
     top: 0,
+    left: 0,
+  },
+  yeokgokParkClr: {
+    color: Color.colorWhite,
+    textAlign: "left",
+    position: "absolute",
   },
   locationIconLayout: {
     height: 20,
@@ -154,70 +161,70 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   joinInTypo: {
-    color: Color.colorBlack,
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
+  },
+  viewLayout: {
+    height: 25,
+    width: 81,
+    position: "absolute",
+  },
+  mom15Typo: {
+    color: Color.colorDimgray_100,
+    top: 4,
+    fontFamily: FontFamily.interRegular,
+    fontSize: FontSize.size_smi,
+    textAlign: "left",
+    position: "absolute",
+  },
+  image53Icon: {
+    top: -32,
+    left: -10,
+    width: 410,
+    height: 659,
+    position: "absolute",
   },
   meetUpDetailChild: {
-    height: 562,
-    top: 0,
-    left: 0,
-  },
-  meetUpDetailItem: {
-    top: 444,
-    borderRadius: Border.br_xl,
+    top: 500,
+    borderRadius: 20,
+    width: 388,
+    height: 559,
     backgroundColor: Color.colorWhite,
-    height: 437,
+    left: 0,
+    position: "absolute",
   },
-  meetUpDetailInner: {
-    left: 18,
-    top: 50,
+  groupChild: {
+    left: 1,
+  },
+  sortLeftIcon: {
+    left: 0,
     width: 30,
   },
-  icon: {
-    height: "100%",
-    width: "100%",
-  },
-  sortLeft: {
+  ellipseParent: {
     left: 17,
-    top: 50,
-    width: 30,
+    width: 31,
+    height: 30,
+    top: 38,
+    position: "absolute",
   },
-  howManyPeople: {
-    top: 482,
-    color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_lg,
-    textAlign: "left",
-    left: 30,
+  category: {
+    top: 44,
+    left: 58,
+    fontSize: 15,
   },
   whatDoWe: {
-    top: 582,
-    color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
-    fontSize: FontSize.size_lg,
-    textAlign: "left",
+    top: 652,
+    fontSize: 18,
     left: 30,
   },
-  mom30Baby: {
-    left: 70,
-    color: "#575757",
-    top: 518,
-  },
   wePlayIn: {
-    top: 618,
+    top: 688,
     color: "#5e5e5e",
     width: 300,
     left: 30,
   },
-  babysRoomIcon: {
-    top: 518,
-    left: 30,
-  },
-  groupChild: {
-    backgroundColor: "rgba(255, 255, 255, 0.4)",
+  groupItem: {
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     width: 200,
     height: 70,
     position: "absolute",
@@ -226,56 +233,103 @@ const styles = StyleSheet.create({
     top: 13,
     fontSize: 19,
     left: 20,
-    color: Color.colorBlack,
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
   },
   jibongRo51beonGilBucheon: {
     top: 43,
     left: 43,
-    fontSize: FontSize.size_5xs,
+    fontSize: 8,
     fontWeight: "300",
     fontFamily: FontFamily.interLight,
-    color: "#505050",
     width: 181,
   },
   locationIcon: {
-    top: 38,
     left: 20,
+    top: 38,
+    height: 20,
+    width: 20,
   },
   rectangleParent: {
     width: 224,
-    top: 108,
+    top: 98,
     left: 30,
   },
-  groupItem: {
+  groupInner: {
     backgroundColor: "rgba(255, 199, 0, 0.6)",
     borderRadius: Border.br_3xs,
-    left: 0,
     top: 0,
+    left: 0,
   },
   joinIn: {
     top: 32,
     left: 25,
-    fontSize: FontSize.size_4xs,
+    fontSize: 9,
     textAlign: "center",
+    color: Color.colorBlack,
     position: "absolute",
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
   },
   queryInnerJoinRight: {
     top: 11,
-    left: 32,
+    left: 30,
   },
   rectangleGroup: {
-    left: 249,
-    top: 108,
+    left: 258,
+    top: 98,
+  },
+  name: {
+    top: 559,
+    left: 224,
+    fontSize: 17,
+    fontWeight: "700",
+    fontFamily: FontFamily.interBold,
+    textAlign: "right",
+    color: Color.colorBlack,
+    position: "absolute",
+  },
+  text: {
+    top: 540,
+    left: 32,
+    color: Color.colorBlack,
+  },
+  meetUpDetailItem: {
+    top: 546,
+    left: 290,
+    width: 50,
+    height: 50,
+    position: "absolute",
+  },
+  rectangleView: {
+    borderRadius: Border.br_11xl,
+    borderStyle: "solid",
+    borderColor: Color.colorDimgray_100,
+    borderWidth: 1,
+    width: 81,
+    top: 0,
+    backgroundColor: Color.colorWhite,
+    left: 0,
+  },
+  mom15: {
+    left: 16,
+  },
+  rectangleContainer: {
+    top: 563,
+    left: 33,
+    width: 81,
+  },
+  baby5: {
+    left: 19,
+  },
+  groupView: {
+    top: 593,
+    left: 33,
+    width: 81,
   },
   meetUpDetail: {
-    backgroundColor: Color.colorWhitesmoke_100,
+    backgroundColor: "#f8f4f1",
     flex: 1,
-    height: 800,
     width: "100%",
+    height: 800,
   },
 });
 
