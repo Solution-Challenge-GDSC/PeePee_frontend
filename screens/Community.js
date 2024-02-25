@@ -53,17 +53,17 @@ const Community = () => {
       <Text style={styles.home}>Home</Text>
       <Pressable style={[styles.rectangleParent, styles.rectangleLayout]}>
         <View style={[styles.groupChild, styles.groupLayout]} />
-        <Text style={styles.text}>자유게시판</Text>
+        <Text style={styles.text}>Free</Text>
       </Pressable>
       <Pressable style={[styles.rectangleGroup, styles.rectangleLayout]}>
         <View style={[styles.groupItem, styles.groupLayout]} />
-        <Text style={styles.text1}>소통게시판</Text>
+        <Text style={styles.text1}>Communication</Text>
       </Pressable>
       <Pressable
         style={[styles.rectangleContainer, styles.groupPressablePosition]}
       >
         <View style={[styles.groupChild, styles.groupLayout]} />
-        <Text style={styles.text}>고민게시판</Text>
+        <Text style={styles.text}>Help Board</Text>
       </Pressable>
 
       <ScrollView
