@@ -22,7 +22,8 @@ const Recommend1 = () => {
         source={require("../assets/image-744.png")}
       />
       <View style={[styles.groupParent, styles.groupLayout1]}>
-        <Pressable style={styles.ellipseParent}>
+        <Pressable style={styles.ellipseParent}
+         onPress={() => navigation.navigate("Main")}>
           <Image
             style={[styles.groupChild, styles.groupChildLayout]}
             contentFit="cover"

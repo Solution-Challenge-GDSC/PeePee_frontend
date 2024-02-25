@@ -1,17 +1,32 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { Text, StyleSheet, Pressable, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { toggleBackground, isBackgroundVisible, Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import { useRoute } from "@react-navigation/native";
+
 
 const Recommend13Emotion = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { childAge } = route.params || {}; 
   
+  const [isBackgroundVisible1, setBackgroundVisible1] = useState(false);
+  const [isBackgroundVisible2, setBackgroundVisible2] = useState(false);
+
+
+   const toggleBackground1 = () => {
+    setBackgroundVisible1(!isBackgroundVisible1);
+  };
+  const toggleBackground2 = () => {
+    setBackgroundVisible2(!isBackgroundVisible2);
+  };
+
   return (
     <View style={styles.recommend13emotion}>
+      <Pressable
+          onPress={() => navigation.navigate("Main")}
+        >
       <View style={styles.ellipseParent}>
         <Image
           style={[styles.groupChild, styles.groupChildLayout]}
@@ -24,26 +39,47 @@ const Recommend13Emotion = () => {
           source={require("../assets/sort-left.png")}
         />
       </View>
+      </Pressable>
       <Text style={[styles.home, styles.homeFlexBox]}>Home</Text>
-      <Pressable style={[styles.rectangleParent, styles.rectangleLayout]}>
-        <View style={styles.groupShadowBox} />
-        <Text
-          style={[styles.theBabyCan, styles.theTypo]}
-        >{`The baby can soothe himself for a moment
+
+
+<Pressable
+  style={[
+    styles.rectangleParent,
+    styles.rectangleLayout,
+  ]}
+  onPress={toggleBackground1}
+>
+  <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible1 ? '#FFC045' : 'transparent' }]} />
+  <Text
+    style={[styles.theBabyCan, styles.theTypo]}
+  >{`The baby can soothe himself for a moment
  by taking his hand to his mouth and 
 withdrawing it`}</Text>
-      </Pressable>
+</Pressable>
+
+
       <Text style={[styles.category, styles.homeFlexBox]}>Category</Text>
       <Text style={[styles.emotionDevelopment, styles.homeFlexBox]}>
         Emotion Development
       </Text>
-      <Pressable style={[styles.rectangleGroup, styles.rectangleLayout]}>
-        <View style={styles.groupShadowBox} />
+
+      
+      <Pressable
+      style={[
+        styles.rectangleGroup,
+        styles.rectangleLayout,
+      ]}
+      onPress={toggleBackground2}
+    >
+      <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible2 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.theBabyStarts, styles.theTypo]}
         >{`The baby starts to smile 
 at people and tries to see their parents`}</Text>
       </Pressable>
+
+
 
 
       <Pressable

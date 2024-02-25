@@ -1,18 +1,39 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { Text, StyleSheet, Pressable, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
+import { toggleBackground, isBackgroundVisible, Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import { useRoute } from "@react-navigation/native";
 
 
 const Recommend13Language = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대비하여 기본값으로 빈 객체를 설정합니다.
+  const { childAge } = route.params || {}; 
   
+  const [isBackgroundVisible1, setBackgroundVisible1] = useState(false);
+  const [isBackgroundVisible2, setBackgroundVisible2] = useState(false);
+  const [isBackgroundVisible3, setBackgroundVisible3] = useState(false);
+  const [isBackgroundVisible4, setBackgroundVisible4] = useState(false);
+
+   const toggleBackground1 = () => {
+    setBackgroundVisible1(!isBackgroundVisible1);
+  };
+  const toggleBackground2 = () => {
+    setBackgroundVisible2(!isBackgroundVisible2);
+  };
+
+  const toggleBackground3 = () => {
+    setBackgroundVisible3(!isBackgroundVisible3);
+  };
+  const toggleBackground4 = () => {
+    setBackgroundVisible4(!isBackgroundVisible4);
+  };
   return (
     <View style={styles.recommend13language}>
+                <Pressable
+    onPress={() => navigation.navigate("Main")}
+  >
       <View style={styles.ellipseParent}>
         <Image
           style={[styles.groupChild, styles.groupChildLayout]}
@@ -25,37 +46,63 @@ const Recommend13Language = () => {
           source={require("../assets/sort-left.png")}
         />
       </View>
+      </Pressable>
       <Text style={[styles.home, styles.homeFlexBox]}>Home</Text>
-      <Pressable style={[styles.rectangleParent, styles.rectangleLayout]}>
-        <View style={styles.groupShadowBox} />
+
+
+      <Pressable 
+      style={[
+        styles.rectangleParent,
+        styles.rectangleLayout,
+      ]}
+      onPress={toggleBackground1}
+    >
+      <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible1 ? '#FFC045' : 'transparent' }]} />
         <Text style={styles.whenABaby}>{`When a baby is in a good mood, 
 he mumbles and babbles`}</Text>
       </Pressable>
+
       <Text style={[styles.category, styles.homeFlexBox]}>Category</Text>
       <Text style={[styles.languageDevelopment, styles.homeFlexBox]}>
         Speech Development
       </Text>
-      <Pressable style={[styles.rectangleGroup, styles.rectangleLayout]}>
-        <View style={styles.groupShadowBox} />
+
+
+      <Pressable 
+      style={[ styles.rectangleGroup, styles.rectangleLayout  ]}
+      onPress={toggleBackground2}
+    >
+      <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible2 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.whenAMother, styles.whenAMotherTypo]}
         >{`When a mother responds to her 
 baby's babbling, she mumbles or laughs loudly
  with joy`}</Text>
       </Pressable>
+
       <Pressable
-        style={[styles.recommend13languageInner, styles.rectangleLayout]}
-      >
-        <View style={styles.groupShadowBox} />
+      style={[styles.recommend13languageInner, styles.rectangleLayout ]}
+      onPress={toggleBackground4}
+    >
+    <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible4 ? '#FFC045' : 'transparent' }]} />
+              <Text
+           style={[styles.ifActivitiesDo, styles.ifActivitiesDoTypo]}
+      >{`A baby sometimes has a social smile
+ on his mother's face and turns his head
+ toward the sound`}</Text>
       </Pressable>
 
 
-      <Pressable style={[styles.rectangleContainer, styles.rectangleLayout]}>
-        <View style={styles.groupShadowBox} />
+      <Pressable       
+        style={[styles.rectangleContainer, styles.rectangleLayout ]}
+        onPress={toggleBackground3}
+      >
+      <View style={[styles.groupShadowBox  ,  { backgroundColor: isBackgroundVisible3 ? '#FFC045' : 'transparent' }]} />
         <Text style={[styles.makeARoaring, styles.whenAMotherTypo]}>
           Make a roaring sound
         </Text>
       </Pressable>
+
       <Pressable style={[styles.groupPressable, styles.rectangleParentLayout]}>
         <Pressable
           style={[styles.rectanglePressable, styles.groupChildShadowBox]}
@@ -138,11 +185,7 @@ baby's babbling, she mumbles or laughs loudly
         >{`Please select all of the items below 
 that correspond to your child's developmental status`}</Text>
       </View>
-      <Text
-        style={[styles.aBabySometimes, styles.whenAMotherTypo]}
-      >{`A baby sometimes has a social smile
- on his mother's face and turns his head
- toward the sound`}</Text>
+
     </View>
   );
 };
@@ -151,6 +194,18 @@ const styles = StyleSheet.create({
   groupChildLayout: {
     width: 30,
     position: "absolute",
+  },
+  ifActivitiesDoTypo: {
+    textAlign: "center",
+    top: 2,
+    color: Color.colorDarkgray,
+    fontFamily: FontFamily.interMedium,
+    fontWeight: "500",
+    fontSize: FontSize.size_smi,
+    position: "absolute",
+  },
+  ifActivitiesDo: {
+    left: 23,
   },
   homeFlexBox: {
     textAlign: "left",

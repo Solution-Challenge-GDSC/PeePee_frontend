@@ -3,7 +3,6 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import LogIn from "./screens/LogIn";
-import Recommend from "./screens/Recommend";
 import Main from "./screens/Main";
 import Recommend1 from "./screens/Recommend1";
 import CommunityWrite from "./screens/CommunityWrite";
@@ -21,6 +20,8 @@ import MeetUpCategory from "./screens/MeetUpCategory";
 import MeetUpLocate from "./screens/MeetUpLocate";
 import MeetUpDetail from "./screens/MeetUpDetail";
 import Diary from "./screens/Diary";
+import Diary1 from "./screens/Diary1";
+import Diary2 from "./screens/Diary2";
 import DiaryWrite from "./screens/DiaryWrite";
 import MeetUpCreate from "./screens/MeetUpCreate";
 import DiaryCalender from "./screens/DiaryCalender";
@@ -74,11 +75,6 @@ const App = () => {
             <Stack.Screen
               name="LogIn"
               component={LogIn}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Recommend"
-              component={Recommend}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -175,6 +171,16 @@ const App = () => {
             <Stack.Screen
               name="Diary"
               component={Diary}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Diary1"
+              component={Diary1}
+              options={{ headerShown: false }}
+            />
+                        <Stack.Screen
+              name="Diary2"
+              component={Diary2}
               options={{ headerShown: false }}
             />
             <Stack.Screen

@@ -1,12 +1,48 @@
-import * as React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text, StyleSheet, Pressable, View } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { FontSize, Color, FontFamily, Border } from "../GlobalStyles2";
+import { Color, FontFamily, FontSize, Border } from "../GlobalStyles2";
 import { useRoute } from "@react-navigation/native";
+
 
 const Recommend13Sensee = () => {
   const navigation = useNavigation();
+
+  
+  const [isBackgroundVisible1, setBackgroundVisible1] = useState(false);
+  const [isBackgroundVisible2, setBackgroundVisible2] = useState(false);
+  const [isBackgroundVisible3, setBackgroundVisible3] = useState(false);
+  const [isBackgroundVisible4, setBackgroundVisible4] = useState(false);
+  const [isBackgroundVisible5, setBackgroundVisible5] = useState(false);
+  const [isBackgroundVisible6, setBackgroundVisible6] = useState(false);
+  const [isBackgroundVisible7, setBackgroundVisible7] = useState(false);
+
+
+   const toggleBackground1 = () => {
+    setBackgroundVisible1(!isBackgroundVisible1);
+  };
+  const toggleBackground2 = () => {
+    setBackgroundVisible2(!isBackgroundVisible2);
+  };
+
+  const toggleBackground3 = () => {
+    setBackgroundVisible3(!isBackgroundVisible3);
+  };
+  const toggleBackground4 = () => {
+    setBackgroundVisible4(!isBackgroundVisible4);
+  };
+  const toggleBackground5 = () => {
+    setBackgroundVisible5(!isBackgroundVisible5);
+  };
+
+  const toggleBackground6 = () => {
+    setBackgroundVisible6(!isBackgroundVisible6);
+  };
+  const toggleBackground7 = () => {
+    setBackgroundVisible7(!isBackgroundVisible7);
+  };
+
 
   const route = useRoute();
 const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대비하여 기본값으로 빈 객체를 설정합니다.
@@ -24,7 +60,8 @@ const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대�
   
   return (
     <View style={styles.recommend13sensee}>
-      <Pressable style={styles.ellipseParent}>
+      <Pressable style={styles.ellipseParent}
+       onPress={() => navigation.navigate("Main")}>
         <Image
           style={[styles.groupChild, styles.groupChildLayout]}
           contentFit="cover"
@@ -44,18 +81,24 @@ const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대�
 
 
       <Pressable
-        style={[styles.rectangleParent, styles.rectangleParentLayout1]}
-      >
-        <View style={styles.groupChildShadowBox1} />
+      style={[
+        styles.rectangleParent, styles.rectangleParentLayout1
+          ]}
+          onPress={toggleBackground1}
+        >
+          <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible1 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.theBabyCan, styles.theTypo]}
         >{`The baby can follow the movement
  of the toy with its eyes.`}</Text>
       </Pressable>
 
-
-      <Pressable style={[styles.rectangleGroup, styles.rectanglePosition]}>
-        <View style={styles.groupChildShadowBox1} />
+      <Pressable 
+      style={[
+      styles.rectangleGroup, styles.rectanglePosition ]}
+     onPress={toggleBackground2}
+      >
+     <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible2 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.whenAChild, styles.theTypo]}
         >{`When a child wears a mobile
@@ -65,39 +108,60 @@ const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대�
 
 
       <Pressable
-        style={[styles.rectangleContainer, styles.groupPressablePosition]}
-      >
-        <View style={styles.groupChildShadowBox1} />
+      style={[
+        styles.rectangleContainer, styles.groupPressablePosition]}
+       onPress={toggleBackground3}
+        >
+       <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible3 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.theBabyReacts, styles.thePosition]}
         >{`The baby reacts by separating
  the mother's voice`}</Text>
       </Pressable>
-      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}>
-        <View style={styles.groupChildShadowBox1} />
+    
+      <Pressable
+      style={[
+        styles.groupPressable, styles.groupPressablePosition]}
+       onPress={toggleBackground4}
+        >
+       <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible4 ? '#FFC045' : 'transparent' }]} />
         <Text style={styles.theBabyTurns}>{`The baby turns his head
  toward the sound.`}</Text>
       </Pressable>
+
       <Pressable
-        style={[styles.rectangleParent1, styles.rectangleParentLayout1]}
-      >
-        <View style={styles.groupChildShadowBox1} />
+      style={[
+        styles.rectangleParent1, styles.rectangleParentLayout1]}
+       onPress={toggleBackground5}
+        >
+       <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible5 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.theBabyCan1, styles.thePosition]}
         >{`The baby can hear the doorbell 
 and the telephone ringing distinctly`}</Text>
       </Pressable>
+
+
       <Pressable
-        style={[styles.rectangleParent2, styles.rectangleParentLayout1]}
-      >
-        <View style={styles.groupChildShadowBox1} />
+      style={[
+        styles.rectangleParent2, styles.rectangleParentLayout1]}
+       onPress={toggleBackground6}
+        >
+       <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible6 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.theBabysSense, styles.thePosition]}
         >{`The baby's sense of smell is sensitive 
 enough to turn his head toward the smell`}</Text>
       </Pressable>
-      <Pressable style={[styles.rectangleParent3, styles.rectanglePosition]}>
-        <View style={styles.groupChildShadowBox1} />
+
+
+
+      <Pressable
+      style={[
+        styles.rectangleParent3, styles.rectanglePosition]}
+       onPress={toggleBackground7}
+        >
+       <View style={[styles.groupChildShadowBox1  ,  { backgroundColor: isBackgroundVisible7 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.thereAreCertain, styles.theTypo]}
         >{`There are certain flavors that 

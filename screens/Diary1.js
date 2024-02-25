@@ -2,9 +2,9 @@ import * as React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles4";
+import { FontFamily, Color, FontSize, Border } from "../GlobalStyles4";
 
-const Diary = () => {
+const Diary1 = () => {
   const navigation = useNavigation();
 
   return (
@@ -24,15 +24,51 @@ const Diary = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
-      <Text style={styles.home}>Home</Text>
-      <Text style={styles.nameWhatAre}>{`Name, What are you
+      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
+      <Text
+        style={[styles.nameWhatAre, styles.upsetFlexBox]}
+      >{`Name, What are you
 like today?`}</Text>
-
-      <Pressable style={[styles.diaryInner, styles.groupItemLayout]}
-              onPress={() => navigation.navigate("DiaryWrite")}>
-        <View style={[styles.rectangleParent, styles.groupItemLayout]}>
-          <View style={[styles.groupItem, styles.groupItemLayout]} />
-          <Text style={[styles.continue, styles.happyPosition]}>Continue</Text>
+      <View style={styles.vectorParent}>
+        <Pressable
+          style={[styles.wrapper, styles.wrapperLayout]}
+          onPress={() => navigation.navigate("Diary")}
+        >
+          <Image
+            style={styles.icon}
+            contentFit="cover"
+            source={require("../assets/rectangle-1081.png")}
+          />
+        </Pressable>
+        <Pressable
+          style={[styles.container, styles.wrapperLayout]}
+          onPress={() => navigation.navigate("Diary2")}
+        >
+          <Image
+            style={styles.icon}
+            contentFit="cover"
+            source={require("../assets/rectangle-1091.png")}
+          />
+        </Pressable>
+        <View style={[styles.vectorGroup, styles.groupLayout]}>
+          <Image
+            style={[styles.groupItem, styles.groupLayout]}
+            contentFit="cover"
+            source={require("../assets/rectangle-1071.png")}
+          />
+          <Text style={[styles.upset, styles.upsetFlexBox]}>Upset</Text>
+          <Image
+            style={styles.kakaotalk202402242146136664Icon}
+            contentFit="cover"
+            source={require("../assets/kakaotalk-20240224-214613666-4.png")}
+          />
+        </View>
+      </View>
+      <Pressable style={[styles.diaryInner, styles.innerLayout]}
+                   onPress={() => navigation.navigate("DiaryWrite")}>
+        <View style={[styles.rectangleParent, styles.innerLayout]}>
+          <View style={[styles.groupInner, styles.innerLayout]} />
+          <Text style={[styles.continue, styles.upsetFlexBox]}>Continue</Text>
           <Image
             style={[styles.rightIcon, styles.iconLayout]}
             contentFit="cover"
@@ -40,43 +76,6 @@ like today?`}</Text>
           />
         </View>
       </Pressable>
-
-
-      <View style={styles.vectorParent}>
-        <Pressable
-          style={[styles.wrapper, styles.wrapperLayout]}
-          onPress={() => navigation.navigate("Diary2")}
-        >
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/rectangle-108.png")}
-          />
-        </Pressable>
-        <Pressable
-          style={[styles.container, styles.wrapperLayout]}
-          onPress={() => navigation.navigate("Diary1")}
-        >
-          <Image
-            style={styles.icon}
-            contentFit="cover"
-            source={require("../assets/rectangle-109.png")}
-          />
-        </Pressable>
-        <View style={[styles.vectorGroup, styles.groupLayout]}>
-          <Image
-            style={[styles.groupInner, styles.groupLayout]}
-            contentFit="cover"
-            source={require("../assets/rectangle-107.png")}
-          />
-          <Text style={[styles.happy, styles.happyPosition]}>Happy</Text>
-          <Image
-            style={styles.kakaotalk202402242146136661Icon}
-            contentFit="cover"
-            source={require("../assets/kakaotalk-20240224-214613666-1.png")}
-          />
-        </View>
-      </View>
     </View>
   );
 };
@@ -86,26 +85,30 @@ const styles = StyleSheet.create({
     width: 30,
     position: "absolute",
   },
-  groupItemLayout: {
-    height: 50,
-    width: 300,
-    position: "absolute",
+  homeTypo: {
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    color: Color.colorBlack,
   },
-  happyPosition: {
-    left: 92,
+  upsetFlexBox: {
     textAlign: "center",
     position: "absolute",
   },
   wrapperLayout: {
     height: 179,
     width: 179,
-    top: 42,
+    top: 37,
     position: "absolute",
   },
   groupLayout: {
     width: 242,
     height: 242,
     top: 0,
+    position: "absolute",
+  },
+  innerLayout: {
+    height: 50,
+    width: 300,
     position: "absolute",
   },
   groupChild: {
@@ -130,8 +133,6 @@ const styles = StyleSheet.create({
     left: 58,
     textAlign: "left",
     color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
     fontSize: FontSize.size_mini,
     position: "absolute",
   },
@@ -141,13 +142,56 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_3xl,
     letterSpacing: 0.4,
     lineHeight: 27,
-    textAlign: "center",
     color: Color.colorBlack,
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
-    position: "absolute",
+  },
+  icon: {
+    height: "100%",
+    borderRadius: Border.br_xl,
+    width: "100%",
+  },
+  wrapper: {
+    left: 430,
+  },
+  container: {
+    left: 0,
   },
   groupItem: {
+    borderRadius: Border.br_xl,
+    left: 0,
+  },
+  upset: {
+    top: 185,
+    left: 94,
+    fontSize: FontSize.size_2xl,
+    fontWeight: "700",
+    fontFamily: FontFamily.interBold,
+    transform: [
+      {
+        rotate: "-4deg",
+      },
+    ],
+    color: Color.colorBlack,
+  },
+  kakaotalk202402242146136664Icon: {
+    top: 16,
+    left: 41,
+    width: 160,
+    height: 157,
+    position: "absolute",
+  },
+  vectorGroup: {
+    left: 183,
+  },
+  vectorParent: {
+    top: 279,
+    left: -124,
+    width: 609,
+    height: 242,
+    position: "absolute",
+  },
+  groupInner: {
     borderRadius: Border.br_81xl,
     backgroundColor: Color.colorBlack,
     left: 0,
@@ -155,13 +199,13 @@ const styles = StyleSheet.create({
   },
   continue: {
     top: 15,
+    left: 92,
     fontWeight: "500",
     fontFamily: FontFamily.interMedium,
     color: Color.colorWhite,
     width: 79,
     height: 23,
     fontSize: FontSize.size_mini,
-    left: 92,
   },
   rightIcon: {
     top: 8,
@@ -176,50 +220,6 @@ const styles = StyleSheet.create({
     top: 640,
     left: 30,
   },
-  icon: {
-    height: "100%",
-    borderRadius: Border.br_xl,
-    width: "100%",
-  },
-  wrapper: {
-    left: 430,
-  },
-  container: {
-    left: 0,
-  },
-  groupInner: {
-    borderRadius: Border.br_xl,
-    left: 0,
-  },
-  happy: {
-    top: 185,
-    fontSize: FontSize.size_2xl,
-    fontWeight: "700",
-    fontFamily: FontFamily.interBold,
-    transform: [
-      {
-        rotate: "-4deg",
-      },
-    ],
-    color: Color.colorBlack,
-  },
-  kakaotalk202402242146136661Icon: {
-    top: 19,
-    left: 29,
-    width: 174,
-    height: 174,
-    position: "absolute",
-  },
-  vectorGroup: {
-    left: 184,
-  },
-  vectorParent: {
-    top: 279,
-    left: -124,
-    width: 609,
-    height: 242,
-    position: "absolute",
-  },
   diary: {
     backgroundColor: Color.colorKhaki,
     flex: 1,
@@ -229,4 +229,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Diary;
+export default Diary1;

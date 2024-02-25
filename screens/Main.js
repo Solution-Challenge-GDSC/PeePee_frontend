@@ -22,11 +22,11 @@ const Main = () => {
         source={require("../assets/image-69.png")}
       />
       <View style={[styles.wrapper, styles.wrapperSpaceBlock]}>
-        <Text style={[styles.text, styles.textFlexBox]}>로고</Text>
+        <Text style={[styles.text, styles.textFlexBox]}></Text>
       </View>
       <View style={[styles.mainInner, styles.mainInnerPosition]}>
         <View style={styles.groupItemLayout}>
-          <Text style={[styles.helloOoo, styles.textFlexBox]}>Hello, ooo!</Text>
+          <Text style={[styles.helloOoo, styles.textFlexBox]}>Hello, mom!</Text>
           <ImageBackground
             style={styles.groupPosition}
             resizeMode="cover"
@@ -36,10 +36,9 @@ const Main = () => {
       </View>
       <View style={styles.mainChild}>
         <View style={styles.parent}>
-          <Text style={[styles.text1, styles.text1Position]}>어플 이름</Text>
+          <Text style={[styles.text1, styles.text1Position]}>Pee-Pee</Text>
           <Text style={[styles.text2, styles.textFlexBox]}>
-            어플 소개소개소개소개소개소개소고새고새고쇄고새ㅗ개고새ㅗ개쇄고새ㅗ
-            어플 소개소개소개소개소개소개소고새고새고쇄고새ㅗ개고새ㅗ개쇄고새ㅗ
+          Our Application for Parent’s
           </Text>
         </View>
       </View>
@@ -155,6 +154,8 @@ const styles = StyleSheet.create({
   textFlexBox: {
     textAlign: "left",
     color: Color.colorGainsboro_200,
+    justifyContent: 'center', // 수평 가운데 정렬
+    alignItems: 'center', 
   },
   mainInnerPosition: {
     left: 30,
@@ -257,18 +258,21 @@ const styles = StyleSheet.create({
     color: Color.colorGainsboro_200,
   },
   text2: {
-    top: 46,
+    top: 55,
     fontSize: FontSize.size_smi,
     letterSpacing: 0.7,
     width: 320,
-    left: 0,
+    left: 75,
     fontFamily: FontFamily.interMedium,
     fontWeight: "500",
     position: "absolute",
+
   },
   parent: {
     height: 94,
     width: 320,
+    justifyContent: 'center', // 수평 가운데 정렬
+    alignItems: 'center', 
   },
   mainChild: {
     top: 75,
