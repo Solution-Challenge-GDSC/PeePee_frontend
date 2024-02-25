@@ -27,7 +27,9 @@ const Diary = () => {
       <Text style={styles.home}>Home</Text>
       <Text style={styles.nameWhatAre}>{`Name, What are you
 like today?`}</Text>
-      <Pressable style={[styles.diaryInner, styles.groupItemLayout]}>
+
+      <Pressable style={[styles.diaryInner, styles.groupItemLayout]}
+              onPress={() => navigation.navigate("DiaryWrite")}>
         <View style={[styles.rectangleParent, styles.groupItemLayout]}>
           <View style={[styles.groupItem, styles.groupItemLayout]} />
           <Text style={[styles.continue, styles.happyPosition]}>Continue</Text>
@@ -38,6 +40,8 @@ like today?`}</Text>
           />
         </View>
       </Pressable>
+
+
       <View style={styles.vectorParent}>
         <Pressable
           style={[styles.wrapper, styles.wrapperLayout]}

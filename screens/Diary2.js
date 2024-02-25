@@ -27,7 +27,8 @@ const Diary2 = () => {
       <Text style={[styles.home, styles.homeTypo]}>Home</Text>
       <Text style={[styles.nameWhatAre, styles.sadFlexBox]}>{`Name, What are you
 like today?`}</Text>
-      <Pressable style={[styles.diaryInner, styles.groupItemLayout]}>
+      <Pressable style={[styles.diaryInner, styles.groupItemLayout]}
+                   onPress={() => navigation.navigate("DiaryWrite")}>
         <View style={[styles.rectangleParent, styles.groupItemLayout]}>
           <View style={[styles.groupItem, styles.groupItemLayout]} />
           <Text style={[styles.continue, styles.sadFlexBox]}>Continue</Text>

@@ -64,7 +64,8 @@ like today?`}</Text>
           />
         </View>
       </View>
-      <Pressable style={[styles.diaryInner, styles.innerLayout]}>
+      <Pressable style={[styles.diaryInner, styles.innerLayout]}
+                   onPress={() => navigation.navigate("DiaryWrite")}>
         <View style={[styles.rectangleParent, styles.innerLayout]}>
           <View style={[styles.groupInner, styles.innerLayout]} />
           <Text style={[styles.continue, styles.upsetFlexBox]}>Continue</Text>
