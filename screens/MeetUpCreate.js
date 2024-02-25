@@ -106,8 +106,8 @@ const MeetUpCreate = () => {
       <Text style={styles.home}>Home</Text>
       <Text style={styles.createNewMeet}>Create New Meet UP!</Text>
       <Text style={styles.text}>
-        어떤 활동을 하고싶은지, 어떤 활동을 할건지, 예상 인원 등을 상세히
-        적어주세요
+      What kind of activities do you want to do, what kind of activities do you want to do, and the expected number of people
+Write it down please.
       </Text>
       <View style={[styles.rectangleParent, styles.groupItemLayout]}>
         <View style={[styles.groupItem, styles.groupBorder]} />

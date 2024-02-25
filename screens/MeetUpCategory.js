@@ -90,9 +90,10 @@ const MeetUpCategory = () => {
         resizeMode="cover" // 이미지 크기 조정 방식
         ><View></View>
         </ImageBackground>
-          <Text style={[styles.titleTitleTitle, styles.titleClr]}>
-            {'  '+ meetup.title}
-          </Text>
+        <Text style={[styles.titleTitleTitle, styles.titleClr]}>
+        {meetup.title.length > 40 ? '   '  + meetup.title.substring(0, 30) + '...' : '   ' +meetup.title}
+        </Text>
+
           <Text
             style={[
               styles.jibongRo51beonGilBucheon,
