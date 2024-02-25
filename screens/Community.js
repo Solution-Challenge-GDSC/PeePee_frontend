@@ -45,18 +45,24 @@ const Community = () => {
         contentFit="cover"
         source={require("../assets/ellipse-1.png")}
       />
+            <Pressable
+        style={[styles.sortLeft, styles.forwardLayout]}
+        onPress={() => navigation.navigate("Main")}
+      >
       <Image
         style={[styles.sortLeftIcon, styles.sortLeftIconLayout]}
         contentFit="cover"
         source={require("../assets/sort-left.png")}
-      />
+      /></Pressable>
       <Text style={styles.home}>Home</Text>
       <Pressable style={[styles.rectangleParent, styles.rectangleLayout]}>
         <View style={[styles.groupChild, styles.groupLayout]} />
         <Text style={styles.text}>Free</Text>
+        <Text style={styles.text}>Free</Text>
       </Pressable>
       <Pressable style={[styles.rectangleGroup, styles.rectangleLayout]}>
         <View style={[styles.groupItem, styles.groupLayout]} />
+        <Text style={styles.text1}>Communication</Text>
         <Text style={styles.text1}>Communication</Text>
       </Pressable>
       <Pressable

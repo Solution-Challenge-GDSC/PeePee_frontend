@@ -91,7 +91,8 @@ const MeetUpCreate = () => {
 
   return (
     <View style={styles.meetUpCreate}>
-      <Pressable style={styles.ellipseParent}>
+      <Pressable style={styles.ellipseParent}
+       onPress={() => navigation.navigate("Main")}>
         <Image
           style={[styles.groupChild, styles.iconLayout]}
           contentFit="cover"
