@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image } from "expo-image";
+import { Image, Alert } from "react-native";
 import {
   StyleSheet,
   View,
@@ -10,12 +10,15 @@ import {
 } from "react-native";
 import axios from "axios";
 import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
-
+import { useNavigation } from '@react-navigation/native';
 
 const CommunityDetail = ({ route }) => {
+  const navigation = useNavigation();
   const { boardId } = route.params;
+  console.log("Board ID:", boardId);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk';
 
   
   useEffect(() => {
@@ -118,6 +121,81 @@ const handleComment = async () => {
       console.error("Error posting comment:", error);
     }
   };
+  const handleDeleteComment = async (commentId) => {
+    Alert.alert("Delete Comment", "Are you sure you want to delete this comment?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: async () => {
+          console.log("Request URL:", `https://applemango.store/comment/${commentId}`); // 요청 URL 확인
+          try {
+            const response = await axios.delete(`https://applemango.store/comment/${commentId}`, {
+              headers: { Authorization: `Bearer ${accessToken}` },
+            });
+            if (response.data.isSuccess) {
+              console.log("Comment deleted successfully");
+              // 댓글이 성공적으로 삭제되면 화면을 갱신합니다.
+              fetchComments();
+            } else {
+              console.error("Failed to delete comment:", response.data.message);
+              // 실패했을 때의 처리를 여기에 작성하세요
+            }
+          } catch (error) {
+            console.error("Error deleting comment:", error);
+            // 에러 발생 시 처리를 여기에 작성하세요
+          }
+        },
+        style: "destructive",
+      },
+    ]);
+  };
+
+  const handleDeletePost = async (boardId) => {
+    Alert.alert("Delete Post", "Are you sure you want to delete this post?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Delete",
+        onPress: async () => {
+          console.log("Board ID 확인:", boardId);
+          deletePost(boardId);
+        },
+        style: "destructive",
+      },
+    ]);
+  };
+  
+  const deletePost = async (boardId) => {
+    console.log("Request URL:", `https://applemango.store/board/${boardId}`); // 요청 URL 확인
+  
+    try {
+      const response = await axios.delete(`https://applemango.store/board/${boardId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+  
+      if (response.data.isSuccess) {
+        console.log("Post deleted successfully");
+        // 추가적으로 필요한 로직을 여기에 작성하세요
+        navigation.navigate('Community');
+      } else {
+        // 실패했을 때의 처리를 여기에 작성하세요
+        console.error("Failed to delete post:", response.data.message);
+        // 무조건 삭제하도록 하기 위해 실패 시에도 네비게이션을 호출합니다.
+        navigation.navigate('Community');
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      // 에러 발생 시 처리를 여기에 작성하세요
+    }
+  };
+  
+  
+
 
   return (
     <View style={styles.communitydetail}>
@@ -169,14 +247,14 @@ const handleComment = async () => {
             source={require("../assets/speech.png")}
           />
         </View>
-        <Pressable style={styles.rectangleGroup}>
-          <View style={[styles.groupInner, styles.groupLayout]} />
-          <Image
-            style={[styles.bellIcon, styles.iconPosition]}
-            contentFit="cover"
-            source={require("../assets/bell.png")}
-          />
-        </Pressable>
+        <Pressable style={styles.rectangleGroup} onPress={() => handleDeletePost(boardId)}>
+        <View style={[styles.groupInner, styles.groupLayout]} />
+        <Image
+          style={[styles.bellIcon, styles.iconPosition]}
+          contentFit="cover"
+          source={require("../assets/bell.png")}
+        />
+      </Pressable>
       </>
     )}
   </View>
@@ -222,6 +300,16 @@ const handleComment = async () => {
           source={require("../assets/rectangle-86.png")}
         />
         <Text style={[styles.text6, styles.textTypo]}>{comment.nickName}</Text>
+
+        <Pressable style={styles.rectangleGroup2} onPress={() => handleDeleteComment(comment.commentId)}>
+        <View style={[styles.groupInner2, styles.groupLayout2]} />
+        <Image
+          style={[styles.bellIcon2, styles.iconPosition2]}
+          contentFit="cover"
+          source={require("../assets/bell.png")}
+        />
+      </Pressable>
+
       </View>
       <Text style={[styles.textTextText1, styles.textTypo2]}>{comment.content}</Text>
       <Text style={styles.textTypo3}>{comment.createdDate}</Text>
@@ -241,6 +329,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   groupLayout: {
+    borderRadius: Border.br_8xs,
+    position: "absolute",
+  },
+  groupLayout2: {
     borderRadius: Border.br_8xs,
     position: "absolute",
   },
@@ -288,6 +380,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   iconPosition: {
+    left: 5,
+    position: "absolute",
+  },
+  iconPosition2: {
     left: 5,
     position: "absolute",
   },
@@ -396,18 +492,37 @@ const styles = StyleSheet.create({
   groupInner: {
     backgroundColor: "#f3f3f3",
     left: 0,
-    width: 30,
+    width: 27,
     top: 0,
-    height: 30,
+    height: 27,
+  },
+  groupInner2: {
+    backgroundColor: "#f3f3f3",
+    left: 0,
+    width: 23,
+    top: 0,
+    height: 23,
   },
   bellIcon: {
-    width: 20,
+    width: 16,
     top: 5,
-    height: 20,
+    height: 16,
+  },
+  bellIcon2: {
+    width: 13,
+    top: 5,
+    height: 13,
   },
   rectangleGroup: {
     left: 289,
     width: 30,
+    top: 0,
+    height: 30,
+    position: "absolute",
+  },
+  rectangleGroup2: {
+    left: 270,
+    width: 20,
     top: 0,
     height: 30,
     position: "absolute",

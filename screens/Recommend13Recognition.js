@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { Text, StyleSheet, Pressable, View } from "react-native";
 import { Image } from "expo-image";
-import { StyleSheet, View, Text, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Color, FontFamily, FontSize, Border } from "../GlobalStyles";
 import { useRoute } from "@react-navigation/native";
@@ -9,10 +9,32 @@ import { useRoute } from "@react-navigation/native";
 const Recommend13Recognition = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { childAge } = route.params || {}; // "childAge"가 없는 경우에 대비하여 기본값으로 빈 객체를 설정합니다.
+  const { childAge } = route.params || {}; 
   
+  const [isBackgroundVisible1, setBackgroundVisible1] = useState(false);
+  const [isBackgroundVisible2, setBackgroundVisible2] = useState(false);
+  const [isBackgroundVisible3, setBackgroundVisible3] = useState(false);
+  const [isBackgroundVisible4, setBackgroundVisible4] = useState(false);
+
+   const toggleBackground1 = () => {
+    setBackgroundVisible1(!isBackgroundVisible1);
+  };
+  const toggleBackground2 = () => {
+    setBackgroundVisible2(!isBackgroundVisible2);
+  };
+
+  const toggleBackground3 = () => {
+    setBackgroundVisible3(!isBackgroundVisible3);
+  };
+  const toggleBackground4 = () => {
+    setBackgroundVisible4(!isBackgroundVisible4);
+  };
   return (
+
     <View style={styles.recommend13recognition}>
+          <Pressable
+    onPress={() => navigation.navigate("Main")}
+  >
       <View style={styles.ellipseParent}>
         <Image
           style={[styles.groupChild, styles.groupChildLayout]}
@@ -25,40 +47,73 @@ const Recommend13Recognition = () => {
           source={require("../assets/sort-left.png")}
         />
       </View>
+      </Pressable>
       <Text style={[styles.home, styles.homeFlexBox]}>Home</Text>
-      <Pressable style={[styles.rectangleParent, styles.rectangleGroupLayout]}>
-        <View style={[styles.groupItem, styles.groupChildBorder]} />
+
+
+      <Pressable
+      style={[
+        styles.rectangleParent,
+        styles.rectangleGroupLayout,
+      ]}
+      onPress={toggleBackground1}
+    >
+      <View style={[styles.groupItem, styles.groupChildBorder,  { backgroundColor: isBackgroundVisible1 ? '#FFC045' : 'transparent' }]} />
         <Text style={styles.payAttentionTo}>
           Pay attention to other people's faces
         </Text>
       </Pressable>
+
       <Text style={[styles.category, styles.homeFlexBox]}>Category</Text>
       <Text style={[styles.recognitionDevelopment, styles.homeFlexBox]}>
         Recognition Development
       </Text>
-      <Pressable style={[styles.rectangleGroup, styles.rectangleGroupLayout]}>
-        <View style={[styles.groupInner, styles.groupChildBorder]} />
+
+
+      <Pressable 
+      style={[
+        styles.rectangleGroup,
+        styles.rectangleGroupLayout,
+      ]}
+      onPress={toggleBackground2}
+    >
+      <View style={[styles.groupInner, styles.groupChildBorder ,  { backgroundColor: isBackgroundVisible2 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.canStartFollowing, styles.ifActivitiesDoTypo]}
         >{`Can start following things with his or her eyes
  and recognize people from a distance`}</Text>
       </Pressable>
+
+      
       <Pressable
-        style={[styles.rectangleContainer, styles.rectangleGroupLayout]}
-      >
-        <View style={[styles.rectangleView, styles.groupChildBorder]} />
+      style={[
+        styles.rectangleContainer,
+        styles.rectangleGroupLayout,
+      ]}
+      onPress={toggleBackground3}
+    >
+      <View style={[styles.rectangleView, styles.groupChildBorder ,  { backgroundColor: isBackgroundVisible3 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.ifActivitiesDo, styles.ifActivitiesDoTypo]}
         >{`If activities do not change, reactions such as
  crying because they are bored may appear`}</Text>
       </Pressable>
-      <Pressable style={[styles.groupPressable, styles.rectangleGroupLayout]}>
-        <View style={[styles.groupChild1, styles.groupChildBorder]} />
+
+
+      <Pressable 
+style={[
+  styles.groupPressable,
+  styles.rectangleGroupLayout,
+]}
+onPress={toggleBackground4}
+>
+<View style={[styles.groupChild1, styles.groupChildBorder ,  { backgroundColor: isBackgroundVisible4 ? '#FFC045' : 'transparent' }]} />
         <Text
           style={[styles.throughAccidentalActions, styles.ifActivitiesDoTypo]}
         >{`Through accidental actions,
  experience new experiences and repeat them`}</Text>
       </Pressable>
+
 
       <Pressable
         style={[styles.rectangleParent1, styles.rectangleParentLayout]}

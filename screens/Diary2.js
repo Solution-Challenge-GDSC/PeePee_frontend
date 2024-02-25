@@ -2,16 +2,16 @@ import * as React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Color, FontFamily, FontSize, Border } from "../GlobalStyles4";
+import { FontFamily, Color, FontSize, Border } from "../GlobalStyles4";
 
-const Diary = () => {
+const Diary2 = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.diary}>
       <Pressable
         style={styles.ellipseParent}
-        onPress={() => navigation.navigate("Diary2")}
+        onPress={() => navigation.navigate("Diary")}
       >
         <Image
           style={[styles.groupChild, styles.iconLayout]}
@@ -24,13 +24,13 @@ const Diary = () => {
           source={require("../assets/sort-left.png")}
         />
       </Pressable>
-      <Text style={styles.home}>Home</Text>
-      <Text style={styles.nameWhatAre}>{`Name, What are you
+      <Text style={[styles.home, styles.homeTypo]}>Home</Text>
+      <Text style={[styles.nameWhatAre, styles.sadFlexBox]}>{`Name, What are you
 like today?`}</Text>
       <Pressable style={[styles.diaryInner, styles.groupItemLayout]}>
         <View style={[styles.rectangleParent, styles.groupItemLayout]}>
           <View style={[styles.groupItem, styles.groupItemLayout]} />
-          <Text style={[styles.continue, styles.happyPosition]}>Continue</Text>
+          <Text style={[styles.continue, styles.sadFlexBox]}>Continue</Text>
           <Image
             style={[styles.rightIcon, styles.iconLayout]}
             contentFit="cover"
@@ -38,15 +38,15 @@ like today?`}</Text>
           />
         </View>
       </Pressable>
-      <View style={styles.vectorParent}>
+      <View style={[styles.vectorParent, styles.vectorLayout]}>
         <Pressable
           style={[styles.wrapper, styles.wrapperLayout]}
-          onPress={() => navigation.navigate("Diary2")}
+          onPress={() => navigation.navigate("Diary")}
         >
           <Image
             style={styles.icon}
             contentFit="cover"
-            source={require("../assets/rectangle-108.png")}
+            source={require("../assets/rectangle-1082.png")}
           />
         </Pressable>
         <Pressable
@@ -56,20 +56,20 @@ like today?`}</Text>
           <Image
             style={styles.icon}
             contentFit="cover"
-            source={require("../assets/rectangle-109.png")}
+            source={require("../assets/rectangle-1092.png")}
           />
         </Pressable>
-        <View style={[styles.vectorGroup, styles.groupLayout]}>
+        <View style={[styles.vectorGroup, styles.vectorLayout]}>
           <Image
-            style={[styles.groupInner, styles.groupLayout]}
+            style={styles.groupInner}
             contentFit="cover"
-            source={require("../assets/rectangle-107.png")}
+            source={require("../assets/rectangle-1072.png")}
           />
-          <Text style={[styles.happy, styles.happyPosition]}>Happy</Text>
+          <Text style={[styles.sad, styles.sadFlexBox]}>Sad</Text>
           <Image
-            style={styles.kakaotalk202402242146136661Icon}
+            style={styles.kakaotalk202402242146136663Icon}
             contentFit="cover"
-            source={require("../assets/kakaotalk-20240224-214613666-1.png")}
+            source={require("../assets/kakaotalk-20240224-214613666-3.png")}
           />
         </View>
       </View>
@@ -82,26 +82,28 @@ const styles = StyleSheet.create({
     width: 30,
     position: "absolute",
   },
+  homeTypo: {
+    fontFamily: FontFamily.interSemiBold,
+    fontWeight: "600",
+    color: Color.colorBlack,
+  },
+  sadFlexBox: {
+    textAlign: "center",
+    position: "absolute",
+  },
   groupItemLayout: {
     height: 50,
     width: 300,
     position: "absolute",
   },
-  happyPosition: {
-    left: 92,
-    textAlign: "center",
+  vectorLayout: {
+    height: 243,
     position: "absolute",
   },
   wrapperLayout: {
     height: 179,
     width: 179,
-    top: 42,
-    position: "absolute",
-  },
-  groupLayout: {
-    width: 242,
-    height: 242,
-    top: 0,
+    top: 43,
     position: "absolute",
   },
   groupChild: {
@@ -126,8 +128,6 @@ const styles = StyleSheet.create({
     left: 58,
     textAlign: "left",
     color: Color.colorBlack,
-    fontFamily: FontFamily.interSemiBold,
-    fontWeight: "600",
     fontSize: FontSize.size_mini,
     position: "absolute",
   },
@@ -137,11 +137,9 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_3xl,
     letterSpacing: 0.4,
     lineHeight: 27,
-    textAlign: "center",
     color: Color.colorBlack,
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
-    position: "absolute",
   },
   groupItem: {
     borderRadius: Border.br_81xl,
@@ -151,13 +149,13 @@ const styles = StyleSheet.create({
   },
   continue: {
     top: 15,
+    left: 92,
     fontWeight: "500",
     fontFamily: FontFamily.interMedium,
     color: Color.colorWhite,
     width: 79,
     height: 23,
     fontSize: FontSize.size_mini,
-    left: 92,
   },
   rightIcon: {
     top: 8,
@@ -184,11 +182,16 @@ const styles = StyleSheet.create({
     left: 0,
   },
   groupInner: {
+    top: 1,
+    width: 242,
+    height: 242,
     borderRadius: Border.br_xl,
     left: 0,
+    position: "absolute",
   },
-  happy: {
+  sad: {
     top: 185,
+    left: 105,
     fontSize: FontSize.size_2xl,
     fontWeight: "700",
     fontFamily: FontFamily.interBold,
@@ -199,22 +202,22 @@ const styles = StyleSheet.create({
     ],
     color: Color.colorBlack,
   },
-  kakaotalk202402242146136661Icon: {
-    top: 19,
-    left: 29,
-    width: 174,
-    height: 174,
+  kakaotalk202402242146136663Icon: {
+    left: 20,
+    width: 264,
+    height: 197,
+    top: 0,
     position: "absolute",
   },
   vectorGroup: {
     left: 184,
+    width: 284,
+    top: 0,
   },
   vectorParent: {
     top: 279,
     left: -124,
     width: 609,
-    height: 242,
-    position: "absolute",
   },
   diary: {
     backgroundColor: Color.colorKhaki,
@@ -225,4 +228,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Diary;
+export default Diary2;

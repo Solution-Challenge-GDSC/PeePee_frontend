@@ -57,7 +57,7 @@ const Recommend13Movement = () => {
         ]}
         onPress={toggleBackground1} // 클릭할 때마다 배경색상을 토글합니다.
       >
-        <View style={[styles.groupChildShadowBox1, isBackgroundVisible1 && { backgroundColor: '#FAF4C0' }]} />
+        <View style={[styles.groupChildShadowBox1, isBackgroundVisible1 && { backgroundColor: '#FFC045' }]} />
         <Text
           style={[styles.theBabysHand, styles.theTypo]}
         >{`The baby's hand begins to stretch out,
@@ -71,7 +71,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground2} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible2 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible2 && { backgroundColor: '#FFC045' }]} />
   <Text style={[styles.armsAndLegs, isBackgroundVisible2 && { color: '#000' }]}>Arms and legs become active</Text>
 </Pressable>
 
@@ -82,7 +82,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground3} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible3 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible3 && { backgroundColor: '#FFC045' }]} />
   <Text 
     style={[
       styles.theHipAnd, 
@@ -102,7 +102,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground4} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible4 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible4 && { backgroundColor: '#FFC045' }]} />
   <Text 
     style={[
       styles.youCanTurn, 
@@ -122,7 +122,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground5} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible5 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible5 && { backgroundColor: '#FFC045' }]} />
   <Text 
     style={[
       styles.imStartingTo, 
@@ -141,7 +141,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground6} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible6 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible6 && { backgroundColor: '#FFC045' }]} />
   <Text 
     style={[
       styles.myLegsBegin, 
@@ -160,7 +160,7 @@ const Recommend13Movement = () => {
   ]}
   onPress={toggleBackground7} // 클릭할 때마다 배경색상을 토글합니다.
 >
-  <View style={[styles.groupChildShadowBox1, isBackgroundVisible7 && { backgroundColor: '#FAF4C0' }]} />
+  <View style={[styles.groupChildShadowBox1, isBackgroundVisible7 && { backgroundColor: '#FFC045' }]} />
   <Text 
     style={[
       styles.theHipAnd, 
@@ -260,7 +260,9 @@ that correspond to your child's developmental status`}</Text>
         />
       </Pressable>
 
-      
+      <Pressable
+        onPress={() => navigation.navigate("Main")}
+      >
       <View style={[styles.ellipseParent, styles.ellipseIconLayout]}>
         <Image
           style={[styles.ellipseIcon, styles.ellipseIconLayout]}
@@ -275,6 +277,7 @@ that correspond to your child's developmental status`}</Text>
         <Text style={[styles.home, styles.homeTypo]}>Home</Text>
         <View style={styles.groupChild8} />
       </View>
+      </Pressable>
       <Text style={[styles.finish, styles.finishLayout]}>Finish</Text>
     </View>
   );

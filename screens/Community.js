@@ -120,13 +120,12 @@ const Community = () => {
 
 
 
-
-      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}>
+      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}
+                onPress={() => navigation.navigate("CommunityWrite")}>
         <View style={styles.rectangleView} />
         <Text style={styles.createNew}>Create New</Text>
         <Pressable
           style={[styles.quillPen, styles.text5Layout]}
-          onPress={() => navigation.navigate("CommunityWrite")}
         >
           <Image
             style={styles.icon}
