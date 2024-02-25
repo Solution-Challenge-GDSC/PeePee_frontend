@@ -36,30 +36,7 @@ const Community = () => {
       fetchPosts(); // 화면이 포커스될 때마다 게시글을 다시 가져옴
     }, [])
   );
-  // 첫 번째 게시글 정보 확인 및 기본값 할당
-  const firstPost = posts[0] || {};
-  const secondPost = posts[1] || {};
-  const thirdPost = posts[2] || {};
-  const fourthPost = posts[3] || {};
-  const fifthPost = posts[4] || {};
-  const sixthPost = posts[5] || {};
-  const seventhPost = posts[6] || {};
-  const eighthPost = posts[7] || {};
-  const ninthPost = posts[8] || {};
-  const tenthPost = posts[9] || {};
-
-  const postss = [
-    firstPost,
-    secondPost,
-    thirdPost,
-    fourthPost,
-    fifthPost,
-    sixthPost,
-    seventhPost,
-    eighthPost,
-    ninthPost,
-    // 이 배열에 더 많은 게시글을 추가할 수 있습니다.
-  ];
+ 
   
   return (
     <View style={styles.community}>
@@ -95,33 +72,39 @@ const Community = () => {
   showsHorizontalScrollIndicator={false}
   contentContainerStyle={styles.frameScrollViewContent}
 >
-  {postss.map((post, index) => (
-    <TouchableOpacity 
-      key={index} 
-      style={[styles.parent, styles.groupParentLayout, index !== 0 && styles.frameItem, styles.group]}
-      onPress={() => navigation.navigate('CommunityDetail', { boardId: post.boardId })} // post.diaryId를 넘겨줍니다
-       >
-   
-      <Text style={styles.text3}>{post.title || "제목 없음"}</Text>
-      <Text style={styles.textTextText}>{post.content || "내용 없음"}</Text>
-      <Text style={[styles.text4, styles.textTypo1]}>{post.createTime || "시간 정보 없음"}</Text>
-      <Text style={[styles.text5, styles.text5Layout]}>{post.nickName || "익명"}</Text>
-      
-      <Text style={[styles.text6, styles.textTypo]}>{post.likeCount || 0}</Text>
-      <Text style={[styles.text7, styles.textTypo]}>{post.commentCount || 0}</Text>
-      {/* 아이콘 출력 */}
-      <View style={[styles.lineView, styles.groupChildLayout]} />
-      <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
-      <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
-  
-    </TouchableOpacity>
+  {posts.map((post, index) => (
+    <>
+      <Pressable 
+        key={post.id} 
+        style={[styles.parent, styles.groupParentLayout]}
+        onPress={() => navigation.navigate('CommunityDetail', { boardId: post.boardId })}
+      >
+        <Text style={styles.text3}>{post.title || "제목 없음"}</Text>
+        <Text style={styles.textTextText}>{post.content || "내용 없음"}</Text>
+        <Text style={[styles.text4, styles.textTypo1]}>{post.createTime || "시간 정보 없음"}</Text>
+        <Text style={[styles.text5, styles.text5Layout]}>{post.nickName || "익명"}</Text>
+        
+        <Text style={[styles.text6, styles.textTypo]}>{post.likeCount || 0}</Text>
+        <Text style={[styles.text7, styles.textTypo]}>{post.commentCount || 0}</Text>
+        {/* Icons */}
+        <View style={[styles.lineView, styles.groupChildLayout]} />
+        <Image style={[styles.thumbsUpIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/thumbs-up.png")} />
+        <Image style={[styles.speechIcon, styles.iconLayout]} contentFit="cover" source={require("../assets/speech.png")} />
+      </Pressable>
+      {/* 게시글 간 구분선 추가, 마지막 게시글에는 구분선을 추가하지 않음 */}
+      {index < posts.length - 1 && (
+        <View 
+          style={{ height: 1, backgroundColor: '#E0E0E0', width: '100%', marginTop: 10, marginBottom: 10 }}
+        />
+      )}
+    </>
   ))}
 </ScrollView>
 
 
 
-      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}
-                onPress={() => navigation.navigate("CommunityWrite")}>
+
+      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}>
         <View style={styles.rectangleView} />
         <Text style={styles.createNew}>Create New</Text>
         <Pressable
@@ -197,7 +180,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   text5Layout: {
-    width: 21,
+    width: 25,
     position: "absolute",
   },
   textTypo: {
@@ -354,6 +337,7 @@ const styles = StyleSheet.create({
   parent: {
     zIndex: 1,
     marginTop: 18,
+    left: 20
   },
   frameItem: {
     zIndex: 2,
