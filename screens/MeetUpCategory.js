@@ -21,7 +21,7 @@ const MeetUpCategory = () => {
   const [meetups, setMeetups] = useState([]);
   const { latitude, longitude } = route.params;
   // const accessToken = AsyncStorage.getItem('accessToken');
-  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk'; 
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E'; 
   const GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
   const GOOGLE_API_KEY ="AIzaSyAAwjAjwIqxQgPEd-k6msmxcwqQC5uXnEM"
   useEffect(() => {
@@ -113,7 +113,8 @@ const MeetUpCategory = () => {
 
 
       <View style={styles.groupParent}>
-        <Pressable style={styles.ellipseParent}>
+      <Pressable style={styles.ellipseParent}
+         onPress={() => navigation.navigate("Main")}>
           <Image
             style={[styles.groupChild, styles.groupChildLayout]}
             contentFit="cover"
