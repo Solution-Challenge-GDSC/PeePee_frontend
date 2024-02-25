@@ -104,7 +104,8 @@ const Community = () => {
 
 
 
-      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}>
+      <Pressable style={[styles.groupPressable, styles.groupPressablePosition]}
+                onPress={() => navigation.navigate("CommunityWrite")}>
         <View style={styles.rectangleView} />
         <Text style={styles.createNew}>Create New</Text>
         <Pressable
