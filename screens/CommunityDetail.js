@@ -205,11 +205,15 @@ const handleComment = async () => {
           contentFit="cover"
           source={require("../assets/ellipse-1.png")}
         />
+                    <Pressable
+        style={[styles.sortLeft, styles.forwardLayout]}
+        onPress={() => navigation.navigate("Main")}
+      >
         <Image
           style={styles.sortLeftIcon}
           contentFit="cover"
           source={require("../assets/sort-left.png")}
-        />
+        /></Pressable>
       </View>
       <View style={styles.rectangleParent}>
         <Image

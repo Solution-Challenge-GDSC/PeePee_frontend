@@ -113,7 +113,8 @@ const MeetUpCategory = () => {
 
 
       <View style={styles.groupParent}>
-        <Pressable style={styles.ellipseParent}>
+        <Pressable style={styles.ellipseParent}
+         onPress={() => navigation.navigate("Main")}>
           <Image
             style={[styles.groupChild, styles.groupChildLayout]}
             contentFit="cover"
