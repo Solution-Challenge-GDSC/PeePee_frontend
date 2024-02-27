@@ -67,7 +67,7 @@ const CommunityDetail = ({ route }) => {
   useEffect(() => {
     const fetchPostDetails = async () => {
 
-      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDgzMTczOTcsImV4cCI6MTcwODkyMjE5N30.Rl-gOj2E5T-Gjp6YP_qnVxZ8cct0Kys9jrxf4YiidSk';
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E';
 
       try {
         const response = await axios.get(`https://applemango.store/board/one/${boardId}`, {
