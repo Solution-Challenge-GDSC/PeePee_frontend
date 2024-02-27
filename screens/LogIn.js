@@ -46,14 +46,18 @@ games`}</Text>
         style={styles.rectanglePressable}
         onPress={() => navigation.navigate("Main")}
       />
+      <Pressable
+        onPress={() => navigation.navigate("Main")}>
       <Image
         style={styles.googleIcon}
         contentFit="cover"
         source={require("../assets/google.png")}
       />
-      <Text style={[styles.continueWithGoogle, styles.letsPlayTypo]}>
+      <Text style={[styles.continueWithGoogle, styles.letsPlayTypo]}
+      >
         Continue with Google
       </Text>
+      </Pressable>
     </View>
   );
 };
