@@ -67,15 +67,15 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontFamily: FontFamily.interSemiBold,
     fontWeight: "600",
-    lineHeight: 36,
+    lineHeight: 48,
     position: "absolute",
   },
   image70Icon: {
     top: 0,
     left: 0,
-    width: 362,
+    width: 450,
     position: "absolute",
-    height: 800,
+    height: 900,
   },
   letsPlay: {
     top: 70,
