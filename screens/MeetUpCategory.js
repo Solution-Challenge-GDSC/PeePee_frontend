@@ -21,7 +21,7 @@ const MeetUpCategory = () => {
   const [meetups, setMeetups] = useState([]);
   const { latitude, longitude } = route.params;
   // const accessToken = AsyncStorage.getItem('accessToken');
-  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E'; 
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY'; 
   const GOOGLE_API_URL = "https://maps.googleapis.com/maps/api/geocode/json";
   const GOOGLE_API_KEY ="AIzaSyAAwjAjwIqxQgPEd-k6msmxcwqQC5uXnEM"
   useEffect(() => {

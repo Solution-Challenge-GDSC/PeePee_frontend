@@ -45,7 +45,7 @@ const CommynityWrite = () => {
         url: "https://applemango.store/board",
         data: formData,
         headers: {
-          "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E`,
+          "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY`,
           "Content-Type": "multipart/form-data",
         },
       });

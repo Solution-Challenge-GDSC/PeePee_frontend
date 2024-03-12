@@ -18,7 +18,7 @@ const CommunityDetail = ({ route }) => {
   console.log("Board ID:", boardId);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E';
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY';
 
   
   useEffect(() => {
@@ -27,7 +27,7 @@ const CommunityDetail = ({ route }) => {
 
   const fetchComments = async () => {
     try {
-      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E'; // 여기에 액세스 토큰을 추가하세요
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY'; // 여기에 액세스 토큰을 추가하세요
       const response = await axios.get(`https://applemango.store/comment/${boardId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -49,7 +49,7 @@ const CommunityDetail = ({ route }) => {
     try {
       const response = await fetch(`https://applemango.store/board/${boardId}/like`, {
         method: liked ? "DELETE" : "POST",
-        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E` },
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY` },
       });
       if (response.ok) {
         setLiked(!liked);
@@ -67,7 +67,7 @@ const CommunityDetail = ({ route }) => {
   useEffect(() => {
     const fetchPostDetails = async () => {
 
-      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E';
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY';
 
       try {
         const response = await axios.get(`https://applemango.store/board/one/${boardId}`, {
@@ -96,7 +96,7 @@ const CommunityDetail = ({ route }) => {
 
 const handleComment = async () => {
     try {
-      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MDg5MDA2MzksImV4cCI6MTcwOTUwNTQzOX0.wY8J5ib9neNi-cn4sFODWe-bwHlMtaWmjwkw9KtRf5E';
+      const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY';
   
       const response = await fetch(`https://applemango.store/comment/${boardId}`, {
         method: "POST",
