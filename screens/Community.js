@@ -85,7 +85,7 @@ const Community = () => {
         style={[styles.parent, styles.groupParentLayout]}
         onPress={() => navigation.navigate('CommunityDetail', { boardId: post.boardId })}
       >
-        <Text style={styles.text3}>{post.title || "제목 없음"}</Text>
+        <Text style={styles.text3} numberOfLines={1}>{post.title || "제목 없음"}</Text>
         <Text style={styles.textTextText}>{post.content || "내용 없음"}</Text>
         <Text style={[styles.text4, styles.textTypo1]}>{post.createTime || "시간 정보 없음"}</Text>
         <Text style={[styles.text5, styles.text5Layout]}>{post.nickName || "익명"}</Text>
