@@ -46,7 +46,7 @@ const MeetUpCreate = () => {
 
  
   const handleSubmit = async () => {
-    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY'; 
+    const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MTE1NDI5MTgsImV4cCI6MTcxNDIyMTMxOH0.oUED6drqUs90fqtOTi1ULOlCDDW5JTKywUO4aYRb6yQ'; 
     const formData = new FormData();
 
     // `location` 상태에서 `latitude`와 `longitude` 추출

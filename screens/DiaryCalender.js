@@ -22,7 +22,7 @@ const DiaryCalender = () => {
   const [diaryData, setDiaryData] = useState(null);
   const [otherDiaries, setOtherDiaries] = useState([]);
 
-  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVrcWxzNjIwNDVAZ21haWwuY29tIiwiaWF0IjoxNzEwMjYzNTU2LCJleHAiOjE3MTI5NDE5NTZ9.wZ6i-CdjE-K4qhRNk0Jc9JziwOeR-eFgoNdJj7KVnnY';
+  const accessToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkbGVxa2xzNjIwNEBuYXZlci5jb20iLCJpYXQiOjE3MTE1NDI5MTgsImV4cCI6MTcxNDIyMTMxOH0.oUED6drqUs90fqtOTi1ULOlCDDW5JTKywUO4aYRb6yQ';
 
   useEffect(() => {
     loadDiaryData();
